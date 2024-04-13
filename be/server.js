@@ -3,12 +3,20 @@ const express = require('express');
 const connectToDatabase = require('./config/dbConfig');
 const cors = require('cors');
 
+// Import routes
+const loginRoute = require('./routes/loginRoutes');
+const userRoute = require('./routes/userRoutes');
+
 // Create Express app
 const app = express();
 
 // Middleware setup
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Parse JSON requests
+app.use(cors());
+app.use(express.json());
+
+// Routes setup
+app.use('/', loginRoute);
+app.use('/', userRoute);
 
 // Connect to the database upon server startup
 connectToDatabase();

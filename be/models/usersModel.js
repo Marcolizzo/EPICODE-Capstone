@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
+// Define the schema for the user
 const UserSchema = new mongoose.Schema({
     profileImg: {
         type: String,
         required: false,
-        default:'https://res.cloudinary.com/duo0rtksl/image/upload/v1712915588/Capstone/gkwxk0laqxes0hpbut4m.png'
+        default: 'https://res.cloudinary.com/duo0rtksl/image/upload/v1712915588/Capstone/gkwxk0laqxes0hpbut4m.png'
     },
     firstName: {
         type: String,
@@ -26,20 +27,18 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        validate: {
-            validator: function (v) {
-                return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(v);
-            },
-            message: props => 
-                `The password must contain at least 8 characters and include at least one number, one uppercase letter, one lowercase letter, and one special character.`
-        }
+        required: true
     },
     role: {
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
-    }
+    },
+    // projects: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'projectModel'
+    // }]
+
 }, { timestamps: true, strict: true })
 
 module.exports = mongoose.model('userModel', UserSchema, 'users')

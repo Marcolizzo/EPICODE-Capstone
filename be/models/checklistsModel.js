@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Define the schema for the checklist
 const ChecklistSchema = new mongoose.Schema({
     title: {
         type: String,
