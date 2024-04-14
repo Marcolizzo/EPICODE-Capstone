@@ -128,13 +128,19 @@ const updateUser = async (req, res) => {
             }
         }
 
-        const updatedData = {
-            firstName,
-            lastName,
-            username
-        };
+        const updatedData = req.body
+        // const updatedData = {};
+        // if (firstName) {
+        //     updatedData.firstName = firstName;
+        // }
+        // if (lastName) {
+        //     updatedData.lastName = lastName;
+        // }
+        // if (username) {
+        //     updatedData.username = username;
+        // }
 
-        const options = {new: true};
+        const options = { new: true };
         const result = await UserModel.findByIdAndUpdate(id, updatedData, options);
 
         res.status(200).send(result);
