@@ -54,7 +54,7 @@ const createUser = async (req, res) => {
     if (existingUser) {
         return res.status(400).send({
             statusCode: 400,
-            message: 'User already exists.'
+            message: `An account with email ${email} already exists.`
         });
     }
 
@@ -104,40 +104,46 @@ const createUser = async (req, res) => {
 };
 
 // Define function to update user data
-// const updateUser = async (req, res) => {
-//     const { id } = req.params;
-//     const { firstName, lastName, username } = req.body;
+const updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, username } = req.body;
 
-//     try {
-//         const user = await UserModel.findById(id);
-//         if (!user) {
-//             return res.status(404).send({
-//                 statusCode: 404,
-//                 message: 'User not found'
-//             });
-//         }
+    try {
+        const user = await UserModel.findById(id);
+        if (!user) {
+            return res.status(404).send({
+                statusCode: 404,
+                message: 'User not found'
+            });
+        }
 
-//         // If new username provided, check if it's already in use
-//         if (username && username !== user.username) {
-//             const existingUser = await UserModel.findOne({ username });
-//             if (existingUser) {
-//                 return res.status(400).send({
-//                     statusCode: 400,
-//                     message: 'Username already in use'
-//                 });
-//             }
-//         }
+        // If new username provided, check if it's already in use
+        if (username && username !== user.username) {
+            const existingUser = await UserModel.findOne({ username });
+            if (existingUser) {
+                return res.status(400).send({
+                    statusCode: 400,
+                    message: 'Username already in use'
+                });
+            }
+        }
 
+        const updatedData = {
+            firstName,
+            lastName,
+            username
+        };
 
+        const options = {new: true};
+        const result = await UserModel.findByIdAndUpdate(id, updatedData, options);
 
+        res.status(200).send(result);
 
-
-//         res.status(200).send(updatedUser);
-//     } catch (error) {
-//         console.error('Error updating user:', error);
-//         res.status(500).send({ message: 'Internal server error' });
-//     }
-// }
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).send({ message: 'Internal server error' });
+    }
+}
 
 // Define function to delete user by ID
 const deleteUser = async (req, res) => {
@@ -164,4 +170,4 @@ const deleteUser = async (req, res) => {
 
 
 
-module.exports = { getUsers, getUserById, createUser, /*updateUser,*/ deleteUser }
+module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser }

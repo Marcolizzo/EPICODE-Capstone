@@ -1,8 +1,7 @@
 // Import necessary modules
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const UserModel = require("../models/users");
-const router = require("../routes/userRoutes");
+const UserModel = require("../models/usersModel");
 
 // Define login function
 const login = async (req, res) => {
@@ -49,4 +48,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = login;
+module.exports = { login };

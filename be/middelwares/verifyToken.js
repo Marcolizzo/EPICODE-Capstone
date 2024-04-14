@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const verifyToken = (req, res, next) => {
     try {
         // Extract token from request headers
-        const token = req.headers['Authorization'];
+        const token = req.headers['authorization'];
 
         // Check if token is provided
         if(!token) {

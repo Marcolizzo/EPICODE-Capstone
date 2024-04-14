@@ -1,0 +1,32 @@
+POST http://localhost:9090/users
+Content-Type: application/json
+
+{
+    "firstName": "Luca",
+    "lastName": "Santoro",
+    "username": "User_2",
+    "email": "test_2@gmail.com",
+    "password": "MyPass123!"
+}
+####
+
+GET http://localhost:9090/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+####
+
+GET http://localhost:9090/users/661b98c48310279d8ec56b03
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+####
+
+PATCH http://localhost:9090/users/661b98c48310279d8ec56b03
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+
+{
+    "lastName": "patchTest"
+}
+####
+
+DELETE http://localhost:9090/users/661b9d3acb98d06a4eb824fb
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+####
