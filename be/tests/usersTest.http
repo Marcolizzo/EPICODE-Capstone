@@ -2,31 +2,31 @@ POST http://localhost:9090/users
 Content-Type: application/json
 
 {
-    "firstName": "Luca",
-    "lastName": "Santoro",
+    "firstName": "Kevin",
+    "lastName": " Santoro",
     "username": "User_3",
-    "email": "test_3@gmail.com",
+    "email": " test_3@gmail.com ",
     "password": "MyPass123!"
 }
 ####
 
 GET http://localhost:9090/users
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyODk1NzksImV4cCI6MTcxMzM3NTk3OX0.qphwkJR943VLQ8EWYMl-C5OHXuGP6rW1M-aapg0Z40s
 ####
 
-GET http://localhost:9090/users/661b98c48310279d8ec56b03
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+GET http://localhost:9090/users/661eb7408454220e7d5ae8cd
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyODk1NzksImV4cCI6MTcxMzM3NTk3OX0.qphwkJR943VLQ8EWYMl-C5OHXuGP6rW1M-aapg0Z40s
 ####
 
-PATCH http://localhost:9090/users/661bf2dbbc88a8743bf377b6
+PATCH http://localhost:9090/users/661eb7408454220e7d5ae8cd
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyODk1NzksImV4cCI6MTcxMzM3NTk3OX0.qphwkJR943VLQ8EWYMl-C5OHXuGP6rW1M-aapg0Z40s
 
 {
-    "usarname": "User_1"
+    "fistName": "Luca"
 }
 ####
 
 DELETE http://localhost:9090/users/661b9d3acb98d06a4eb824fb
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFiOThjNDgzMTAyNzlkOGVjNTZiMDMiLCJpYXQiOjE3MTMwODUwMTQsImV4cCI6MTcxMzE3MTQxNH0.QxXTb3xd-17_6HXm1CleShjlXxlYmhKoLC5Lri6WnQQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyODk1NzksImV4cCI6MTcxMzM3NTk3OX0.qphwkJR943VLQ8EWYMl-C5OHXuGP6rW1M-aapg0Z40s
 ####

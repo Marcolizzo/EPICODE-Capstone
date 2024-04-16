@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const ProjectSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        max: 20
     },
     description: {
         type: String,
@@ -14,10 +15,6 @@ const ProjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userModel'
     },
-    members: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'userModel'
-    }],
     lists: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'listModel'

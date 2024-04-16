@@ -4,8 +4,9 @@ const connectToDatabase = require('./config/dbConfig');
 const cors = require('cors');
 
 // Import routes
-const loginRoute = require('./routes/loginRoutes');
-const userRoute = require('./routes/userRoutes');
+const loginRoutes = require('./routes/loginRoutes');
+const userRoutes = require('./routes/userRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 // Create Express app
 const app = express();
@@ -15,8 +16,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes setup
-app.use('/', loginRoute);
-app.use('/', userRoute);
+app.use('/', loginRoutes);
+app.use('/', userRoutes);
+app.use('/', projectRoutes);
 
 // Connect to the database upon server startup
 connectToDatabase();

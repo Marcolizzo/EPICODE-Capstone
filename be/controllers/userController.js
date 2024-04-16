@@ -36,7 +36,6 @@ const getUserById = async (req, res) => {
         res.status(500).send({
             statusCode: 500,
             message: "Internal server error",
-            error: e.message
         })
     }
 };
@@ -68,25 +67,23 @@ const createUser = async (req, res) => {
     }
 
     try {
-        // Create new user instance
-        const newUser = new UserModel({
+        // Create and save new user instance to the database
+        const newUser = await UserModel.create({
             firstName,
             lastName,
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            projects: []
         })
-
-        // Save new user to the database
-        const userToSave = await newUser.save();
 
         // Format response data
         const userResponse = {
-            _id: userToSave._id,
-            firstName: userToSave.firstName,
-            lastName: userToSave.lastName,
-            username: userToSave.username,
-            email: userToSave.email
+            _id: newUser._id,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            username: newUser.username,
+            email: newUser.email
         };
 
         // Send response with newly created user data
@@ -128,26 +125,17 @@ const updateUser = async (req, res) => {
             }
         }
 
-        const updatedData = req.body
-        // const updatedData = {};
-        // if (firstName) {
-        //     updatedData.firstName = firstName;
-        // }
-        // if (lastName) {
-        //     updatedData.lastName = lastName;
-        // }
-        // if (username) {
-        //     updatedData.username = username;
-        // }
-
+        const updatedData = { firstName, lastName, username }
         const options = { new: true };
         const result = await UserModel.findByIdAndUpdate(id, updatedData, options);
 
         res.status(200).send(result);
 
-    } catch (error) {
-        console.error('Error updating user:', error);
-        res.status(500).send({ message: 'Internal server error' });
+    } catch (e) {
+        res.status(500).send({
+            statusCode: 500,
+            message: 'Internal server error'
+        });
     }
 }
 

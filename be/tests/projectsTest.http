@@ -1,0 +1,30 @@
+POST http://localhost:9090/projects
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyOTcwNDMsImV4cCI6MTcxMzM4MzQ0M30.ym8hdcTP027MLtOZeV9daMsEvTblnxxfWoBtMlQEZ7I
+
+{
+    "title": "Progetto_2",
+    "description": "Descrizione_2"
+}
+####
+
+GET http://localhost:9090/projects
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyOTcwNDMsImV4cCI6MTcxMzM4MzQ0M30.ym8hdcTP027MLtOZeV9daMsEvTblnxxfWoBtMlQEZ7I
+####
+
+GET http://localhost:9090/projects/661ed6bf4eea3bd0e465651b
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyOTcwNDMsImV4cCI6MTcxMzM4MzQ0M30.ym8hdcTP027MLtOZeV9daMsEvTblnxxfWoBtMlQEZ7I
+####
+
+PATCH http://localhost:9090/projects/661ed6bf4eea3bd0e465651b
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyOTcxNzYsImV4cCI6MTcxMzM4MzU3Nn0.IQWRAOv_P3aggl9WUEDnkACbEGc32oqFLsFl4I8GITA
+
+{
+    "title": "Progetto_2"
+}
+####
+
+DELETE http://localhost:9090/projects/661ed6bf4eea3bd0e465651b
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyOTcyMTIsImV4cCI6MTcxMzM4MzYxMn0.VEA-1KsvqI_Ej5v65n742wXV77w2QTotG59-qAs3Mx0
+####

@@ -34,10 +34,10 @@ const UserSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
-    // projects: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'projectModel'
-    // }]
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'projectModel'
+    }]
 
 }, { timestamps: true, strict: true })
 
