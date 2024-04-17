@@ -7,6 +7,7 @@ const cors = require('cors');
 const loginRoutes = require('./routes/loginRoutes');
 const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const listRoutes = require('./routes/listsRoutes');
 
 // Create Express app
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/', loginRoutes);
 app.use('/', userRoutes);
 app.use('/', projectRoutes);
+app.use('/', listRoutes);
 
 // Connect to the database upon server startup
 connectToDatabase();

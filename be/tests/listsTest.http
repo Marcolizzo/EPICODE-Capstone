@@ -1,0 +1,30 @@
+POST http://localhost:9090/projects/662013dccfdc4666abf144c6/lists
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMzODEyMzgsImV4cCI6MTcxMzQ2NzYzOH0.sK3kJIUHYdIE993o3wmnRXDik8_ZEPNm0fV64TPjal4
+
+{
+    "title": "Lista_1",
+    "tasksLimit": 5
+}
+####
+
+GET http://localhost:9090/lists
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMzODEyMzgsImV4cCI6MTcxMzQ2NzYzOH0.sK3kJIUHYdIE993o3wmnRXDik8_ZEPNm0fV64TPjal4
+####
+
+GET http://localhost:9090/lists/662004972c06e7bc7a1c202e
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMzODEyMzgsImV4cCI6MTcxMzQ2NzYzOH0.sK3kJIUHYdIE993o3wmnRXDik8_ZEPNm0fV64TPjal4
+####
+
+PATCH http://localhost:9090/lists/66201fb79d208090d608b5f6
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMzODEyMzgsImV4cCI6MTcxMzQ2NzYzOH0.sK3kJIUHYdIE993o3wmnRXDik8_ZEPNm0fV64TPjal4
+
+{
+    "title": "Lista_2"
+}
+####
+
+DELETE http://localhost:9090/lists/66201fb79d208090d608b5f6
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMzNzQzMjAsImV4cCI6MTcxMzQ2MDcyMH0.edkx4OqU7WcEVn5rifYXvYbCIkQXjdAqdk-lPLnCS1M
+####

@@ -38,7 +38,7 @@ const getProjectById = async (req, res) => {
     }
 };
 
-// Define function to create a new user
+// Define function to create a new project
 const createProject = async (req, res) => {
     const user = await UserModel.findOne({ _id: req.user.userId })
     const { title, description } = req.body

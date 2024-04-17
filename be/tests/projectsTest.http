@@ -1,6 +1,6 @@
 POST http://localhost:9090/projects
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMyOTcwNDMsImV4cCI6MTcxMzM4MzQ0M30.ym8hdcTP027MLtOZeV9daMsEvTblnxxfWoBtMlQEZ7I
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFlYjcyNzg0NTQyMjBlN2Q1YWU4YzkiLCJpYXQiOjE3MTMzODEyMzgsImV4cCI6MTcxMzQ2NzYzOH0.sK3kJIUHYdIE993o3wmnRXDik8_ZEPNm0fV64TPjal4
 
 {
     "title": "Progetto_2",
