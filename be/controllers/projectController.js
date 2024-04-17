@@ -83,7 +83,7 @@ const updateProject = async (req, res) => {
         }
 
         // Check if the logged-in user is the creator of the project
-        if (project.createdBy.toString() !== req.user.userId) {
+        if (project.createdBy.toString() !== req.user.userId.toString()) {
             return res.status(403).send({
                 statusCode: 403,
                 message: 'Access denied. Only the creator of the project can update it.'
@@ -92,6 +92,7 @@ const updateProject = async (req, res) => {
         const updatedData = { title, description }
         const options = { new: true };
         const result = await ProjectModel.findByIdAndUpdate(id, updatedData, options)
+
 
         res.status(200).send(result);
 
@@ -125,6 +126,12 @@ const deleteProject = async (req, res) => {
         }
 
         await ProjectModel.findByIdAndDelete(id)
+        
+        // Update the user's projects array with the deleted project ID
+        await UserModel.findByIdAndUpdate(req.user.userId, {
+            $pull: { projects: id } 
+        });
+
         res.status(200).send(`Project with ID ${id} succesfully removed.`)
 
     } catch (e) {

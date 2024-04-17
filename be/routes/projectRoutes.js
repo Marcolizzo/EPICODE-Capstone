@@ -5,9 +5,9 @@ const { getProjects, getProjectById, createProject, updateProject, deleteProject
 
 
 router.get('/projects', verified, getProjects);
-router.get('/projects/:id', verified, getProjectById);
+router.get('/projects/:projectId', verified, getProjectById);
 router.post('/projects', verified, createProject);
-router.patch('/projects/:id', verified, updateProject);
-router.delete('/projects/:id', verified, deleteProject);
+router.patch('/projects/:projectId', verified, updateProject);
+router.delete('/projects/:projectId', verified, deleteProject);
 
 module.exports = router;

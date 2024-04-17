@@ -4,9 +4,9 @@ const verified = require('../middelwares/verifyToken');
 const { getLists, getListById, createList, updateList, deleteList} = require('../controllers/listController');
 
 router.get('/lists', verified, getLists);
-router.get('/lists/:id', verified, getListById);
-router.post('/projects/:id/lists', verified, createList);
-router.patch('/lists/:id', verified, updateList);
-router.delete('/lists/:id', verified, deleteList);
+router.get('/lists/:listId', verified, getListById);
+router.post('/projects/:projectId/lists', verified, createList);
+router.patch('/lists/:listId', verified, updateList);
+router.delete('/projects/:projectId/lists/:listId', verified, deleteList);
 
 module.exports = router;
