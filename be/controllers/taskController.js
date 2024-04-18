@@ -119,7 +119,7 @@ const deleteTask = async (req, res) => {
 
     await TaskModel.findByIdAndDelete(taskId);
 
-    // Update the lists array with the deleted task ID
+    // Update the lists's tasks array with the deleted task ID
     await ListModel.findByIdAndUpdate(req.params.listId, {
       $pull: { tasks: taskId },
     });

@@ -111,7 +111,7 @@ const deleteList = async (req, res) => {
 
     await ListModel.findByIdAndDelete(listId);
 
-    // Update the user's projects array with the deleted list ID
+    // Update the project's lists array with the deleted list ID
     await ProjectModel.findByIdAndUpdate(req.params.projectId, {
       $pull: { lists: listId },
     });

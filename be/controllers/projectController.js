@@ -89,6 +89,7 @@ const updateProject = async (req, res) => {
                 message: 'Access denied. Only the creator of the project can update it.'
             })
         }
+
         const updatedData = { title, description }
         const options = { new: true };
         const result = await ProjectModel.findByIdAndUpdate(projectId, updatedData, options)
@@ -140,6 +141,6 @@ const deleteProject = async (req, res) => {
             message: 'Internal server error'
         });
     }
-}
+};
 
 module.exports = { getProjects, getProjectById, createProject, updateProject, deleteProject }

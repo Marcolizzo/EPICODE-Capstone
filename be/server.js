@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const listRoutes = require('./routes/listsRoutes');
 const taskRoutes = require('./routes/tasksRoutes');
+const commentRoutes = require('./routes/commentsRoutes');
 
 // Create Express app
 const app = express();
@@ -23,6 +24,7 @@ app.use('/', userRoutes);
 app.use('/', projectRoutes);
 app.use('/', listRoutes);
 app.use('/', taskRoutes);
+app.use('/', commentRoutes);
 
 // Connect to the database upon server startup
 connectToDatabase();

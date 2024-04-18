@@ -1,0 +1,30 @@
+POST http://localhost:9090/tasks/:taskId/comments
+Content-Type: application/json
+Authorization: 
+
+{
+    "text": "Commento_1"
+}
+####
+
+GET http://localhost:9090/comments
+Authorization: 
+####
+
+GET http://localhost:9090/comments/
+Authorization: 
+####
+
+PATCH http://localhost:9090/comments/
+Content-Type: application/json
+Authorization: 
+
+{
+    "text": "Commento"
+}
+####
+
+DELETE http://localhost:9090/tasks/:taskId/comments/
+Authorization: 
+
+####
