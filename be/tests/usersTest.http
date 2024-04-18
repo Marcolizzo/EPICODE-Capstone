@@ -23,7 +23,7 @@ Content-Type: application/json
 Authorization: 
 
 {
-    "fistName": "Luca"
+    "firstName": "Luca"
 }
 ####
 

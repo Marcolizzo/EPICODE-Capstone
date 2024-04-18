@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const userValidator = [
+const signupValidation = [
     // Validation for the firstName field
     body('firstName')
         .trim()
@@ -36,4 +36,4 @@ const userValidator = [
         .withMessage('The password must contain at least one number, one uppercase letter, one lowercase letter, and one special character')
 ];
 
-module.exports = { userValidator };
+module.exports = { signupValidation };

@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const verified = require('../middelwares/verifyToken');
-const { validate } = require('../validation/validatorMiddelware');
-const { userValidator } = require('../validation/validationSchemas/userValidator');
+const { validate } = require('../validation/validator');
+const { signupValidation } = require('../validation/validationSchemas/signupValidation');
+const { updateUserValidation } = require('../validation/validationSchemas/updateUserValidation');
 const { getUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/userController');
 
 
 router.get('/users', verified, getUsers);
 router.get('/users/:id', verified, getUserById);
-router.post('/users', validate(userValidator), createUser);
-router.patch('/users/:id', verified, updateUser);
+router.post('/users', validate(signupValidation), createUser);
+router.patch('/users/:id', [verified, validate(updateUserValidation)], updateUser);
 router.delete('/users/:id', verified, deleteUser);
 
 module.exports = router;
