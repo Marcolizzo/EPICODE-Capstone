@@ -1,0 +1,30 @@
+POST http://localhost:9090/checklists/:checklistId/items
+Content-Type: application/json
+Authorization: 
+
+{
+    "title": "Item_1"
+}
+####
+
+GET http://localhost:9090/items
+Authorization: 
+####
+
+GET http://localhost:9090/items/
+Authorization: 
+####
+
+PATCH http://localhost:9090/items/
+Content-Type: application/json
+Authorization: 
+
+{
+    "title": "Item"
+}
+####
+
+DELETE http://localhost:9090/checklists/:checklistId/items/
+Authorization: 
+
+####

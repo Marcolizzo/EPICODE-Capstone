@@ -1,0 +1,30 @@
+POST http://localhost:9090/tasks/:taskId/checklists
+Content-Type: application/json
+Authorization: 
+
+{
+    "title": "Checklist_1"
+}
+####
+
+GET http://localhost:9090/checklists
+Authorization: 
+####
+
+GET http://localhost:9090/checklists/
+Authorization: 
+####
+
+PATCH http://localhost:9090/checklists/
+Content-Type: application/json
+Authorization: 
+
+{
+    "title": "Checklist"
+}
+####
+
+DELETE http://localhost:9090/tasks/:taskId/checklists/
+Authorization: 
+
+####

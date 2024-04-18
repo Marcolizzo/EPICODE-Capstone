@@ -7,14 +7,8 @@ const ChecklistSchema = new mongoose.Schema({
         required: true
     },
     items: [{
-        title: {
-            type: String,
-            required: true
-        },
-        completed: {
-            type: Boolean,
-            default: false
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'itemModel'
     }]
 }, { timestamps: true, strict: true })
 
