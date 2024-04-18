@@ -1,0 +1,30 @@
+POST http://localhost:9090/lists/:listId/tasks
+Content-Type: application/json
+Authorization: 
+
+{
+    "title": "Task_1",
+    "description": "Descrizione_1"
+}
+####
+
+GET http://localhost:9090/tasks
+Authorization: 
+####
+
+GET http://localhost:9090/tasks/
+Authorization: 
+####
+
+PATCH http://localhost:9090/tasks/
+Content-Type: application/json
+Authorization: 
+
+{
+    
+}
+####
+
+DELETE http://localhost:9090/lists/:listId/tasks/
+Authorization: 
+####

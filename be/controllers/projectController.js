@@ -16,10 +16,10 @@ const getProjects = async (req, res) => {
 
 // Define function to get project by ID
 const getProjectById = async (req, res) => {
-    const { id } = req.params
+    const { projectId } = req.params
 
     try {
-        const project = await ProjectModel.findById(id);
+        const project = await ProjectModel.findById(projectId);
 
         if (!project) {
             return res.status(404).send({
@@ -70,11 +70,11 @@ const createProject = async (req, res) => {
 };
 
 const updateProject = async (req, res) => {
-    const { id } = req.params;
+    const { projectId } = req.params;
     const { title, description } = req.body;
 
     try {
-        const project = await ProjectModel.findById(id);
+        const project = await ProjectModel.findById(projectId);
         if (!project) {
             return res.status(404).send({
                 statusCode: 404,
@@ -91,7 +91,7 @@ const updateProject = async (req, res) => {
         }
         const updatedData = { title, description }
         const options = { new: true };
-        const result = await ProjectModel.findByIdAndUpdate(id, updatedData, options)
+        const result = await ProjectModel.findByIdAndUpdate(projectId, updatedData, options)
 
 
         res.status(200).send(result);
@@ -106,10 +106,10 @@ const updateProject = async (req, res) => {
 };
 
 const deleteProject = async (req, res) => {
-    const { id } = req.params;
+    const { projectId } = req.params;
 
     try {
-        const project = await ProjectModel.findById(id)
+        const project = await ProjectModel.findById(projectId)
         if (!project) {
             return res.status(404).send({
                 statusCode: 404,
@@ -125,14 +125,14 @@ const deleteProject = async (req, res) => {
             })
         }
 
-        await ProjectModel.findByIdAndDelete(id)
+        await ProjectModel.findByIdAndDelete(projectId)
         
         // Update the user's projects array with the deleted project ID
         await UserModel.findByIdAndUpdate(req.user.userId, {
-            $pull: { projects: id } 
+            $pull: { projects: projectId } 
         });
 
-        res.status(200).send(`Project with ID ${id} succesfully removed.`)
+        res.status(200).send(`Project with ID ${projectId} succesfully removed.`)
 
     } catch (e) {
         res.status(500).send({

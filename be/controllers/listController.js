@@ -39,8 +39,8 @@ const getListById = async (req, res) => {
 
 // Define function to create a new list
 const createList = async (req, res) => {
-  const project = await ProjectModel.findOne({ _id: req.params.projectId });
-  const { title, tasksLimit } = req.body;
+  const project = await ProjectModel.findOne({ _id: req.params.projectId })
+  const { title, tasksLimit } = req.body
 
   try {
     // Create and save new list instance to the database
@@ -48,17 +48,18 @@ const createList = async (req, res) => {
       title,
       tasks: [],
       tasksLimit,
-    });
+    })
 
     await ProjectModel.findByIdAndUpdate(project._id, {
       $push: { lists: newList._id },
-    });
+    })
 
     // Send response with newly created list data
     res.status(201).send({
       statusCode: 201,
       payload: newList,
-    });
+    })
+
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
@@ -71,7 +72,6 @@ const updateList = async (req, res) => {
   const { listId } = req.params;
   const { title, tasksLimit } = req.body;
   try {
-    console.log(req);
     const list = await ListModel.findById(listId);
     if (!list) {
       return res.status(404).send({
@@ -82,7 +82,11 @@ const updateList = async (req, res) => {
 
     const updatedData = { title, tasksLimit };
     const options = { new: true };
-    const result = await ListModel.findByIdAndUpdate(listId, updatedData, options);
+    const result = await ListModel.findByIdAndUpdate(
+      listId,
+      updatedData,
+      options
+    );
 
     res.status(200).send(result);
   } catch (e) {
@@ -97,8 +101,7 @@ const deleteList = async (req, res) => {
   const { listId } = req.params;
 
   try {
-    console.log(listId)
-    const list = await ListModel.findByIdAndDelete(listId);
+    const list = await ListModel.findById(listId);
     if (!list) {
       return res.status(404).send({
         statusCode: 404,
@@ -108,13 +111,12 @@ const deleteList = async (req, res) => {
 
     await ListModel.findByIdAndDelete(listId);
 
-    // Update the user's projects array with the deleted project ID
+    // Update the user's projects array with the deleted list ID
     await ProjectModel.findByIdAndUpdate(req.params.projectId, {
-      $pull: { lists: listId } 
-  });
+      $pull: { lists: listId },
+    });
 
     res.status(200).send(`List with ID ${listId} succesfully removed.`);
-
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
