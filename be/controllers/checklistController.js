@@ -47,8 +47,7 @@ const createChecklist = async (req, res) => {
   try {
     // Create and save new checklist instance to the database
     const newChecklist = await ChecklistModel.create({
-      title,
-      items: []
+      title
     })
 
     await TaskModel.findByIdAndUpdate(task._id, {

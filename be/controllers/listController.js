@@ -50,7 +50,6 @@ const createList = async (req, res) => {
     // Create and save new list instance to the database
     const newList = await ListModel.create({
       title,
-      tasks: [],
       tasksLimit,
     });
 

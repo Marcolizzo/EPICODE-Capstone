@@ -53,7 +53,7 @@ const createProject = async (req, res) => {
       title,
       description,
       createdBy: user._id,
-      lists: [],
+      members: user._id,
     });
 
     await UserModel.findByIdAndUpdate(user._id, {

@@ -55,8 +55,6 @@ const createTask = async (req, res) => {
       priority,
       createdBy: user._id,
       assignedTo,
-      checklists: [],
-      comments: [],
     });
 
     await ListModel.findByIdAndUpdate(list._id, {

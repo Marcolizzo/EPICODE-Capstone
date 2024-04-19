@@ -1,6 +1,11 @@
 // Import necessary modules
-const UserModel = require("../models/usersModel");
 const bcrypt = require("bcrypt");
+const { cloudStorage, cloudinary } = require("../config/cloudinaryConfig");
+const multer = require("multer");
+const { extractPublicId } = require("cloudinary-build-url");
+require("dotenv").config();
+
+const UserModel = require("../models/usersModel");
 const ProjectModel = require("../models/projectsModel");
 const ListModel = require("../models//listsModel");
 const TaskModel = require("../models/tasksModel");
@@ -79,7 +84,6 @@ const createUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      projects: [],
     });
 
     // Format response data
@@ -185,7 +189,9 @@ const deleteUser = async (req, res) => {
           // Delete all comments associated with each task
           await CommentModel.deleteMany({ _id: { $in: task.comments } });
           // Find all checklists associated with each task
-          const checklists = await ChecklistModel.find({ _id: { $in: task.checklists } });
+          const checklists = await ChecklistModel.find({
+            _id: { $in: task.checklists },
+          });
           for (const checklist of checklists) {
             // Delete all items associated with each checklist
             await ItemModel.deleteMany({ _id: { $in: checklist.items } });
@@ -205,7 +211,6 @@ const deleteUser = async (req, res) => {
     await UserModel.findByIdAndDelete(id);
 
     res.status(200).send(`User with ID ${id} succesfully removed.`);
-
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
@@ -214,4 +219,51 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };
+const updateProfileImage = async (req, res) => {
+  const cloudUpload = multer({ storage: cloudStorage }).single("profileImage");
+
+  try {
+    const user = await UserModel.findById(req.params.id);
+
+    cloudUpload(req, res, async (err) => {
+      if (err) {
+        console.error("Upload error:", err);
+        return res.status(500).send({
+          statusCode: 500,
+          message: "File Upload Error",
+        });
+      }
+
+      const newImageUrl = req.file.path;
+      const defaultImageId = process.env.CLOUDINARY_DEFAULT_PROFILE_IMAGE_ID;
+      const prevImageId = extractPublicId(user.profileImg);
+
+      if (prevImageId !== defaultImageId) {
+        await cloudinary.uploader.destroy(prevImageId);
+      }
+
+      // Update user's profile image
+      await UserModel.findByIdAndUpdate(user.id, {profileImg: newImageUrl}, {new: true});
+
+      res.status(200).send({
+        statusCode: 200,
+        message: "Profile image update successful",
+      });
+    });
+  } catch (e) {
+    console.error("Controller error:", e);
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+};
+
+module.exports = {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  updateProfileImage,
+};
