@@ -1,6 +1,7 @@
 const ChecklistModel = require("../models/checklistsModel");
 const TaskModel = require("../models/tasksModel");
 const UserModel = require("../models/usersModel");
+const ItemModel = require("../models/itemsModel");
 
 // Define function to get all checklists
 const getChecklists = async (req, res) => {
@@ -111,6 +112,10 @@ const deleteChecklist = async (req, res) => {
       });
     }
 
+    // Delete all items associated with each checklist
+    await ItemModel.deleteMany({ _id: { $in: checklist.items } });
+
+    // Delete the checklist from the database
     await ChecklistModel.findByIdAndDelete(checklistId);
 
     // Update the task's checklists array with the deleted checklist ID
@@ -118,7 +123,7 @@ const deleteChecklist = async (req, res) => {
       $pull: { checklists: checklistId },
     });
 
-    res.status(200).send(`checklist with ID ${checklistId} succesfully removed.`)
+    res.status(200).send(`Checklist with ID ${checklistId} succesfully removed.`)
 
   } catch (e) {
     res.status(500).send({

@@ -1,5 +1,9 @@
 const ListModel = require("../models/listsModel");
 const ProjectModel = require("../models/projectsModel");
+const TaskModel = require("../models/tasksModel");
+const CommentModel = require("../models/commentsModel");
+const ChecklistModel = require("../models/checklistsModel");
+const ItemModel = require("../models/itemsModel");
 
 // Define function to get all lists
 const getLists = async (req, res) => {
@@ -39,8 +43,8 @@ const getListById = async (req, res) => {
 
 // Define function to create a new list
 const createList = async (req, res) => {
-  const project = await ProjectModel.findOne({ _id: req.params.projectId })
-  const { title, tasksLimit } = req.body
+  const project = await ProjectModel.findOne({ _id: req.params.projectId });
+  const { title, tasksLimit } = req.body;
 
   try {
     // Create and save new list instance to the database
@@ -48,18 +52,17 @@ const createList = async (req, res) => {
       title,
       tasks: [],
       tasksLimit,
-    })
+    });
 
     await ProjectModel.findByIdAndUpdate(project._id, {
       $push: { lists: newList._id },
-    })
+    });
 
     // Send response with newly created list data
     res.status(201).send({
       statusCode: 201,
       payload: newList,
-    })
-
+    });
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
@@ -109,6 +112,26 @@ const deleteList = async (req, res) => {
       });
     }
 
+    // Find all tasks associated with each list
+    const tasks = await TaskModel.find({ _id: { $in: list.tasks } });
+    for (const task of tasks) {
+      // Delete all comments associated with each task
+      await CommentModel.deleteMany({ _id: { $in: task.comments } });
+      // Find all checklists associated with each task
+      const checklists = await ChecklistModel.find({
+        _id: { $in: task.checklists },
+      });
+      for (const checklist of checklists) {
+        // Delete all items associated with each checklist
+        await ItemModel.deleteMany({ _id: { $in: checklist.items } });
+      }
+      // Delete all checklists associated with each task
+      await ChecklistModel.deleteMany({ _id: { $in: task.checklists } });
+    }
+    // Delete all tasks associated with each list
+    await TaskModel.deleteMany({ _id: { $in: list.tasks } });
+
+    // Delete the list from the database
     await ListModel.findByIdAndDelete(listId);
 
     // Update the project's lists array with the deleted list ID

@@ -1,6 +1,9 @@
 const TaskModel = require("../models/tasksModel");
 const ListModel = require("../models/listsModel");
 const UserModel = require("../models/usersModel");
+const CommentModel = require("../models/commentsModel");
+const ChecklistModel = require("../models/checklistsModel");
+const ItemModel = require("../models/itemsModel");
 
 // Define function to get all tasks
 const getTasks = async (req, res) => {
@@ -64,8 +67,7 @@ const createTask = async (req, res) => {
     res.status(201).send({
       statusCode: 201,
       payload: newTask,
-    })
-
+    });
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
@@ -117,6 +119,20 @@ const deleteTask = async (req, res) => {
       });
     }
 
+    // Delete all comments associated with each task
+    await CommentModel.deleteMany({ _id: { $in: task.comments } });
+    // Find all checklists associated with each task
+    const checklists = await ChecklistModel.find({
+      _id: { $in: task.checklists },
+    });
+    for (const checklist of checklists) {
+      // Delete all items associated with each checklist
+      await ItemModel.deleteMany({ _id: { $in: checklist.items } });
+    }
+    // Delete all checklists associated with each task
+    await ChecklistModel.deleteMany({ _id: { $in: task.checklists } });
+
+    // Delete the task from the database
     await TaskModel.findByIdAndDelete(taskId);
 
     // Update the lists's tasks array with the deleted task ID
@@ -124,7 +140,7 @@ const deleteTask = async (req, res) => {
       $pull: { tasks: taskId },
     });
 
-    res.status(200).send(`List with ID ${taskId} succesfully removed.`);
+    res.status(200).send(`Task with ID ${taskId} succesfully removed.`);
   } catch (e) {
     res.status(500).send({
       statusCode: 500,

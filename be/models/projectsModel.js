@@ -15,6 +15,10 @@ const ProjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userModel'
     },
+    members: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'userModel'
+    }],
     lists: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'listModel'
