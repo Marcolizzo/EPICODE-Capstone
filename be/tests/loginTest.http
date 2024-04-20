@@ -2,6 +2,6 @@ POST http://localhost:9090/login
 Content-Type: application/json
 
 {
-    "email": "test_1@gmail.com",
-    "password": "MyPass123!"
+    "email": "eusebio.walker54@ethereal.email",
+    "password": "9gzczxaJspea5PDENm!"
 }

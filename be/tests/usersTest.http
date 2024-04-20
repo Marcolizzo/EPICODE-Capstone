@@ -2,11 +2,11 @@ POST http://localhost:9090/users
 Content-Type: application/json
 
 {
-    "firstName": "Marco",
-    "lastName": " Santoro",
-    "username": "User_1",
-    "email": " test_1@gmail.com ",
-    "password": "MyPass123!"
+    "firstName": "Eusebio",
+    "lastName": "Walker",
+    "username": "EusebioWalker",
+    "email": "eusebio.walker54@ethereal.email",
+    "password": "9gzczxaJspea5PDENm!"
 }
 ####
 
