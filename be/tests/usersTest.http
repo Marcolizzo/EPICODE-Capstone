@@ -30,3 +30,14 @@ Authorization:
 DELETE http://localhost:9090/users/
 Authorization: 
 ####
+
+PATCH http://localhost:9090/users/:id/changePassword
+Content-Type: application/json
+Authorization: 
+
+{
+    "currentPassword": "MyPass123!",
+    "newPassword": "NewPass123!",
+    "confirmNewPassword": "NewPass123!"
+}
+####
