@@ -9,7 +9,9 @@ const ItemModel = require("../models/itemsModel");
 // Define function to get all projects
 const getProjects = async (req, res) => {
   try {
-    const projects = await ProjectModel.find();
+    const user = await UserModel.findById(req.user.userId);
+    const projects = await ProjectModel.find({_id: {$in: user.projects}});
+
     res.status(200).send(projects);
   } catch (e) {
     res.status(500).send({

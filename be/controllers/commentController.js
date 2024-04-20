@@ -5,7 +5,9 @@ const UserModel = require("../models/usersModel");
 // Define function to get all comments
 const getComments = async (req, res) => {
   try {
-    const comments = await CommentModel.find();
+    const task = await TaskModel.findById(req.params.taskId)
+    const comments = await CommentModel.find({_id: {$in: task.comments}});
+
     res.status(200).send(comments);
   } catch (e) {
     res.status(500).send({

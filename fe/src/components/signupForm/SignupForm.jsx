@@ -18,6 +18,7 @@ const SignupForm = ({ toggleForm }) => {
           },
         }
       );
+      toggleForm()
       return response;
     } catch (error) {
       console.error(error);
@@ -53,7 +54,7 @@ const SignupForm = ({ toggleForm }) => {
                       <Form.Control
                         onChange={onChangeInput}
                         type="text"
-                        name="fistName"
+                        name="firstName"
                         placeholder="Enter First Name"
                       />
                     </Form.Group>

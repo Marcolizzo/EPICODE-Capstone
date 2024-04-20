@@ -8,7 +8,9 @@ const ItemModel = require("../models/itemsModel");
 // Define function to get all tasks
 const getTasks = async (req, res) => {
   try {
-    const tasks = await TaskModel.find();
+    const list = await ListModel.findById(req.params.listId)
+    const tasks = await TaskModel.find({_id: {$in: list.tasks}});
+
     res.status(200).send(tasks);
   } catch (e) {
     res.status(500).send({

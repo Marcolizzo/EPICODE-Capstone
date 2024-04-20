@@ -4,7 +4,9 @@ const ChecklistModel = require("../models/checklistsModel");
 // Define function to get all items
 const getItems = async (req, res) => {
   try {
-    const items = await ItemModel.find();
+    const checklist = await ChecklistModel.findById(req.params.checklistId)
+    const items = await ItemModel.find({_id: {$in: checklist.items}});
+    
     res.status(200).send(items);
   } catch (e) {
     res.status(500).send({
