@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "prod": "pm2-runtime start server.js -i --exp-backoff-restart-delay-100"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +28,8 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.13",
     "passport": "^0.7.0",
-    "passport-google-oidc": "^0.1.0"
+    "passport-google-oidc": "^0.1.0",
+    "pm2": "^5.3.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

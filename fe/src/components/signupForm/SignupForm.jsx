@@ -1,28 +1,69 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 // import { useNavigate } from 'react-router-dom';
-import AxiosClient from '../../client/client';
+import AxiosClient from "../../client/client";
 
 const SignupForm = ({ toggleForm }) => {
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState();
 
   const client = new AxiosClient();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await client.post(`${process.env.REACT_APP_SERVER_BASE_URL}/users`, formData,
+      const response = await client.post(
+        `${process.env.REACT_APP_SERVER_BASE_URL}/users`,
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      toggleForm()
+  
+      if (response.statusCode === 201) {
+        toggleForm();
+      }
+  
       return response;
     } catch (error) {
-      console.error(error);
-      throw error;
+      // Error 😨
+      if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+  
+        // Set error state with error message(s) from server response
+        if (Array.isArray(error.response.data.errors)) {
+          setError(error.response.data.errors.map((error) => error.msg));
+        } else if (typeof error.response.data.message === "string") {
+          setError([error.response.data.message]);
+        } else {
+          setError(["An error occurred while processing your request."]);
+        }
+      } else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        console.log(error.request);
+  
+        // Set error state with generic error message
+        setError(["An error occurred while processing your request."]);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log('Error', error.message);
+  
+        // Set error state with generic error message
+        setError(["An error occurred while processing your request."]);
+      }
+      console.log(error);
     }
   };
 
@@ -45,6 +86,17 @@ const SignupForm = ({ toggleForm }) => {
                 <h2 className="fw-bold mb-2 text-uppercase text-center">
                   Signup
                 </h2>
+
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    <ul>
+                      {error.map((errorMessage, index) => (
+                        <li key={index}>{errorMessage}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 <div className="mb-3">
                   <Form onSubmit={onSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicFirstName">

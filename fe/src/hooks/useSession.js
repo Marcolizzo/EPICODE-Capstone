@@ -11,7 +11,7 @@ const useSession = () => {
 
     useEffect(() => {
         if (!session) {
-            navigate('/', {replace: true})
+            navigate('/login', {replace: true})
         }
 
         if (session && location.pathname !== '/'){

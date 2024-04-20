@@ -10,7 +10,8 @@ const validate = (schemas) => {
         }
 
         const errors = result.array();
-        return res.send({
+        return res.status(400).send({
+            statusCode: 400,
             message: 'Validation error',
             errors: errors,
         })

@@ -5,20 +5,25 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 
 const LoginForm = ({ toggleForm }) => {
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState("");
 
   const client = new AxiosClient();
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
-      e.preventDefault()
-      const response = await client.post('/login', formData)
+    e.preventDefault();
+    try {
+      const response = await client.post("/login", formData);
       if (response.token) {
-          localStorage.setItem('auth', JSON.stringify(response.token))
-          setTimeout(() => {
-              navigate('/home')
-          }, 1500)
+        localStorage.setItem("auth", JSON.stringify(response.token));
+        setTimeout(() => {
+          navigate("/home");
+        }, 1500);
       }
-  }
+    } catch (e) {
+      setError(e.response.data.message);
+    }
+  };
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -40,6 +45,13 @@ const LoginForm = ({ toggleForm }) => {
                   Login
                 </h2>
                 <p className=" mb-5">Please enter your login and password!</p>
+
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
+
                 <div className="mb-3">
                   <Form onSubmit={onSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
