@@ -6,7 +6,7 @@ const { signupValidation } = require('../validation/validationSchemas/signupVali
 const { updateUserValidation } = require('../validation/validationSchemas/updateUserValidation');
 const { changePasswordValidation } = require('../validation/validationSchemas/changePasswordValidation');
 const { getUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/userController');
-const { updateProfileImage } = require('../controllers/updateProfileImage');
+const { updateProfileImage, removeProfileImage } = require('../controllers/updateProfileImage');
 const { changePassword } = require('../controllers/changeUserPassword');
 
 
@@ -18,6 +18,7 @@ router.delete('/users/:id', verified, deleteUser);
 
 // Update profile image route
 router.post('/users/:id/updateProfileImage', verified, updateProfileImage);
+router.delete('/users/:id/removeProfileImage', verified, removeProfileImage);
 
 // Change password route
 router.patch('/users/:id/changePassword', [verified, validate(changePasswordValidation)], changePassword);

@@ -49,4 +49,42 @@ const updateProfileImage = async (req, res) => {
   }
 };
 
-module.exports = { updateProfileImage };
+const removeProfileImage = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id);
+    const defaultImageId = process.env.CLOUDINARY_DEFAULT_PROFILE_IMAGE_ID;
+    const defaultImageUrl = process.env.CLOUDINARY_DEFAULT_PROFILE_IMAGE_URL;
+    const prevImageId = extractPublicId(user.profileImg);
+
+    // Check if the user has a profile image
+    if (prevImageId === defaultImageId) {
+      return res.status(400).send({
+        statusCode: 400,
+        message: "User does not have a profile image",
+      });
+    }
+
+    // Delete the previous profile image from Cloudinary
+    await cloudinary.uploader.destroy(prevImageId);
+
+    // Set the profile image field to the default image URL
+    await UserModel.findByIdAndUpdate(
+      user.id,
+      { profileImg: defaultImageUrl },
+      { new: true }
+    );
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Profile image removed successfully",
+    });
+    
+  } catch (e) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+};
+
+module.exports = { updateProfileImage, removeProfileImage };
