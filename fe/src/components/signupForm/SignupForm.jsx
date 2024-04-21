@@ -1,71 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-// import { useNavigate } from 'react-router-dom';
-import AxiosClient from "../../client/client";
+import { useNavigate } from "react-router-dom";
+import { signupUser } from "../../redux/reducers/signupReducer";
 
 const SignupForm = ({ toggleForm }) => {
-  const [formData, setFormData] = useState({});
-  const [error, setError] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const client = new AxiosClient();
+  const [formData, setFormData] = useState({});
+  const signupStatus = useSelector((state) => state.signup.status);
+  const error = useSelector((state) => state.signup.error);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await client.post(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/users`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-  
-      if (response.statusCode === 201) {
-        toggleForm();
-      }
-  
-      return response;
-    } catch (error) {
-      // Error 😨
-      if (error.response) {
-        /*
-         * The request was made and the server responded with a
-         * status code that falls out of the range of 2xx
-         */
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-  
-        // Set error state with error message(s) from server response
-        if (Array.isArray(error.response.data.errors)) {
-          setError(error.response.data.errors.map((error) => error.msg));
-        } else if (typeof error.response.data.message === "string") {
-          setError([error.response.data.message]);
-        } else {
-          setError(["An error occurred while processing your request."]);
-        }
-      } else if (error.request) {
-        /*
-         * The request was made but no response was received, `error.request`
-         * is an instance of XMLHttpRequest in the browser and an instance
-         * of http.ClientRequest in Node.js
-         */
-        console.log(error.request);
-  
-        // Set error state with generic error message
-        setError(["An error occurred while processing your request."]);
-      } else {
-        // Something happened in setting up the request and triggered an Error
-        console.log('Error', error.message);
-  
-        // Set error state with generic error message
-        setError(["An error occurred while processing your request."]);
-      }
-      console.log(error);
-    }
+    dispatch(signupUser(formData));
   };
+
+  useEffect(() => {
+    if (signupStatus === "succeeded") {
+      toggleForm();
+    }
+  }, [signupStatus, toggleForm]);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -89,11 +45,14 @@ const SignupForm = ({ toggleForm }) => {
 
                 {error && (
                   <div className="alert alert-danger" role="alert">
-                    <ul>
-                      {error.map((errorMessage, index) => (
-                        <li key={index}>{errorMessage}</li>
-                      ))}
-                    </ul>
+                    {error.message && <p>{error.message}</p>}
+                    {error.errors && (
+                      <ul>
+                        {error.errors.map((errorItem, index) => (
+                          <li key={index}>{errorItem.msg}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 )}
 

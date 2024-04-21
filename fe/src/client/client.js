@@ -10,7 +10,7 @@ class AxiosClient {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: ''
+                Authorization: localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : '' // Imposta automaticamente l'intestazione Authorization con il token salvato in localStorage
             }
         })
     }

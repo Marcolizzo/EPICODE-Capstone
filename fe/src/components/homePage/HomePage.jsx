@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import useSession from '../../hooks/useSession'
+import React, { useEffect, useState } from "react";
+import Container from "react-bootstrap/esm/Container";
+import { loginUser } from "../../redux/reducers/loginReducer";
+import { useSelector, useDispatch } from "react-redux";
+import ProjectCard from '../projectCard/ProjectCard'
 
 const HomePage = () => {
-    return (
-        <div>
-            Sono la Home!
-        </div>
-    )
-}
+  const dispatch = useDispatch();
+  const userFirstName = localStorage.getItem('userFirstName')
 
-export default HomePage
+  return (
+    <Container>
+      <h1 className="text-center">Welcome {userFirstName}!</h1>
+      <ProjectCard></ProjectCard>
+    </Container>
+  );
+};
+
+export default HomePage;

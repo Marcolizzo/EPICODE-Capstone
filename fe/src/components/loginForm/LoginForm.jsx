@@ -1,28 +1,23 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AxiosClient from "../../client/client";
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../../redux/reducers/loginReducer";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ toggleForm }) => {
-  const [formData, setFormData] = useState({});
-  const [error, setError] = useState("");
-
-  const client = new AxiosClient();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const [formData, setFormData] = useState({});
+  const isLoading = useSelector((state) => state.login.isLoading);
+  const error = useSelector((state) => state.login.error);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await client.post("/login", formData);
-      if (response.token) {
-        localStorage.setItem("auth", JSON.stringify(response.token));
-        setTimeout(() => {
-          navigate("/home");
-        }, 1500);
-      }
-    } catch (e) {
-      setError(e.response.data.message);
-    }
+    dispatch(loginUser(formData));
+    setTimeout(() => {
+      navigate('/home')
+  }, 1500)
   };
 
   const onChangeInput = (e) => {
@@ -83,8 +78,12 @@ const LoginForm = ({ toggleForm }) => {
                       </p>
                     </Form.Group>
                     <div className="d-grid">
-                      <Button variant="primary" type="submit">
-                        Login
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Loading..." : "Login"}
                       </Button>
                     </div>
                   </Form>

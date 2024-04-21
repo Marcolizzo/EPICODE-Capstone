@@ -6,15 +6,13 @@ const NavigationBar = () => {
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand href="#home">EPICODE-Capstone</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#features">Projects</Nav.Link>
-          </Nav>
-        </Container>
+        <Navbar.Brand href="#home" className="ms-5">EPICODE-Capstone</Navbar.Brand>
+        <Nav className="me-auto">
+          <Nav.Link href="#features">Projects</Nav.Link>
+        </Nav>
       </Navbar>
     </>
   );
 };
 
-export default NavigationBar
+export default NavigationBar;
