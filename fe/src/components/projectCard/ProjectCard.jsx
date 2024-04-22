@@ -1,16 +1,13 @@
 import React from "react";
 import styles from "./ProjectCard.module.css";
 
-const ProjectCard = () => {
+const ProjectCard = ({ title, description, createdBy }) => {
   return (
-    <div class="card text-bg-primary mb-3">
-      <div class="card-header">Header</div>
-      <div class="card-body">
-        <h5 class="card-title">Primary card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </p>
+    <div className="card text-bg-primary mb-3">
+      <div className="card-header">Created by: {createdBy}</div>
+      <div className="card-body">
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text">{description}</p>
       </div>
     </div>
   );

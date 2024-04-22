@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import AxiosClient from "../../client/client";
+import { getProjects } from "./projectsReducer";
 const client = new AxiosClient();
 
 export const loginUser = createAsyncThunk(
@@ -18,7 +20,6 @@ export const loginUser = createAsyncThunk(
 );
 
 const initialState = {
-  user: null,
   token: localStorage.getItem("auth"),
   isLoading: false,
   error: null,
@@ -31,8 +32,6 @@ const loginSlice = createSlice({
     logout: (state) => {
       console.log("Logging out, clearing state and local storage");
       localStorage.removeItem("auth");
-      localStorage.removeItem("userFirstName");
-      state.user = null;
       state.token = null;
       state.isLoading = false
       state.error = null;
@@ -46,12 +45,10 @@ const loginSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        localStorage.setItem("auth", JSON.stringify(action.payload.token));
         state.status = "succeeded";
         state.isLoading = false;
         state.token = action.payload.token;
-        state.user = action.payload.user;
-        localStorage.setItem("auth", JSON.stringify(action.payload.token));
-        localStorage.setItem("userFirstName", action.payload.user.firstName);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";

@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../../redux/reducers/loginReducer";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = ({ toggleForm }) => {
+const LoginForm = ({ toggleForm, signupSuccessful }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({});
   const isLoading = useSelector((state) => state.login.isLoading);
   const error = useSelector((state) => state.login.error);
+  const status = useSelector((state) => state.login.status);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     dispatch(loginUser(formData));
-    setTimeout(() => {
-      navigate('/home')
-  }, 1500)
   };
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      navigate("/home");
+    }
+  }, [status]);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -44,6 +48,13 @@ const LoginForm = ({ toggleForm }) => {
                 {error && (
                   <div className="alert alert-danger" role="alert">
                     {error}
+                  </div>
+                )}
+
+                {signupSuccessful && !error && !isLoading && (
+                  <div className="alert alert-success" role="alert">
+                    You've successfully signed up! Please enter your email and
+                    password for login.
                   </div>
                 )}
 

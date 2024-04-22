@@ -35,18 +35,16 @@ const login = async (req, res) => {
         });
         
         // If there's an invitation token in the query parameters, redirect to the project page
-        if (req.query.token) {
-            const decodedToken = jwt.verify(req.query.token, process.env.JWT_SECRET_KEY);
-            const projectId = decodedToken.projectId;
-            return res.redirect(`/projects/${projectId}?token=${req.query.token}`);
-        }
-
-        res.setHeader('Authorization', token)
+        // if (req.query.token) {
+        //     const decodedToken = jwt.verify(req.query.token, process.env.JWT_SECRET_KEY);
+        //     const projectId = decodedToken.projectId;
+        //     return res.redirect(`/projects/${projectId}?token=${req.query.token}`);
+        // }
+        res.setHeader('authorization', token)
         res.status(200).send({
             statusCode: 200,
             message: 'Login successful',
             token,
-            user: user,
         })
     } catch (e) {
         res.status(500).send({

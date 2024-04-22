@@ -6,7 +6,6 @@ import { signupUser } from "../../redux/reducers/signupReducer";
 
 const SignupForm = ({ toggleForm }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({});
   const signupStatus = useSelector((state) => state.signup.status);
@@ -19,7 +18,7 @@ const SignupForm = ({ toggleForm }) => {
 
   useEffect(() => {
     if (signupStatus === "succeeded") {
-      toggleForm();
+      toggleForm(true);
     }
   }, [signupStatus, toggleForm]);
 
