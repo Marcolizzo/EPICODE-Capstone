@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from '../reducers/loginReducer';
 import signupReducer from '../reducers/signupReducer';
-import projectsReducer from '../reducers/projectsReducer';
+import projectsReducer, { createProject } from '../reducers/projectsReducer';
 import usersReducer from '../reducers/usersReducer';
 
 const store = configureStore({
@@ -9,6 +9,7 @@ const store = configureStore({
     login: loginReducer,
     signup: signupReducer,
     getProjects: projectsReducer,
+    createProject: projectsReducer,
     getUserById: usersReducer
   },
 });

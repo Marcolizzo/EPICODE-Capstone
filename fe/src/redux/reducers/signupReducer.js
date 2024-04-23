@@ -1,17 +1,17 @@
+// const client = new AxiosClient();
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AxiosClient from "../../client/client";
 
-const client = new AxiosClient();
 
 export const signupUser = createAsyncThunk(
   "/signup",
   async (userData, { rejectWithValue }) => {
     try {
-      const res = await client.post(
+      const res = await AxiosClient.post(
         `${process.env.REACT_APP_SERVER_BASE_URL}/users`,
         userData
       );
-      return res;
+      return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -22,6 +22,7 @@ const initialState = {
   user: null,
   isLoading: false,
   error: null,
+  status: 'idle'
 };
 
 const signupSlice = createSlice({

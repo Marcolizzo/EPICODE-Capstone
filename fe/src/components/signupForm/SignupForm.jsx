@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { signupUser } from "../../redux/reducers/signupReducer";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = ({ toggleForm }) => {
   const dispatch = useDispatch();

@@ -1,18 +1,16 @@
+// const client = new AxiosClient();
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 import AxiosClient from "../../client/client";
-import { getProjects } from "./projectsReducer";
-const client = new AxiosClient();
 
 export const loginUser = createAsyncThunk(
   "/login",
   async (userData, { rejectWithValue }) => {
     try {
-      const res = await client.post(
+      const res = await AxiosClient.post(
         `${process.env.REACT_APP_SERVER_BASE_URL}/login`,
         userData
       );
-      return res;
+      return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

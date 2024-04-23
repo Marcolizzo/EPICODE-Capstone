@@ -11,7 +11,7 @@ const { changePassword } = require('../controllers/changeUserPassword');
 
 
 router.get('/users', verified, getUsers);
-router.get('/users/:id', verified, getUserById);
+router.get('/users/:id', getUserById);
 router.post('/users', validate(signupValidation), createUser);
 router.patch('/users/:id', [verified, validate(updateUserValidation)], updateUser);
 router.delete('/users/:id', verified, deleteUser);
