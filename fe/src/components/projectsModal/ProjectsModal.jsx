@@ -4,27 +4,55 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   createProject,
   getProjects,
+  updateProject,
 } from "../../redux/reducers/projectsReducer";
 
-const ProjectModal = ({ isOpen, onClose }) => {
+const ProjectModal = ({
+  isOpen,
+  onClose,
+  projectId,
+  projectTitle,
+  projectDescription,
+}) => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({});
   const error = useSelector((state) => state.createProject.error);
   const isLoading = useSelector((state) => state.createProject.isLoading);
-  const project = useSelector((state) => state.createProject.project);
+  const createdProject = useSelector((state) => state.createProject.createdProject);
+  const updatedProject = useSelector((state) => state.updateProject.updatedProject);
+  const [formData, setFormData] = useState({
+    title: projectTitle ? projectTitle : "",
+    description: projectDescription ? projectDescription : "",
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createProject(formData)).then(() => {
-      if (!error) {
-        onClose();
-      }
+    if (projectId) {
+      dispatch(updateProject([formData, projectId])).then(() => {
+        if (!error) {
+          onClose();
+        }
+      });
+    } else {
+      dispatch(createProject(formData)).then(() => {
+        if (!error) {
+          onClose();
+        }
+      });
+    }
+  };
+
+  const closeModal = () => {
+    // Ripristina il titolo e la descrizione ai valori iniziali
+    setFormData({
+      title: projectTitle ? projectTitle : "",
+      description: projectDescription ? projectDescription : "",
     });
+    onClose(); // Chiudi il modale
   };
 
   useEffect(() => {
     dispatch(getProjects());
-  }, [dispatch, project]);
+  }, [dispatch, createdProject, updatedProject]);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -57,6 +85,7 @@ const ProjectModal = ({ isOpen, onClose }) => {
                 autoFocus
                 onChange={onChangeInput}
                 name="title"
+                value={formData.title}
               />
             </Form.Group>
             <Form.Group
@@ -71,13 +100,24 @@ const ProjectModal = ({ isOpen, onClose }) => {
                 autoFocus
                 onChange={onChangeInput}
                 name="description"
+                value={formData.description}
               />
             </Form.Group>
             <Modal.Footer>
-              <Button type="submit" variant="success" disabled={isLoading}>
-              {isLoading ? "Creating..." : "Create"}
+              <Button
+                type="submit"
+                variant={projectId ? "warning" : "success"}
+                disabled={isLoading}
+              >
+                {projectId
+                  ? isLoading
+                    ? "Editing..."
+                    : "Edit"
+                  : isLoading
+                  ? "Creating..."
+                  : "Create"}
               </Button>
-              <Button variant="danger" onClick={onClose}>
+              <Button variant="danger" onClick={closeModal}>
                 Close
               </Button>
             </Modal.Footer>

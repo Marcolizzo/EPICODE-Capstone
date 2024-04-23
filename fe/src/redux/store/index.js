@@ -10,6 +10,7 @@ const store = configureStore({
     signup: signupReducer,
     getProjects: projectsReducer,
     createProject: projectsReducer,
+    updateProject: projectsReducer,
     getUserById: usersReducer
   },
 });

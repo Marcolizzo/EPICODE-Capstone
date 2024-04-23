@@ -27,7 +27,37 @@ export const createProject = createAsyncThunk(
       const res = await AxiosClient.post("/projects", formData);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateProject = createAsyncThunk(
+  "updateProject",
+  async ([formData, projectId], { rejectWithValue }) => {
+    try {
+      // client.setHeaders({
+      //   Authorization: JSON.parse(localStorage.getItem("auth")),
+      // });
+      const res = await AxiosClient.patch(`/projects/${projectId}`, formData);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteProject = createAsyncThunk(
+  "deleteProject",
+  async (projectId, { rejectWithValue }) => {
+    try {
+      // client.setHeaders({
+      //   Authorization: JSON.parse(localStorage.getItem("auth")),
+      // });
+      const res = await AxiosClient.delete(`/projects/${projectId}`);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -38,7 +68,10 @@ const initialState = {
   error: null,
   totalProjects: 0,
 
-  project: null,
+  updatedProject: null,
+  createdProject: null,
+
+  message: ''
 };
 
 const projectsSlice = createSlice({
@@ -46,6 +79,7 @@ const projectsSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
+      // GET PROJECTS
       .addCase(getProjects.pending, (state) => {
         state.isLoading = true;
       })
@@ -59,14 +93,41 @@ const projectsSlice = createSlice({
         state.error = action.payload;
       })
 
+      // CREATE PROJECT
       .addCase(createProject.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(createProject.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.project = action.payload;
+        state.createdProject = action.payload;
       })
       .addCase(createProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // UPDATE PROJECT
+      .addCase(updateProject.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProject.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.updatedProject = action.payload;
+      })
+      .addCase(updateProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // DELETE PROJECT
+      .addCase(deleteProject.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.message = action.payload;
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
