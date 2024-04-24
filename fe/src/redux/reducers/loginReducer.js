@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AxiosClient from "../../client/client";
 
 export const loginUser = createAsyncThunk(
-  "/login",
+  "login",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await AxiosClient.post(

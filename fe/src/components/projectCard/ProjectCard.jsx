@@ -1,18 +1,20 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import styles from "./ProjectCard.module.css";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   deleteProject,
   getProjects,
 } from "../../redux/reducers/projectsReducer";
 import ProjectModal from "../projectsModal/ProjectsModal";
+import { getUserById } from "../../redux/reducers/usersReducer";
 
-const ProjectCard = ({ projectId, title, description, createdBy }) => {
+const ProjectCard = ({ projectId, title, description, creatorId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
   const [isProjectModalOpen, setProjectModalOpen] = useState(false);
+  const creator = useSelector((state) => state.getUserById.user)
 
   const onDelete = async (e) => {
     const confirmDelete = window.confirm("Are you sure?");
@@ -22,6 +24,10 @@ const ProjectCard = ({ projectId, title, description, createdBy }) => {
       await dispatch(deleteProject(projectId));
       setIsDeleting(false);
     }
+  };
+
+  const openProjectPage = () => {
+    navigate(`/projects/${projectId}`);
   };
 
   const handleOpenProjectModal = () => {
@@ -34,13 +40,14 @@ const ProjectCard = ({ projectId, title, description, createdBy }) => {
 
   useEffect(() => {
     dispatch(getProjects());
-  }, [dispatch, isDeleting]);
+    dispatch(getUserById(creatorId))
+  }, [dispatch]);
 
   return (
     <>
       <div className="card text-bg-primary mb-3">
         <div className="d-flex justify-content-between">
-          <div className="card-header">Created by: {createdBy}</div>
+          <div className="card-header">Created by: {creator ? creator.firstName + " " + creator.lastName : "Unknown"}</div>
           <div className="d-flex gap-2">
             <Button variant="warning" onClick={handleOpenProjectModal}>
               Edit
@@ -50,7 +57,7 @@ const ProjectCard = ({ projectId, title, description, createdBy }) => {
             </Button>
           </div>
         </div>
-        <div className="card-body">
+        <div className="card-body" onClick={openProjectPage}>
           <h5 className="card-title">{title}</h5>
           <p className="card-text">{description}</p>
         </div>

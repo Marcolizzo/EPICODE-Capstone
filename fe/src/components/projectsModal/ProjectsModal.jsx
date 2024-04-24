@@ -17,8 +17,8 @@ const ProjectModal = ({
   const dispatch = useDispatch();
   const error = useSelector((state) => state.createProject.error);
   const isLoading = useSelector((state) => state.createProject.isLoading);
-  const createdProject = useSelector((state) => state.createProject.createdProject);
-  const updatedProject = useSelector((state) => state.updateProject.updatedProject);
+  const createdProject = useSelector((state) => state.createProject.project);
+  const updatedProject = useSelector((state) => state.updateProject.project);
   const [formData, setFormData] = useState({
     title: projectTitle ? projectTitle : "",
     description: projectDescription ? projectDescription : "",
@@ -36,6 +36,7 @@ const ProjectModal = ({
       dispatch(createProject(formData)).then(() => {
         if (!error) {
           onClose();
+          setFormData({})
         }
       });
     }
@@ -97,7 +98,6 @@ const ProjectModal = ({
                 rows={3}
                 as="textarea"
                 placeholder="Description"
-                autoFocus
                 onChange={onChangeInput}
                 name="description"
                 value={formData.description}

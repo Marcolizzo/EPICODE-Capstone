@@ -17,6 +17,19 @@ export const getProjects = createAsyncThunk(
   }
 );
 
+export const getProjectById = createAsyncThunk(
+  "getProjectById",
+  async (projectId, { rejectWithValue }) => {
+    try {
+      const res = await AxiosClient.get(`/projects/${projectId}`);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
 export const createProject = createAsyncThunk(
   "createProject",
   async (formData, { rejectWithValue }) => {
@@ -64,14 +77,11 @@ export const deleteProject = createAsyncThunk(
 
 const initialState = {
   projects: [],
+  project: {},
+  totalProjects: 0,
   isLoading: false,
   error: null,
-  totalProjects: 0,
-
-  updatedProject: null,
-  createdProject: null,
-
-  message: ''
+  message: '',
 };
 
 const projectsSlice = createSlice({
@@ -93,13 +103,26 @@ const projectsSlice = createSlice({
         state.error = action.payload;
       })
 
+      // GET PROJECT BY ID
+      .addCase(getProjectById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProjectById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.project = action.payload;
+      })
+      .addCase(getProjectById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
       // CREATE PROJECT
       .addCase(createProject.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(createProject.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.createdProject = action.payload;
+        state.project = action.payload;
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoading = false;
@@ -112,7 +135,7 @@ const projectsSlice = createSlice({
       })
       .addCase(updateProject.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.updatedProject = action.payload;
+        state.project = action.payload;
       })
       .addCase(updateProject.rejected, (state, action) => {
         state.isLoading = false;

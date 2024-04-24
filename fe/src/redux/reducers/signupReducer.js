@@ -4,7 +4,7 @@ import AxiosClient from "../../client/client";
 
 
 export const signupUser = createAsyncThunk(
-  "/signup",
+  "signup",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await AxiosClient.post(

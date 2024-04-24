@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AxiosClient from "../../client/client";
 
 export const getUserById = createAsyncThunk(
-  "/getUserById",
+  "getUserById",
   async (userId, { rejectWithValue }) => {
     try {
       const res = await AxiosClient.get(`/users/${userId}`);
