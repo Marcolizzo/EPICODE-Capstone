@@ -12,7 +12,7 @@ const ItemModel = require("../models/itemsModel");
 // Define function to get all users
 const getUsers = async (req, res) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().populate("projects");
     res.status(200).send(users);
   } catch (e) {
     res.status(500).send({
@@ -28,7 +28,7 @@ const getUserById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id).populate("projects");
 
     if (!user) {
       return res.status(404).send({

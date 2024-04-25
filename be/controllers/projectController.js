@@ -10,7 +10,10 @@ const ItemModel = require("../models/itemsModel");
 const getProjects = async (req, res) => {
   try {
     const user = await UserModel.findById(req.user.userId);
-    const projects = await ProjectModel.find({_id: {$in: user.projects}});
+    const projects = await ProjectModel.find({
+      _id: { $in: user.projects },
+    });
+    // .populate("createdBy members lists")
 
     res.status(200).send(projects);
   } catch (e) {
@@ -27,6 +30,9 @@ const getProjectById = async (req, res) => {
 
   try {
     const project = await ProjectModel.findById(projectId);
+    // .populate(
+    //   "createdBy members lists"
+    // );
 
     if (!project) {
       return res.status(404).send({
@@ -169,7 +175,6 @@ const deleteProject = async (req, res) => {
     });
 
     res.status(200).send(`Project with ID ${projectId} succesfully removed.`);
-    
   } catch (e) {
     res.status(500).send({
       statusCode: 500,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Form, Button } from "react-bootstrap";
-import { Pencil, Trash } from "react-ionicons";
+import { CloseCircleOutline } from "react-ionicons";
 import { getLists, createList } from "../../redux/reducers/listsReducer";
 import { getProjectById } from "../../redux/reducers/projectsReducer";
 import ListCard from "../listCard/ListCard";
@@ -20,50 +20,58 @@ const ProjectPage = ({ projectId }) => {
   const onChangeInput = (e) => {
     setnewListTitle(e.target.value);
   };
-
-  const handleCreateList = (e) => {
+  const onCreateList = (e) => {
     e.preventDefault();
-    dispatch(createList([projectId, newListTitle]))
-    dispatch(getLists(projectId))
-    // toggleCreateList();
+    handleCreateList();
+  };
+
+  const handleCreateList = async () => {
+    await dispatch(createList([projectId, newListTitle]));
+    setnewListTitle("");
+    toggleCreateList();
   };
 
   useEffect(() => {
-    dispatch(getProjectById(projectId));
     dispatch(getLists(projectId));
-  }, [dispatch]);
+    dispatch(getProjectById(projectId));
+  }, [dispatch, isCreatingList]);
 
   return (
     <>
       <h1>Hello, this is the project: {project.title}</h1>
       <div className="d-flex gap-2">
-        <Card
-          style={{ width: "18rem", background: "green" }}
-          className="text-center fs-4"
-          onClick={toggleCreateList}
-        >
-          + Add new List
-        </Card>
-
         {isCreatingList ? (
-          <Card style={{ width: "18rem" }} className="p-1">
+          <Card className="p-1" style={{maxHeight: "8rem"}}>
             <Card.Body className="d-flex justify-content-between gap-1">
-              <Form onSubmit={handleCreateList}>
+              <Form onSubmit={onCreateList}>
                 <Form.Control
                   type="text"
                   autoFocus
                   onChange={onChangeInput}
-                  onBlur={toggleCreateList}
-                  name="title"
+                  // onBlur={toggleCreateList}
                   placeholder="Insert title..."
+                  value={newListTitle}
                 />
               </Form>
+            </Card.Body>
+            <div className="d-flex gap-2 justify-content-center">
               <Button variant="success" onClick={handleCreateList}>
                 Create
               </Button>
-            </Card.Body>
+              <Button variant="danger" onClick={toggleCreateList}>
+                <CloseCircleOutline />
+              </Button>
+            </div>
           </Card>
-        ) : null}
+        ) : (
+          <Button
+          style={{maxHeight: "3rem"}}
+            variant="success"
+            onClick={toggleCreateList}
+          >
+            + Add new List
+          </Button>
+        )}
 
         {lists.map((list) => (
           <ListCard

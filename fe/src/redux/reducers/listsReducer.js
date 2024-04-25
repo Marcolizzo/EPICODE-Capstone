@@ -13,11 +13,13 @@ export const getLists = createAsyncThunk(
   }
 );
 
-export const updateList = createAsyncThunk(
-  "updateList",
-  async ([listId, title], { rejectWithValue }) => {
+export const createList = createAsyncThunk(
+  "createList",
+  async ([projectId, title], { rejectWithValue }) => {
     try {
-      const res = await AxiosClient.patch(`/lists/${listId}`, { title: title });
+      const res = await AxiosClient.post(`/projects/${projectId}/lists`, {
+        title: title,
+      });
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -25,11 +27,11 @@ export const updateList = createAsyncThunk(
   }
 );
 
-export const createList = createAsyncThunk(
-  "createList",
-  async ([projectId, title], { rejectWithValue }) => {
+export const updateList = createAsyncThunk(
+  "updateList",
+  async ([listId, title], { rejectWithValue }) => {
     try {
-      const res = await AxiosClient.post(`/projects/${projectId}/lists`, { title: title });
+      const res = await AxiosClient.patch(`/lists/${listId}`, { title: title });
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -55,9 +57,7 @@ const initialState = {
   isLoading: false,
   error: null,
   totalLists: 0,
-
-  list: null,
-  message: ''
+  message: "",
 };
 
 const listsSlice = createSlice({
@@ -79,7 +79,7 @@ const listsSlice = createSlice({
         state.error = action.payload;
       })
 
-      // CREATE PROJECT
+      // CREATE LIST
       .addCase(createList.pending, (state) => {
         state.isLoading = true;
       })
@@ -98,7 +98,7 @@ const listsSlice = createSlice({
       })
       .addCase(updateList.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.updatedList = action.payload;
+        state.list = action.payload;
       })
       .addCase(updateList.rejected, (state, action) => {
         state.isLoading = false;
