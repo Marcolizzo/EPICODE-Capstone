@@ -8,8 +8,8 @@ import ListCard from "../listCard/ListCard";
 
 const ProjectPage = ({ projectId }) => {
   const dispatch = useDispatch();
-  const lists = useSelector((state) => state.getLists.lists);
   const project = useSelector((state) => state.getProjectById.project);
+  const lists = useSelector((state) => state.getLists.lists);
   const [isCreatingList, setIsCreatingList] = useState(false);
   const [newListTitle, setnewListTitle] = useState("");
 

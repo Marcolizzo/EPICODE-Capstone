@@ -12,4 +12,4 @@ const CommentSchema = new mongoose.Schema ({
    }
 } ,{timestamps: true , strict: true})
 
-module.exports = mongoose.model("commentsSchema", CommentSchema, "comments")
+module.exports = mongoose.model("commentModel", CommentSchema, "comments")

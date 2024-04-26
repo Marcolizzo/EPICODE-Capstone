@@ -23,6 +23,7 @@ const store = configureStore({
 
     // LISTS
     getLists: listsReducer,
+    getListById: listsReducer,
     createList: listsReducer,
     updateList: listsReducer,
     deleteList: listsReducer,

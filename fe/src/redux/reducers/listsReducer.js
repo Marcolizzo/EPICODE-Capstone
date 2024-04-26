@@ -13,6 +13,18 @@ export const getLists = createAsyncThunk(
   }
 );
 
+export const getListById = createAsyncThunk(
+  "getListById",
+  async (listId, { rejectWithValue }) => {
+    try {
+      const res = await AxiosClient.get(`/lists/${listId}`);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const createList = createAsyncThunk(
   "createList",
   async ([projectId, title], { rejectWithValue }) => {
@@ -75,6 +87,19 @@ const listsSlice = createSlice({
         state.totalLists = action.payload.length;
       })
       .addCase(getLists.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // GET LIST BY ID
+      .addCase(getListById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getListById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.list = action.payload;
+      })
+      .addCase(getListById.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })

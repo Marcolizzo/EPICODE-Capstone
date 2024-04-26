@@ -12,4 +12,4 @@ const ItemSchema = new mongoose.Schema({
         }
 }, { timestamps: true, strict: true })
 
-module.exports = mongoose.model("itemsSchema", ItemSchema, "items")
+module.exports = mongoose.model("itemModel", ItemSchema, "items")

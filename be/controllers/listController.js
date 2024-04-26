@@ -8,9 +8,13 @@ const ItemModel = require("../models/itemsModel");
 // Define function to get all lists
 const getLists = async (req, res) => {
   try {
-    const project = await ProjectModel.findById(req.params.projectId)
-    const lists = await ListModel.find({_id: {$in: project.lists}});
-    
+    const project = await ProjectModel.findById(req.params.projectId).populate(
+      "lists"
+    );
+    const lists = await ListModel.find({
+      _id: { $in: project.lists },
+    }).populate("tasks");
+
     res.status(200).send(lists);
   } catch (e) {
     res.status(500).send({
@@ -25,7 +29,7 @@ const getListById = async (req, res) => {
   const { listId } = req.params;
 
   try {
-    const list = await ListModel.findById(listId);
+    const list = await ListModel.findById(listId).populate("tasks");
 
     if (!list) {
       return res.status(404).send({

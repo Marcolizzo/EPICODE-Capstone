@@ -12,4 +12,4 @@ const ChecklistSchema = new mongoose.Schema({
     }]
 }, { timestamps: true, strict: true })
 
-module.exports = mongoose.model("checlistsSchema", ChecklistSchema, "checklists")
+module.exports = mongoose.model("checklistModel", ChecklistSchema, "checklists")
