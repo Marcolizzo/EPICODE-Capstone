@@ -70,7 +70,7 @@ const createItem = async (req, res) => {
 
 const updateItem = async (req, res) => {
   const { itemId } = req.params;
-  const { title } = req.body;
+  const { title, completed } = req.body;
 
   try {
     const item = await ItemModel.findById(itemId);
@@ -81,7 +81,7 @@ const updateItem = async (req, res) => {
       });
     }
 
-    const updatedData = { title };
+    const updatedData = { title, completed };
     const options = { new: true };
     const result = await ItemModel.findByIdAndUpdate(
       itemId,

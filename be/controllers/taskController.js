@@ -8,9 +8,15 @@ const ItemModel = require("../models/itemsModel");
 // Define function to get all tasks
 const getTasks = async (req, res) => {
   try {
-    const list = await ListModel.findById(req.params.listId).populate("tasks")
-    const tasks = await TaskModel.find({_id: {$in: list.tasks}})
-    .populate("createdBy assignedTo checklists comments")
+    const list = await ListModel.findById(req.params.listId).populate("tasks");
+    const tasks = await TaskModel.find({ _id: { $in: list.tasks } })
+      .populate("createdBy assignedTo checklists comments")
+      .populate({
+        path: "checklists",
+        populate: {
+          path: "items",
+        },
+      });
 
     res.status(200).send(tasks);
   } catch (e) {
@@ -27,7 +33,13 @@ const getTaskById = async (req, res) => {
 
   try {
     const task = await TaskModel.findById(taskId)
-    .populate("createdBy assignedTo checklists comments")
+      .populate("createdBy assignedTo checklists comments")
+      .populate({
+        path: "checklists",
+        populate: {
+          path: "items",
+        },
+      });
 
     if (!task) {
       return res.status(404).send({
@@ -58,7 +70,7 @@ const createTask = async (req, res) => {
       description,
       priority,
       createdBy: user._id,
-      assignedTo
+      assignedTo,
     });
 
     await ListModel.findByIdAndUpdate(list._id, {

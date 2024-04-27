@@ -6,6 +6,7 @@ import projectsReducer from "../reducers/projectsReducer";
 import listsReducer from "../reducers/listsReducer";
 import tasksReducer from "../reducers/tasksReducer";
 import checklistsReducer from "../reducers/checklistsReducer";
+import itemsReducer from "../reducers/itemsReducer";
 
 const store = configureStore({
   reducer: {
@@ -42,6 +43,13 @@ const store = configureStore({
     createChecklist: checklistsReducer,
     updateChecklist: checklistsReducer,
     deleteChecklist: checklistsReducer,
+
+    // ITEMS
+    getItems: itemsReducer,
+    getItemById: itemsReducer,
+    createItem: itemsReducer,
+    updateItem: itemsReducer,
+    deleteItem: itemsReducer,
   },
 });
 

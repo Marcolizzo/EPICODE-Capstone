@@ -7,7 +7,7 @@ const ItemModel = require("../models/itemsModel");
 const getChecklists = async (req, res) => {
   try {
     const task = await TaskModel.findById(req.params.taskId)
-    const checklists = await ChecklistModel.find({_id: {$in: task.checklists}});
+    const checklists = await ChecklistModel.find({_id: {$in: task.checklists}}).populate("items")
     
     res.status(200).send(checklists);
   } catch (e) {
@@ -23,7 +23,7 @@ const getChecklistById = async (req, res) => {
   const { checklistId } = req.params;
 
   try {
-    const checklist = await ChecklistModel.findById(checklistId);
+    const checklist = await ChecklistModel.findById(checklistId).populate("items")
 
     if (!checklist) {
       return res.status(404).send({
