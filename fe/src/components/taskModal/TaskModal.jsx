@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Form, Dropdown, ButtonGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { SquareOutline, CheckboxOutline } from "react-ionicons";
 import ChecklistElement from "../checklistElement/ChecklistElement";
+import CommentsSection from "../commentsSection/CommentsSection";
 
 import { getProjectById } from "../../redux/reducers/projectsReducer";
 import { getTaskById, updateTask } from "../../redux/reducers/tasksReducer";
@@ -234,6 +235,8 @@ const TaskModal = ({ isOpen, onClose, taskObject, listObject, projectId }) => {
                 : null
               : null}
           </div>
+
+          <CommentsSection taskObject={task}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onClose}>

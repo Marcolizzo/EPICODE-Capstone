@@ -7,6 +7,7 @@ import listsReducer from "../reducers/listsReducer";
 import tasksReducer from "../reducers/tasksReducer";
 import checklistsReducer from "../reducers/checklistsReducer";
 import itemsReducer from "../reducers/itemsReducer";
+import commentsReducer from "../reducers/commentsReducer";
 
 const store = configureStore({
   reducer: {
@@ -50,6 +51,13 @@ const store = configureStore({
     createItem: itemsReducer,
     updateItem: itemsReducer,
     deleteItem: itemsReducer,
+
+    // COMMENTS
+    getComments: commentsReducer,
+    getCommentById: commentsReducer,
+    createComment: commentsReducer,
+    updateComment: commentsReducer,
+    deleteComment: commentsReducer,
   },
 });
 

@@ -16,6 +16,12 @@ const getTasks = async (req, res) => {
         populate: {
           path: "items",
         },
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+        },
       });
 
     res.status(200).send(tasks);
@@ -38,6 +44,12 @@ const getTaskById = async (req, res) => {
         path: "checklists",
         populate: {
           path: "items",
+        },
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
         },
       });
 

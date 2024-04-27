@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Form, Button } from "react-bootstrap";
 import { CloseCircleOutline } from "react-ionicons";
+import { jwtDecode } from "jwt-decode";
+
 import { getLists, createList } from "../../redux/reducers/listsReducer";
 import { getProjectById } from "../../redux/reducers/projectsReducer";
 import ListCard from "../listCard/ListCard";
+import { getUserById } from "../../redux/reducers/usersReducer";
 
 const ProjectPage = ({ projectId }) => {
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
   const project = useSelector((state) => state.getProjectById.project);
+  const userId = jwtDecode(useSelector((state) => state.login.token)).userId;
   const lists = project ? project.lists : [];
+
   const [isCreatingList, setIsCreatingList] = useState(false);
   const [newListTitle, setnewListTitle] = useState("");
 
@@ -34,6 +39,10 @@ const ProjectPage = ({ projectId }) => {
     doDispatch(getLists(projectId));
     doDispatch(getProjectById(projectId));
   }, [dispatch, isCreatingList]);
+
+  useEffect(() => {
+    doDispatch(getUserById(userId))
+  }, [doDispatch])
 
   return (
     <>
