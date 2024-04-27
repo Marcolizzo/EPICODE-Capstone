@@ -9,7 +9,8 @@ const ItemModel = require("../models/itemsModel");
 const getTasks = async (req, res) => {
   try {
     const list = await ListModel.findById(req.params.listId).populate("tasks")
-    const tasks = await TaskModel.find({_id: {$in: list.tasks}});
+    const tasks = await TaskModel.find({_id: {$in: list.tasks}})
+    .populate("createdBy assignedTo checklists comments")
 
     res.status(200).send(tasks);
   } catch (e) {
@@ -25,7 +26,8 @@ const getTaskById = async (req, res) => {
   const { taskId } = req.params;
 
   try {
-    const task = await TaskModel.findById(taskId);
+    const task = await TaskModel.findById(taskId)
+    .populate("createdBy assignedTo checklists comments")
 
     if (!task) {
       return res.status(404).send({
@@ -56,7 +58,7 @@ const createTask = async (req, res) => {
       description,
       priority,
       createdBy: user._id,
-      assignedTo,
+      assignedTo
     });
 
     await ListModel.findByIdAndUpdate(list._id, {

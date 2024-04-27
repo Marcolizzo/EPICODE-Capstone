@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Button, ListGroup } from "react-bootstrap";
 import { Pencil, Trash, CloseCircleOutline } from "react-ionicons";
+import TaskModal from "../taskModal/TaskModal";
+
 import { deleteTask, updateTask } from "../../redux/reducers/tasksReducer";
 import { getProjectById } from "../../redux/reducers/projectsReducer";
-import { getListById } from "../../redux/reducers/listsReducer";
 
-const TaskItem = ({ projectId, listId, task }) => {
+const TaskElement = ({ projectId, listObject, task }) => {
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
 
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState(task.title);
+
+  const [isTaskModalOpen, setTaskModalOpen] = useState(false);
+
+  const handleOpenTaskModal = () => {
+    setTaskModalOpen(true);
+  };
+
+  const handleCloseTaskModal = () => {
+    setTaskModalOpen(false);
+  };
 
   const toggleEditTask = () => {
       setIsEditingTask(!isEditingTask);
@@ -28,7 +39,7 @@ const TaskItem = ({ projectId, listId, task }) => {
   };
 
   const handleDeleteTask = async () => {
-    setDispatch(await doDispatch(deleteTask([listId, task._id])));
+    setDispatch(await doDispatch(deleteTask([listObject._id, task._id])));
   };
 
   useEffect(() => {
@@ -51,7 +62,6 @@ const TaskItem = ({ projectId, listId, task }) => {
               <Button
                 type="submit"
                 variant="warning"
-                // onClick={() => onEditTask(task._id)}
               >
                 Save
               </Button>
@@ -62,7 +72,7 @@ const TaskItem = ({ projectId, listId, task }) => {
           </Form>
         ) : (
           <div className="d-flex justify-content-between">
-            {task.title}
+            <div onClick={handleOpenTaskModal}>{task.title}</div>
             <div>
               <Pencil onClick={toggleEditTask} />
               <Trash onClick={handleDeleteTask} />
@@ -70,8 +80,9 @@ const TaskItem = ({ projectId, listId, task }) => {
           </div>
         )}
       </ListGroup.Item>
+      <TaskModal isOpen={isTaskModalOpen} onClose={handleCloseTaskModal} taskObject={task} listObject={listObject} projectId={projectId}/>
     </>
   );
 };
 
-export default TaskItem;
+export default TaskElement;

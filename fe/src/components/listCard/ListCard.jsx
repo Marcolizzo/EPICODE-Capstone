@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Form, Button, ListGroup } from "react-bootstrap";
 import { Pencil, Trash, CloseCircleOutline } from "react-ionicons";
-import TaskItem from "../taskItem/TaskItem";
+import TaskElement from "../taskElement/TaskElement";
+
 import { updateList, deleteList, getListById } from "../../redux/reducers/listsReducer";
 import { createTask } from "../../redux/reducers/tasksReducer";
 import { getProjectById } from "../../redux/reducers/projectsReducer";
@@ -27,7 +28,7 @@ const ListCard = ({ listObject, projectId }) => {
   };
 
   const toggleEditList = () => {
-    setIsEditingList(!isEditingList);
+    setIsEditingList(!isEditingList)
   };
 
   const handleDeleteList = async () => {
@@ -74,7 +75,7 @@ const ListCard = ({ listObject, projectId }) => {
                   type="text"
                   autoFocus
                   onChange={onChangeListInput}
-                  // onBlur={onEditList}
+                  onBlur={onEditList}
                   value={listTitle}
                 />
               </Form>
@@ -120,12 +121,12 @@ const ListCard = ({ listObject, projectId }) => {
           {tasks.length > 0 ? (
             <ListGroup className="mt-2">
               {tasks.map((task) => (
-                <TaskItem
+                <TaskElement
                   key={task._id}
                   projectId={projectId}
-                  listId={list._id}
+                  listObject={list}
                   task={task}
-                ></TaskItem>
+                ></TaskElement>
               ))}
             </ListGroup>
           ) : (

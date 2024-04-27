@@ -61,10 +61,11 @@ const ProjectModal = ({ isOpen, onClose, projectObject, isEditing }) => {
       <Modal
         size="sm"
         show={isOpen}
+        onHide={onClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -5,6 +5,7 @@ import usersReducer from "../reducers/usersReducer";
 import projectsReducer from "../reducers/projectsReducer";
 import listsReducer from "../reducers/listsReducer";
 import tasksReducer from "../reducers/tasksReducer";
+import checklistsReducer from "../reducers/checklistsReducer";
 
 const store = configureStore({
   reducer: {
@@ -34,6 +35,13 @@ const store = configureStore({
     createTask: tasksReducer,
     updateTask: tasksReducer,
     deleteTask: tasksReducer,
+
+    // CHECKLISTS
+    getChecklists: checklistsReducer,
+    getChecklistById: checklistsReducer,
+    createChecklist: checklistsReducer,
+    updateChecklist: checklistsReducer,
+    deleteChecklist: checklistsReducer,
   },
 });
 
