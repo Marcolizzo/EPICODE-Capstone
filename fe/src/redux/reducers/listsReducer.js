@@ -53,9 +53,9 @@ export const updateList = createAsyncThunk(
 
 export const deleteList = createAsyncThunk(
   "deleteList",
-  async (listId, { rejectWithValue }) => {
+  async ([projectId, listId], { rejectWithValue }) => {
     try {
-      const res = await AxiosClient.delete(`/lists/${listId}`);
+      const res = await AxiosClient.delete(`/projects/${projectId}/lists/${listId}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

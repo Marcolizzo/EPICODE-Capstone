@@ -7,33 +7,32 @@ import { getProjectById } from "../../redux/reducers/projectsReducer";
 import ListCard from "../listCard/ListCard";
 
 const ProjectPage = ({ projectId }) => {
-  const dispatch = useDispatch();
+  const doDispatch = useDispatch();
+  const [dispatch, setDispatch] = useState();
   const project = useSelector((state) => state.getProjectById.project);
-  const lists = useSelector((state) => state.getLists.lists);
+  const lists = project ? project.lists : [];
   const [isCreatingList, setIsCreatingList] = useState(false);
   const [newListTitle, setnewListTitle] = useState("");
 
   const toggleCreateList = () => {
+    setnewListTitle("")
     setIsCreatingList(!isCreatingList);
   };
 
   const onChangeInput = (e) => {
     setnewListTitle(e.target.value);
   };
-  const onCreateList = (e) => {
-    e.preventDefault();
-    handleCreateList();
-  };
 
-  const handleCreateList = async () => {
-    await dispatch(createList([projectId, newListTitle]));
+  const handleCreateList = async (e) => {
+    e.preventDefault();
+    setDispatch(await doDispatch(createList([projectId, newListTitle])));
     setnewListTitle("");
     toggleCreateList();
   };
 
   useEffect(() => {
-    dispatch(getLists(projectId));
-    dispatch(getProjectById(projectId));
+    doDispatch(getLists(projectId));
+    doDispatch(getProjectById(projectId));
   }, [dispatch, isCreatingList]);
 
   return (
@@ -41,9 +40,9 @@ const ProjectPage = ({ projectId }) => {
       <h1>Hello, this is the project: {project.title}</h1>
       <div className="d-flex gap-2">
         {isCreatingList ? (
-          <Card className="p-1" style={{maxHeight: "8rem"}}>
+          <Card className="p-1" style={{ maxHeight: "8rem" }}>
             <Card.Body className="d-flex justify-content-between gap-1">
-              <Form onSubmit={onCreateList}>
+              <Form onSubmit={handleCreateList}>
                 <Form.Control
                   type="text"
                   autoFocus
@@ -52,20 +51,20 @@ const ProjectPage = ({ projectId }) => {
                   placeholder="Insert title..."
                   value={newListTitle}
                 />
+                <div className="d-flex gap-2 justify-content-center">
+                  <Button type="submit" variant="success">
+                    Create
+                  </Button>
+                  <Button variant="danger" onClick={toggleCreateList}>
+                    <CloseCircleOutline />
+                  </Button>
+                </div>
               </Form>
             </Card.Body>
-            <div className="d-flex gap-2 justify-content-center">
-              <Button variant="success" onClick={handleCreateList}>
-                Create
-              </Button>
-              <Button variant="danger" onClick={toggleCreateList}>
-                <CloseCircleOutline />
-              </Button>
-            </div>
           </Card>
         ) : (
           <Button
-          style={{maxHeight: "3rem"}}
+            style={{ maxHeight: "3rem" }}
             variant="success"
             onClick={toggleCreateList}
           >
@@ -73,14 +72,15 @@ const ProjectPage = ({ projectId }) => {
           </Button>
         )}
 
-        {lists.map((list) => (
-          <ListCard
-            key={list._id}
-            listId={list._id}
-            listTitle={list.title}
-            projectId={projectId}
-          />
-        ))}
+        {lists
+          ? lists.map((list) => (
+              <ListCard
+                key={list._id}
+                listObject={list}
+                projectId={projectId}
+              />
+            ))
+          : null}
       </div>
     </>
   );

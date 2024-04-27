@@ -1,59 +1,48 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  createProject,
-  getProjects,
-  updateProject,
-} from "../../redux/reducers/projectsReducer";
+import { createProject, getProjects, updateProject } from "../../redux/reducers/projectsReducer";
 
-const ProjectModal = ({
-  isOpen,
-  onClose,
-  projectId,
-  projectTitle,
-  projectDescription,
-}) => {
-  const dispatch = useDispatch();
+const ProjectModal = ({ isOpen, onClose, projectObject, isEditing }) => {
+  const doDispatch = useDispatch();
+  const [dispatch, setDispatch] = useState();
+  const project = projectObject;
+
   const error = useSelector((state) => state.createProject.error);
   const isLoading = useSelector((state) => state.createProject.isLoading);
-  const createdProject = useSelector((state) => state.createProject.project);
-  const updatedProject = useSelector((state) => state.updateProject.project);
+
   const [formData, setFormData] = useState({
-    title: projectTitle ? projectTitle : "",
-    description: projectDescription ? projectDescription : "",
+    title: isEditing ? project.title : "",
+    description: isEditing ? project.description : "",
   });
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (projectId) {
-      dispatch(updateProject([formData, projectId])).then(() => {
-        if (!error) {
-          onClose();
-        }
-      });
-    } else {
-      dispatch(createProject(formData)).then(() => {
-        if (!error) {
-          onClose();
-          setFormData({})
-        }
-      });
+    isEditing ? onUpdateProject() : onCreateProject();
+  };
+
+  const onCreateProject = async () => {
+    setDispatch(await doDispatch(createProject(formData)));
+    if (!error) {
+      onClose();
+      setFormData({});
+    }
+  };
+
+  const onUpdateProject = async () => {
+    setDispatch(await doDispatch(updateProject([formData, project._id])));
+    if (!error) {
+      onClose();
     }
   };
 
   const closeModal = () => {
-    // Ripristina il titolo e la descrizione ai valori iniziali
     setFormData({
-      title: projectTitle ? projectTitle : "",
-      description: projectDescription ? projectDescription : "",
+      title: isEditing ? project.title : "",
+      description: isEditing ? project.description : "",
     });
-    onClose(); // Chiudi il modale
+    onClose();
   };
-
-  useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch, createdProject, updatedProject]);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -63,6 +52,10 @@ const ProjectModal = ({
     });
   };
 
+  useEffect(() => {
+    doDispatch(getProjects());
+  }, [dispatch]);
+
   return (
     <>
       <Modal
@@ -71,14 +64,12 @@ const ProjectModal = ({
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
+        <Modal.Header>
+          <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={onSubmit}>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
@@ -86,13 +77,10 @@ const ProjectModal = ({
                 autoFocus
                 onChange={onChangeInput}
                 name="title"
-                value={formData.title}
+                value={isEditing ? formData.title : undefined}
               />
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 rows={3}
@@ -100,16 +88,16 @@ const ProjectModal = ({
                 placeholder="Description"
                 onChange={onChangeInput}
                 name="description"
-                value={formData.description}
+                value={isEditing ? formData.description : undefined}
               />
             </Form.Group>
             <Modal.Footer>
               <Button
-                type="submit"
-                variant={projectId ? "warning" : "success"}
+                onClick={isEditing ? onUpdateProject : onCreateProject}
+                variant={isEditing ? "warning" : "success"}
                 disabled={isLoading}
               >
-                {projectId
+                {isEditing
                   ? isLoading
                     ? "Editing..."
                     : "Edit"

@@ -7,6 +7,6 @@ router.get('/projects/:projectId/lists', verified, getLists);
 router.get('/lists/:listId', verified, getListById);
 router.post('/projects/:projectId/lists', verified, createList);
 router.patch('/lists/:listId', verified, updateList);
-router.delete('/lists/:listId', verified, deleteList);
+router.delete('/projects/:projectId/lists/:listId', verified, deleteList);
 
 module.exports = router;

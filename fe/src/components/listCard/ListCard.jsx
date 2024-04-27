@@ -1,63 +1,66 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Form, Button } from "react-bootstrap";
-import { Pencil, Trash } from "react-ionicons";
-import {
-  updateList,
-  deleteList,
-  getLists,
-  getListById,
-} from "../../redux/reducers/listsReducer";
+import { Card, Form, Button, ListGroup } from "react-bootstrap";
+import { Pencil, Trash, CloseCircleOutline } from "react-ionicons";
+import TaskItem from "../taskItem/TaskItem";
+import { updateList, deleteList, getListById } from "../../redux/reducers/listsReducer";
 import { createTask } from "../../redux/reducers/tasksReducer";
+import { getProjectById } from "../../redux/reducers/projectsReducer";
 
-const ListCard = ({ listId, listTitle, projectId }) => {
-  const dispatch = useDispatch();
+const ListCard = ({ listObject, projectId }) => {
+  const doDispatch = useDispatch();
+  const [dispatch, setDispatch] = useState();
+
   const error = useSelector((state) => state.deleteList.error);
-  const list = useSelector((state) => state.getListById.list);
+  const list = listObject;
   const tasks = list ? list.tasks : [];
 
   const [isEditingList, setIsEditingList] = useState(false);
-  const [newListTitle, setNewListTitle] = useState(listTitle);
+  const [listTitle, setListTitle] = useState(list.title);
   const [isCreatingTask, setIsCreatingTask] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [TaskTitle, setTaskTitle] = useState("");
 
-  const onEditList = (e) => {
+  const onEditList = async (e) => {
     e.preventDefault();
-    dispatch(updateList([listId, newListTitle]));
-    setIsEditingList(false);
+    setDispatch(await doDispatch(updateList([list._id, listTitle])));
+    toggleEditList();
   };
 
   const toggleEditList = () => {
-    setIsEditingList(true);
+    setIsEditingList(!isEditingList);
   };
 
   const handleDeleteList = async () => {
-    await dispatch(deleteList(listId));
-    dispatch(getLists(projectId));
+    setDispatch(await doDispatch(deleteList([projectId, list._id])));
   };
 
   const onChangeListInput = (e) => {
-    setNewListTitle(e.target.value);
+    setListTitle(e.target.value);
   };
 
+  // CREATE NEW TASKS
+
   const toggleCreateTask = () => {
+    setTaskTitle("");
     setIsCreatingTask(!isCreatingTask);
   };
 
   const onChangeTaskInput = (e) => {
-    setNewTaskTitle(e.target.value);
+    setTaskTitle(e.target.value);
   };
 
-  const handleCreateTask = async (e) => {
+  const onCreateTask = async (e) => {
     e.preventDefault();
-    await dispatch(createTask([listId, newTaskTitle]));
-    dispatch(getLists(projectId));
-    setNewTaskTitle("");
-    toggleCreateTask()
+    setDispatch(await doDispatch(createTask([list._id, TaskTitle])));
+    setTaskTitle("");
+    toggleCreateTask();
   };
+
+  //
 
   useEffect(() => {
-    dispatch(getListById(listId));
+    doDispatch(getProjectById(projectId));
+    doDispatch(getListById(list._id));
   }, [dispatch]);
 
   return (
@@ -71,12 +74,12 @@ const ListCard = ({ listId, listTitle, projectId }) => {
                   type="text"
                   autoFocus
                   onChange={onChangeListInput}
-                  onBlur={toggleEditList}
-                  value={newListTitle}
+                  // onBlur={onEditList}
+                  value={listTitle}
                 />
               </Form>
             ) : (
-              <Card.Header>{newListTitle}</Card.Header>
+              <Card.Header>{listTitle}</Card.Header>
             )}
             <div className="d-flex gap-1">
               <Pencil onClick={toggleEditList} />
@@ -86,28 +89,48 @@ const ListCard = ({ listId, listTitle, projectId }) => {
 
           <div className="d-flex justify-content-center">
             {isCreatingTask ? (
-              <>
-                <Form onSubmit={handleCreateTask}>
+              <div className="mt-2">
+                <Form onSubmit={onCreateTask}>
                   <Form.Control
                     type="text"
                     autoFocus
                     onChange={onChangeTaskInput}
-                    // onBlur={onEditList}
+                    // onBlur={toggleCreateTask}
                   />
                 </Form>
-                <div className="mt-2">
-                  <Button variant="success" onClick={handleCreateTask}>
+                <div className="mt-2 d-flex justify-content-center gap-2">
+                  <Button variant="success" onClick={onCreateTask}>
                     Create
                   </Button>
+                  <Button variant="danger" onClick={toggleCreateTask}>
+                    <CloseCircleOutline />
+                  </Button>
                 </div>
-              </>
+              </div>
             ) : (
-              <Button variant="success" onClick={toggleCreateTask}>
+              <Button
+                variant="success"
+                className="mt-2"
+                onClick={toggleCreateTask}
+              >
                 + Add task
               </Button>
             )}
           </div>
-          {tasks ? tasks.map((task) => <div>{task.title}</div>) : null}
+          {tasks.length > 0 ? (
+            <ListGroup className="mt-2">
+              {tasks.map((task) => (
+                <TaskItem
+                  key={task._id}
+                  projectId={projectId}
+                  listId={list._id}
+                  task={task}
+                ></TaskItem>
+              ))}
+            </ListGroup>
+          ) : (
+            <div className="mt-2 text-center">No tasks...</div>
+          )}
         </Card.Body>
       </Card>
     </>

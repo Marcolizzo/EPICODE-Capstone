@@ -9,12 +9,15 @@ import ProjectCard from "../projectCard/ProjectCard";
 import ProjectModal from "../projectsModal/ProjectsModal";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
+  const doDispatch = useDispatch();
+  const [dispatch, setDispatch] = useState();
+
   const projects = useSelector((state) => state.getProjects.projects);
   const userId = jwtDecode(useSelector((state) => state.login.token)).userId;
   const user = useSelector((state) => state.getUserById.user);
-  const [isProjectModalOpen, setProjectModalOpen] = useState(false);
+  
   const firstName = user ? user.firstName : "";
+  const [isProjectModalOpen, setProjectModalOpen] = useState(false);
 
   const handleOpenProjectModal = () => {
     setProjectModalOpen(true);
@@ -25,8 +28,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    dispatch(getProjects());
-    dispatch(getUserById(userId));
+    doDispatch(getProjects());
+    doDispatch(getUserById(userId));
   }, [dispatch, userId]);
 
   return (
@@ -43,16 +46,14 @@ const HomePage = () => {
         {projects.map((project) => (
           <ProjectCard
             key={project._id}
-            projectId={project._id}
-            title={project.title}
-            description={project.description}
-            creatorId={project.createdBy}
+            projectObject={project}
           />
         ))}
       </Container>
       <ProjectModal
         isOpen={isProjectModalOpen}
         onClose={handleCloseProjectMOdal}
+        isEditing={false}
       />
     </>
   );

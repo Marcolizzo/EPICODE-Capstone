@@ -42,11 +42,11 @@ export const createTask = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   "updateTask",
   async (
-    [taskId, title, description, priority, completed],
+    [taskId, payload],
     { rejectWithValue }
   ) => {
     try {
-      const res = await AxiosClient.patch(`/tasks/${taskId}`);
+      const res = await AxiosClient.patch(`/tasks/${taskId}`, payload);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -56,9 +56,9 @@ export const updateTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   "deleteTask",
-  async (taskId, { rejectWithValue }) => {
+  async ([listId, taskId], { rejectWithValue }) => {
     try {
-      const res = await AxiosClient.delete(`/tasks/${taskId}`);
+      const res = await AxiosClient.delete(`/lists/${listId}/tasks/${taskId}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
