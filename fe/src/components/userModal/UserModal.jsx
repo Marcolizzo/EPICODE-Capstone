@@ -9,6 +9,9 @@ import {
   Image,
 } from "react-bootstrap";
 
+import { updateProfileImage } from "../../redux/reducers/usersReducer";
+
+
 const UserModal = ({ isOpen, onClose, user }) => {
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
@@ -20,53 +23,88 @@ const UserModal = ({ isOpen, onClose, user }) => {
     email: user ? user.email : "",
   });
 
+  const [newImg, setNewImg] = useState(null);
+
   const [isEditing, setIsEditing] = useState({
     firstName: false,
     lastName: false,
     username: false,
   });
 
-  const handleToggleEdit = (field, toggleValue) => {
-    setIsEditing({
-      ...isEditing,
-      [field]: toggleValue,
-    });
+  const onChangeImage = (e) => {
+    setNewImg(e.target.files[0]);
   };
 
+  const handleUpdateImg = () => {
+    if(!newImg) return;
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    // doDispatch(signupUser(formData));
-  };
+    const fileData = new FormData();
+    fileData.append('profileImage', newImg)
+    doDispatch(updateProfileImage([user._id, fileData]))
+  }
 
-  const onChangeInput = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+// const handleUpdateImg = () => {
+//     if(!newImg) return;
 
-  useEffect(() => {
-    console.log(isEditing.firstName)
-  }, [isOpen])
+//     const fileData = new FormData();
+//     fileData.append('profileImage', newImg)
+//     // doDispatch(updateProfileImage([user._id, fileData]))
+
+//     axios.post(`/users/${user._id}/updateProfileImage`, fileData, {
+//         headers: {
+//             "Content-Type": "multipart/form-data"
+//         },
+//     })
+//     .then((res) => {
+//         console.log(res)
+//     })
+//     .catch((e) => {
+//         console.log(e)
+//     })
+
+//   }
+
+  //   const handleToggleEdit = (field, toggleValue) => {
+  //     setIsEditing({
+  //       ...isEditing,
+  //       [field]: toggleValue,
+  //     });
+  //   };
+
+  //   const onSubmit = async (e) => {
+  //     e.preventDefault();
+  //     // doDispatch(signupUser(formData));
+  //   };
+
+  //   const onChangeInput = (e) => {
+  //     const { name, value } = e.target;
+  //     setFormData({
+  //       ...formData,
+  //       [name]: value,
+  //     });
+  //   };
+
 
   return (
     <>
       <Modal show={isOpen} onHide={onClose} size="lg" centered>
         <Modal.Header>
-          <Modal.Title className="w-100">
-            <div>Edit Profile</div>
-          </Modal.Title>
+          <Modal.Title className="w-100"></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="text-center">
-            <Image
-              src={user ? user.profileImg : ""}
-              roundedCircle
-              style={{ maxHeight: "200px" }}
-            />
-            <a href="#">Edit</a>
+            <div>
+              <Image
+                src={user ? user.profileImg : ""}
+                roundedCircle
+                style={{ maxHeight: "200px" }}
+              />
+            </div>
+            <input type="file" onChange={onChangeImage} />
+            <div className="d-flex gap-3 justify-content-center">
+              <a href="#" onClick={handleUpdateImg}>Save</a>
+              <a href="#">Discard changes</a>
+            </div>
           </div>
 
           {/* <Form onSubmit={onSubmit}>

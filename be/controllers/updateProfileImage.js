@@ -30,7 +30,7 @@ const updateProfileImage = async (req, res) => {
 
       // Update user's profile image
       await UserModel.findByIdAndUpdate(
-        user.id,
+        user._id,
         { profileImg: newImageUrl },
         { new: true }
       );
@@ -69,7 +69,7 @@ const removeProfileImage = async (req, res) => {
 
     // Set the profile image field to the default image URL
     await UserModel.findByIdAndUpdate(
-      user.id,
+      user._id,
       { profileImg: defaultImageUrl },
       { new: true }
     );

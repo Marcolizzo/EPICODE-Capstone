@@ -24,7 +24,6 @@ const NavPanel = () => {
   const [isUserModalOpen, setUserModalOpen] = useState(false)
 
   const handleOpenUserModal = () => {
-    console.log(user)
     setUserModalOpen(true)
   }
   const handleCloseUserModal = () => {
