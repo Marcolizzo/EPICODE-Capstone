@@ -6,7 +6,7 @@ const UserModel = require("../models/usersModel");
 const getComments = async (req, res) => {
   try {
     const task = await TaskModel.findById(req.params.taskId)
-    const comments = await CommentModel.find({_id: {$in: task.comments}});
+    const comments = await CommentModel.find({_id: {$in: task.comments}}).populate("author")
 
     res.status(200).send(comments);
   } catch (e) {
@@ -22,7 +22,7 @@ const getCommentById = async (req, res) => {
   const { commentId } = req.params;
 
   try {
-    const comment = await CommentModel.findById(commentId);
+    const comment = await CommentModel.findById(commentId).populate("author")
 
     if (!comment) {
       return res.status(404).send({

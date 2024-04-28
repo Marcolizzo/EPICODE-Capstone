@@ -25,8 +25,8 @@ const TaskElement = ({ projectId, listObject, task }) => {
   };
 
   const toggleEditTask = () => {
-      setIsEditingTask(!isEditingTask);
-    }
+    setIsEditingTask(!isEditingTask);
+  };
 
   const onChangeTaskInput = (e) => {
     setNewTaskTitle(e.target.value);
@@ -34,7 +34,9 @@ const TaskElement = ({ projectId, listObject, task }) => {
 
   const onEditTask = async (e) => {
     e.preventDefault();
-    setDispatch(await doDispatch(updateTask([task._id, {title: newTaskTitle}])));
+    setDispatch(
+      await doDispatch(updateTask([task._id, { title: newTaskTitle }]))
+    );
     toggleEditTask();
   };
 
@@ -59,10 +61,7 @@ const TaskElement = ({ projectId, listObject, task }) => {
               value={newTaskTitle}
             />
             <div className="d-flex gap-2 mt-2">
-              <Button
-                type="submit"
-                variant="warning"
-              >
+              <Button type="submit" variant="warning">
                 Save
               </Button>
               <Button variant="danger" onClick={toggleEditTask}>
@@ -80,7 +79,13 @@ const TaskElement = ({ projectId, listObject, task }) => {
           </div>
         )}
       </ListGroup.Item>
-      <TaskModal isOpen={isTaskModalOpen} onClose={handleCloseTaskModal} taskObject={task} listObject={listObject} projectId={projectId}/>
+      <TaskModal
+        isOpen={isTaskModalOpen}
+        onClose={handleCloseTaskModal}
+        taskObject={task}
+        listObject={listObject}
+        projectId={projectId}
+      />
     </>
   );
 };

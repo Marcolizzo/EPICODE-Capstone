@@ -4,7 +4,11 @@ import { Card, Form, Button, ListGroup } from "react-bootstrap";
 import { Pencil, Trash, CloseCircleOutline } from "react-ionicons";
 import TaskElement from "../taskElement/TaskElement";
 
-import { updateList, deleteList, getListById } from "../../redux/reducers/listsReducer";
+import {
+  updateList,
+  deleteList,
+  getListById,
+} from "../../redux/reducers/listsReducer";
 import { createTask } from "../../redux/reducers/tasksReducer";
 import { getProjectById } from "../../redux/reducers/projectsReducer";
 
@@ -28,7 +32,7 @@ const ListCard = ({ listObject, projectId }) => {
   };
 
   const toggleEditList = () => {
-    setIsEditingList(!isEditingList)
+    setIsEditingList(!isEditingList);
   };
 
   const handleDeleteList = async () => {

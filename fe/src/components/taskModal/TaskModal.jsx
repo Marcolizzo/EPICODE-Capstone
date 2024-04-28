@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, Form, Dropdown, ButtonGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { SquareOutline, CheckboxOutline } from "react-ionicons";
 import ChecklistElement from "../checklistElement/ChecklistElement";
 import CommentsSection from "../commentsSection/CommentsSection";
 
@@ -236,7 +235,7 @@ const TaskModal = ({ isOpen, onClose, taskObject, listObject, projectId }) => {
               : null}
           </div>
 
-          <CommentsSection taskObject={task}/>
+          <CommentsSection taskObject={taskObject} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onClose}>

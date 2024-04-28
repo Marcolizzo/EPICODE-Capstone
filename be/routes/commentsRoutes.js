@@ -4,7 +4,7 @@ const verified = require('../middelwares/verifyToken');
 const { getComments, getCommentById, createComment, updateComment, deleteComment } = require('../controllers/commentController');
 
 
-router.get('/comments', verified, getComments);
+router.get('/tasks/:taskId/comments', verified, getComments);
 router.get('/comments/:commentId', verified, getCommentById);
 router.post('/tasks/:taskId/comments', verified, createComment);
 router.patch('/comments/:commentId', verified, updateComment);
