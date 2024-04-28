@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Form, Dropdown, ButtonGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { Button, Modal, Form, Dropdown, ButtonGroup } from "react-bootstrap";
+import { CloseCircle } from 'react-ionicons'
 import ChecklistElement from "../checklistElement/ChecklistElement";
 import CommentsSection from "../commentsSection/CommentsSection";
 
@@ -94,7 +95,12 @@ const TaskModal = ({ isOpen, onClose, taskObject, listObject, projectId }) => {
       <Modal show={isOpen} onHide={onClose} size="lg" centered>
         <Modal.Header>
           <Modal.Title className="w-100">
-            <div>{taskObject.title}</div>
+            <div className="d-flex justify-content-between">
+              <div>
+              {taskObject.title}
+              </div>
+              <CloseCircle onClick={onClose} width={"30px"} height={"30px"} color={"red"}/>
+              </div>
             <div className="d-flex justify-content-between">
               <div className="fs-6">in list {listObject.title}</div>
               <div className="fs-6">
@@ -237,12 +243,6 @@ const TaskModal = ({ isOpen, onClose, taskObject, listObject, projectId }) => {
 
           <CommentsSection taskObject={taskObject} />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={onClose}>
-            Close
-          </Button>
-          <Button variant="primary">Save Changes</Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

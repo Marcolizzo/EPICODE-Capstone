@@ -1,14 +1,14 @@
-import React from 'react'
-import MainLayout from '../layouts/MainLayout'
-import HomePage from '../components/homePage/HomePage'
+import React from "react";
+import MainLayout from "../layouts/MainLayout";
+import HomePage from "../components/homePage/HomePage";
 
 const Home = () => {
+  return (
+    <div className="d-flex">
+      <MainLayout/>
+      <HomePage/>
+    </div>
+  );
+};
 
-    return (
-        <MainLayout>
-            <HomePage />
-        </MainLayout>
-    )
-}
-
-export default Home
+export default Home;

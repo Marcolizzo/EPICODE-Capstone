@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Form, Button } from "react-bootstrap";
+import { Card, Form, Button, Container } from "react-bootstrap";
 import { CloseCircleOutline } from "react-ionicons";
 
 import { getLists, createList } from "../../redux/reducers/listsReducer";
@@ -35,10 +35,10 @@ const ProjectPage = ({ projectId }) => {
   useEffect(() => {
     doDispatch(getLists(projectId));
     doDispatch(getProjectById(projectId));
-  }, [dispatch, isCreatingList]);
+  }, [dispatch, isCreatingList, projectId]);
 
   return (
-    <>
+    <div className="ms-3">
       <h1>Hello, this is the project: {project.title}</h1>
       <div className="d-flex gap-2">
         {isCreatingList ? (
@@ -84,7 +84,7 @@ const ProjectPage = ({ projectId }) => {
             ))
           : null}
       </div>
-    </>
+    </div>
   );
 };
 

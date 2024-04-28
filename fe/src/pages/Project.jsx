@@ -7,9 +7,10 @@ const Project = () => {
   const { projectId } = useParams();
 
   return (
-    <MainLayout>
+    <div className="d-flex">
+      <MainLayout/>
       <ProjectPage projectId={projectId} />
-    </MainLayout>
+    </div>
   );
 };
 

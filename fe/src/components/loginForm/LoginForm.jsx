@@ -19,8 +19,10 @@ const LoginForm = ({ toggleForm, signupSuccessful }) => {
   };
 
   useEffect(() => {
-    if (status === "succeeded") {
-      navigate("/home");
+    if (status === "succeeded" && !isLoading) {
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
     }
   }, [status]);
 

@@ -1,0 +1,147 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Button,
+  Modal,
+  Form,
+  Dropdown,
+  ButtonGroup,
+  Image,
+} from "react-bootstrap";
+
+const UserModal = ({ isOpen, onClose, user }) => {
+  const doDispatch = useDispatch();
+  const [dispatch, setDispatch] = useState();
+
+  const [formData, setFormData] = useState({
+    firstName: user ? user.firstName : "",
+    lastName: user ? user.lastName : "",
+    username: user ? user.username : "",
+    email: user ? user.email : "",
+  });
+
+  const [isEditing, setIsEditing] = useState({
+    firstName: false,
+    lastName: false,
+    username: false,
+  });
+
+  const handleToggleEdit = (field, toggleValue) => {
+    setIsEditing({
+      ...isEditing,
+      [field]: toggleValue,
+    });
+  };
+
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    // doDispatch(signupUser(formData));
+  };
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    console.log(isEditing.firstName)
+  }, [isOpen])
+
+  return (
+    <>
+      <Modal show={isOpen} onHide={onClose} size="lg" centered>
+        <Modal.Header>
+          <Modal.Title className="w-100">
+            <div>Edit Profile</div>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="text-center">
+            <Image
+              src={user ? user.profileImg : ""}
+              roundedCircle
+              style={{ maxHeight: "200px" }}
+            />
+            <a href="#">Edit</a>
+          </div>
+
+          {/* <Form onSubmit={onSubmit}>
+            <Form.Group className="mb-3" controlId="formBasicFirstName">
+              <Form.Label className="text-center">First Name:</Form.Label>
+              {isEditing.firstName ? (
+                <Form.Control
+                  onChange={onChangeInput}
+                  type="text"
+                  name="firstName"
+                  disabled={!isEditing.firstName}
+                  placeholder="Enter First Name"
+                  value={formData.firstName}
+                />
+              ) : (
+                <div>
+                  {formData.firstName}
+                  <a href="#" className="ms-5" onClick={setIsEditing()}>
+                    Edit
+                  </a>
+                </div>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicLastName">
+              <Form.Label className="text-center">Last Name:</Form.Label>
+              {isEditing.lastName ? (
+                <Form.Control
+                  onChange={onChangeInput}
+                  type="text"
+                  name="lastName"
+                  disabled={!isEditing.lastName}
+                  placeholder="Enter Last Name"
+                  value={formData.lastName}
+                />
+              ) : (
+                <div>
+                  {formData.lastName}
+                  <a href="#" className="ms-5" onClick={setIsEditing()}>
+                    Edit
+                  </a>
+                </div>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicUsername">
+              <Form.Label className="text-center">Username:</Form.Label>
+              {isEditing.username ? (
+                <Form.Control
+                  onChange={onChangeInput}
+                  type="text"
+                  name="username"
+                  disabled={!isEditing.username}
+                  placeholder="Enter Username"
+                  value={formData.username}
+                />
+              ) : (
+                <div>
+                  {formData.username}
+                  <a href="#" className="ms-5" onClick={setIsEditing()}>
+                    Edit
+                  </a>
+                </div>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label className="text-center">Email address:</Form.Label>
+              <div>{formData.email}</div>
+            </Form.Group>
+          </Form> */}
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
+
+export default UserModal;

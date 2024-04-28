@@ -25,7 +25,7 @@ const ListCard = ({ listObject, projectId }) => {
   const [isCreatingTask, setIsCreatingTask] = useState(false);
   const [TaskTitle, setTaskTitle] = useState("");
 
-  const onEditList = async (e) => {
+  const handleEditList = async (e) => {
     e.preventDefault();
     setDispatch(await doDispatch(updateList([list._id, listTitle])));
     toggleEditList();
@@ -74,20 +74,19 @@ const ListCard = ({ listObject, projectId }) => {
         <Card.Body>
           <div className="d-flex justify-content-between gap-1">
             {isEditingList ? (
-              <Form onSubmit={onEditList}>
+              <Form onSubmit={handleEditList}>
                 <Form.Control
                   type="text"
                   autoFocus
+                  onBlur={handleEditList}
                   onChange={onChangeListInput}
-                  onBlur={onEditList}
                   value={listTitle}
                 />
               </Form>
             ) : (
-              <Card.Header>{listTitle}</Card.Header>
+              <div onClick={toggleEditList}>{listTitle}</div>
             )}
             <div className="d-flex gap-1">
-              <Pencil onClick={toggleEditList} />
               <Trash onClick={handleDeleteList} />
             </div>
           </div>

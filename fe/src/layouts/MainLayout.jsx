@@ -1,10 +1,10 @@
 import React from 'react'
-import NavigationBar from '../components/navigationBar/NavigationBar'
+import NavPanel from '../components/sidebar/Sidebar'
 
 const MainLayout = ({ children }) => {
     return (
         <>
-            <NavigationBar />
+            <NavPanel/>
             {children}
         </>
     )

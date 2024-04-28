@@ -30,8 +30,8 @@ const loginSlice = createSlice({
     logout: (state) => {
       console.log("Logging out, clearing state and local storage");
       localStorage.removeItem("auth");
-      state.token = null;
-      state.isLoading = false
+      // state.token = null;
+      state.isLoading = false;
       state.error = null;
     },
   },
@@ -56,4 +56,5 @@ const loginSlice = createSlice({
   },
 });
 
+export const { logout } = loginSlice.actions;
 export default loginSlice.reducer;
