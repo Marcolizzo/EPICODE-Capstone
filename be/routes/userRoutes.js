@@ -18,7 +18,7 @@ router.delete('/users/:id', verified, deleteUser);
 
 // Update profile image route
 router.post('/users/:id/updateProfileImage', verified, updateProfileImage);
-router.delete('/users/:id/removeProfileImage', verified, removeProfileImage);
+router.post('/users/:id/removeProfileImage', verified, removeProfileImage);
 
 // Change password route
 router.patch('/users/:id/changePassword', [verified, validate(changePasswordValidation)], changePassword);

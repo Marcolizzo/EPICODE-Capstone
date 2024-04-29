@@ -15,6 +15,18 @@ export const getUserById = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "updateUser",
+  async ([userId, formdata], { rejectWithValue }) => {
+    try {
+      const res = await AxiosClient.patch(`/users/${userId}`, formdata);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const updateProfileImage = createAsyncThunk(
   "updateProfileImage",
   async ([userId, fileData], { rejectWithValue }) => {
@@ -35,6 +47,18 @@ export const updateProfileImage = createAsyncThunk(
   }
 );
 
+export const deleteProfileImage = createAsyncThunk(
+  "deleteProfileImage",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await AxiosClient.post(`/users/${userId}/removeProfileImage`);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   status: "idle",
@@ -47,6 +71,7 @@ const userSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
+      // GET USER BY ID
       .addCase(getUserById.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -60,7 +85,22 @@ const userSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
+      // UPDATE USER
+      .addCase(updateUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
 
+      // UPDATE PROFILE IMAGE
       .addCase(updateProfileImage.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -71,6 +111,21 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateProfileImage.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+
+      // DELETE PROFILE IMAGE
+      .addCase(deleteProfileImage.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteProfileImage.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.message = action.payload;
+        state.error = null;
+      })
+      .addCase(deleteProfileImage.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

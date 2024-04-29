@@ -79,13 +79,15 @@ const TaskElement = ({ projectId, listObject, task }) => {
           </div>
         )}
       </ListGroup.Item>
-      <TaskModal
-        isOpen={isTaskModalOpen}
-        onClose={handleCloseTaskModal}
-        taskObject={task}
-        listObject={listObject}
-        projectId={projectId}
-      />
+      {task ? (
+        <TaskModal
+          isOpen={isTaskModalOpen}
+          onClose={handleCloseTaskModal}
+          taskObject={task}
+          listObject={listObject}
+          projectId={projectId}
+        />
+      ) : null}
     </>
   );
 };

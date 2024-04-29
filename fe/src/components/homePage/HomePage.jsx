@@ -15,7 +15,7 @@ const HomePage = () => {
   const projects = useSelector((state) => state.getProjects.projects);
   const userId = jwtDecode(useSelector((state) => state.login.token)).userId;
   const user = useSelector((state) => state.getUserById.user);
-  
+
   const firstName = user ? user.firstName : "";
   const [isProjectModalOpen, setProjectModalOpen] = useState(false);
 
@@ -43,12 +43,11 @@ const HomePage = () => {
         >
           + Create new Project
         </Button>
-        {projects.map((project) => (
-          <ProjectCard
-            key={project._id}
-            projectObject={project}
-          />
-        ))}
+        {projects
+          ? projects.map((project) => (
+              <ProjectCard key={project._id} projectObject={project} />
+            ))
+          : null}
       </Container>
       <ProjectModal
         isOpen={isProjectModalOpen}

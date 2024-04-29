@@ -3,7 +3,10 @@ import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { deleteProject, getProjects } from "../../redux/reducers/projectsReducer";
+import {
+  deleteProject,
+  getProjects,
+} from "../../redux/reducers/projectsReducer";
 import ProjectModal from "../projectsModal/ProjectsModal";
 
 const ProjectCard = ({ projectObject }) => {
@@ -13,9 +16,13 @@ const ProjectCard = ({ projectObject }) => {
 
   const project = projectObject;
   const creator = project.createdBy;
-  
+
   const [isDeleting, setIsDeleting] = useState(false);
   const [isProjectModalOpen, setProjectModalOpen] = useState(false);
+
+  const getFullName = (firstName, lastName) => {
+    return firstName + " " + lastName;
+  };
 
   const onDelete = async (e) => {
     const confirmDelete = window.confirm("Are you sure?");
@@ -49,7 +56,7 @@ const ProjectCard = ({ projectObject }) => {
         <div className="d-flex justify-content-between">
           <div className="card-header">
             Created by:{" "}
-            {creator ? creator.firstName + " " + creator.lastName : "Unknown"}
+            {creator ? getFullName(creator.firstName, creator.lastName) : "Unknown"}
           </div>
           <div className="d-flex gap-2">
             <Button variant="warning" onClick={handleOpenProjectModal}>
@@ -65,12 +72,14 @@ const ProjectCard = ({ projectObject }) => {
           <p className="card-text">{project.description}</p>
         </div>
       </div>
-      <ProjectModal
-        isOpen={isProjectModalOpen}
-        onClose={handleCloseProjectMOdal}
-        isEditing={true}
-        projectObject={project}
-      />
+      {project ? (
+        <ProjectModal
+          isOpen={isProjectModalOpen}
+          onClose={handleCloseProjectMOdal}
+          isEditing={true}
+          projectObject={project}
+        />
+      ) : null}
     </>
   );
 };

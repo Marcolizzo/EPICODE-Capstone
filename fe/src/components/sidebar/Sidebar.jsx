@@ -20,15 +20,19 @@ const NavPanel = () => {
   const isProjectsLoading = useSelector((state) => state.getProjects.isLoading);
   const userId = jwtDecode(useSelector((state) => state.login.token)).userId;
   const user = useSelector((state) => state.getUserById.user);
-  
-  const [isUserModalOpen, setUserModalOpen] = useState(false)
+
+  const [isUserModalOpen, setUserModalOpen] = useState(false);
+
+  const getFullName = (firstName, lastName) => {
+    return firstName + " " + lastName;
+  };
 
   const handleOpenUserModal = () => {
-    setUserModalOpen(true)
-  }
+    setUserModalOpen(true);
+  };
   const handleCloseUserModal = () => {
-    setUserModalOpen(false)
-  }
+    setUserModalOpen(false);
+  };
 
   const handleLogout = () => {
     doDispatch(logout());
@@ -40,64 +44,68 @@ const NavPanel = () => {
   };
 
   useEffect(() => {
-    doDispatch(getProjects());
     doDispatch(getUserById(userId));
+    doDispatch(getProjects());
   }, [dispatch]);
 
   return (
     <>
-    <Sidebar>
-      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        <div>Header</div>
-        <div style={{ flex: 1, marginBottom: "32px" }}>
-          <Menu>
-            <MenuItem onClick={() => navigate("/home")}>Home</MenuItem>
-          </Menu>
-          <Menu>
-            <MenuItem onClick={handleOpenUserModal}>
-              <Image
-                src={user ? user.profileImg : ""}
-                roundedCircle
-                style={{ maxHeight: "25px" }}
-              />
-              Your profile
-            </MenuItem>
-          </Menu>
-          <div>
-            <div>Your projects</div>
-            {projects ? (
-              <ListGroup>
-                {projects.map((project) => (
-                  <ListGroup.Item
-                    key={project._id}
-                    onClick={() => handleNavigateToProject(project._id)}
-                  >
-                    {project.title}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            ) : (
-              <div>nessun progetto </div>
-            )}
-          </div>
-        </div>
-        <Button
-          disabled={isProjectsLoading}
-          variant="danger"
-          className="d-flex gap-2 justify-content-center"
-          onClick={handleLogout}
+      <Sidebar>
+        <div
+          style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
-          <PowerOutline />
-          Logout
-        </Button>
-      </div>
-    </Sidebar>
+          <div>Header</div>
+          <div style={{ flex: 1, marginBottom: "32px" }}>
+            <Menu>
+              <MenuItem onClick={() => navigate("/home")}>Home</MenuItem>
+            </Menu>
+            <Menu>
+              <MenuItem onClick={handleOpenUserModal}>
+                <Image
+                  src={user ? user.profileImg : ""}
+                  roundedCircle
+                  style={{ maxHeight: "25px" }}
+                />
+                {user ? getFullName(user.firstName, user.lastName) : "Your Profile"}
+              </MenuItem>
+            </Menu>
+            <div>
+              <div>Your projects</div>
+              {projects ? (
+                <ListGroup>
+                  {projects.map((project) => (
+                    <ListGroup.Item
+                      key={project._id}
+                      onClick={() => handleNavigateToProject(project._id)}
+                    >
+                      {project.title}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              ) : (
+                <div>nessun progetto </div>
+              )}
+            </div>
+          </div>
+          <Button
+            disabled={isProjectsLoading}
+            variant="danger"
+            className="d-flex gap-2 justify-content-center"
+            onClick={handleLogout}
+          >
+            <PowerOutline />
+            Logout
+          </Button>
+        </div>
+      </Sidebar>
 
-    <UserModal
-    isOpen={isUserModalOpen}
-    onClose={handleCloseUserModal}
-    user={user}
-    />
+      {user ? (
+        <UserModal
+          isOpen={isUserModalOpen}
+          onClose={handleCloseUserModal}
+          userObject={user}
+        />
+      ) : null}
     </>
   );
 };
