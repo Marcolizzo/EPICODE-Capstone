@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Modal, Image, Form } from "react-bootstrap";
+import { Modal, Image, Form, Button } from "react-bootstrap";
 
 import {
   getUserById,
   updateUser,
   updateProfileImage,
   deleteProfileImage,
+  updatePassword,
 } from "../../redux/reducers/usersReducer";
 
 const UserModal = ({ isOpen, onClose, userObject }) => {
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
   const user = userObject;
+  const updatePasswordState = useSelector((state) => state.updatePassword);
 
   const [formData, setFormData] = useState({
     firstName: user ? user.firstName : "",
@@ -20,6 +22,9 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
     username: user ? user.username : "",
     email: user ? user.email : "",
   });
+
+  const [passwordFormData, setPasswordFormData] = useState({});
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
 
   const [newImg, setNewImg] = useState(null);
   const [isEditingImage, setIsEditingImage] = useState(false);
@@ -48,8 +53,6 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
 
   const handleDeleteProfileImage = async () => {
     setDispatch(await doDispatch(deleteProfileImage(user._id)));
-    // CLOUDINARY_DEFAULT_PROFILE_IMAGE_ID='Capstone/gkwxk0laqxes0hpbut4m'
-    // CLOUDINARY_DEFAULT_PROFILE_IMAGE_URL='https://res.cloudinary.com/duo0rtksl/image/upload/v1712915588/Capstone/gkwxk0laqxes0hpbut4m.png'
   };
 
   const toggleEditForm = (field, toggleValue) => {
@@ -62,7 +65,7 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
   const handleUpdateUserData = async (e) => {
     e.preventDefault();
     setDispatch(await doDispatch(updateUser([user._id, formData])));
-    setIsEditingForm({firstName: false, lastName: false, username: false})
+    setIsEditingForm({ firstName: false, lastName: false, username: false });
   };
 
   const onChangeInput = (e) => {
@@ -73,6 +76,24 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
     });
   };
 
+  const toggleEditPassword = () => {
+    setIsEditingPassword(!isEditingPassword);
+  };
+
+  const onChangeInputPassword = (e) => {
+    const { name, value } = e.target;
+    setPasswordFormData({
+      ...passwordFormData,
+      [name]: value,
+    });
+  };
+
+  const handleUpdatePassword = async () => {
+    setDispatch(await doDispatch(updatePassword([user._id, passwordFormData])));
+    setPasswordFormData({});
+    toggleEditPassword();
+  };
+
   useEffect(() => {
     if (user) doDispatch(getUserById(user._id));
   }, [dispatch]);
@@ -81,7 +102,7 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
     <>
       <Modal show={isOpen} onHide={onClose} size="lg" centered>
         <Modal.Header>
-          <Modal.Title className="w-100"></Modal.Title>
+          <Modal.Title className="w-100">Edit Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="text-center">
@@ -116,18 +137,28 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
           </div>
 
           <Form onSubmit={handleUpdateUserData}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label className="text-center">Email address:</Form.Label>
+              <Form.Control
+                onChange={onChangeInput}
+                type="text"
+                disabled={true}
+                value={formData.email}
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="formBasicFirstName">
               <Form.Label className="text-center">First Name:</Form.Label>
-              {isEditingForm.firstName ? (
-                <div>
-                  <Form.Control
-                    onChange={onChangeInput}
-                    type="text"
-                    name="firstName"
-                    disabled={!isEditingForm.firstName}
-                    placeholder="Enter First Name"
-                    value={formData.firstName}
-                  />
+              <div className="d-flex">
+                <Form.Control
+                  onChange={onChangeInput}
+                  type="text"
+                  name="firstName"
+                  disabled={!isEditingForm.firstName}
+                  placeholder="Enter First Name"
+                  value={formData.firstName}
+                />
+                {isEditingForm.firstName ? (
                   <div className="d-flex gap-2">
                     <a href="#" onClick={handleUpdateUserData}>
                       Save
@@ -141,33 +172,32 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
                       Cancel
                     </a>
                   </div>
-                </div>
-              ) : (
-                <div>
-                  {formData.firstName}
-                  <a
-                    href="#"
-                    className="ms-5"
-                    onClick={() => toggleEditForm("firstName", true)}
-                  >
-                    Edit
-                  </a>
-                </div>
-              )}
+                ) : (
+                  <div>
+                    <a
+                      href="#"
+                      className="ms-5"
+                      onClick={() => toggleEditForm("firstName", true)}
+                    >
+                      Edit
+                    </a>
+                  </div>
+                )}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicLastName">
               <Form.Label className="text-center">Last Name:</Form.Label>
-              {isEditingForm.lastName ? (
-                <div>
-                  <Form.Control
-                    onChange={onChangeInput}
-                    type="text"
-                    name="lastName"
-                    disabled={!isEditingForm.lastName}
-                    placeholder="Enter Last Name"
-                    value={formData.lastName}
-                  />
+              <div className="d-flex">
+                <Form.Control
+                  onChange={onChangeInput}
+                  type="text"
+                  name="lastName"
+                  disabled={!isEditingForm.lastName}
+                  placeholder="Enter Last Name"
+                  value={formData.lastName}
+                />
+                {isEditingForm.lastName ? (
                   <div className="d-flex gap-2">
                     <a href="#" onClick={handleUpdateUserData}>
                       Save
@@ -179,33 +209,32 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
                       Cancel
                     </a>
                   </div>
-                </div>
-              ) : (
-                <div>
-                  {formData.lastName}
-                  <a
-                    href="#"
-                    className="ms-5"
-                    onClick={() => toggleEditForm("lastName", true)}
-                  >
-                    Edit
-                  </a>
-                </div>
-              )}
+                ) : (
+                  <div>
+                    <a
+                      href="#"
+                      className="ms-5"
+                      onClick={() => toggleEditForm("lastName", true)}
+                    >
+                      Edit
+                    </a>
+                  </div>
+                )}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicUsername">
               <Form.Label className="text-center">Username:</Form.Label>
-              {isEditingForm.username ? (
-                <div>
-                  <Form.Control
-                    onChange={onChangeInput}
-                    type="text"
-                    name="username"
-                    disabled={!isEditingForm.username}
-                    placeholder="Enter Username"
-                    value={formData.username}
-                  />
+              <div className="d-flex">
+                <Form.Control
+                  onChange={onChangeInput}
+                  type="text"
+                  name="username"
+                  disabled={!isEditingForm.username}
+                  placeholder="Enter Username"
+                  value={formData.username}
+                />
+                {isEditingForm.username ? (
                   <div className="d-flex gap-2">
                     <a href="#" onClick={handleUpdateUserData}>
                       Save
@@ -217,24 +246,84 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
                       Cancel
                     </a>
                   </div>
+                ) : (
+                  <div>
+                    <a
+                      href="#"
+                      className="ms-5"
+                      onClick={() => toggleEditForm("username", true)}
+                    >
+                      Edit
+                    </a>
+                  </div>
+                )}
+              </div>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label className="text-center">Password:</Form.Label>
+
+              {/* {updatePasswordState ? (
+                updatePasswordState.status === "succeeded" ? (
+                  <div className="alert alert-success" role="alert">
+                    You've successfully changed your password!
+                  </div>
+                ) : (
+                  <div className="alert alert-success" role="alert">
+                    {updatePasswordState.error}
+                  </div>
+                )
+              ) : null} */}
+
+              {isEditingPassword ? (
+                <div>
+                  <Form.Group>
+                    <Form.Label className="text-center">
+                      Current password:
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="currentPassword"
+                      placeholder="Insert your current password..."
+                      onChange={onChangeInputPassword}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="text-center">
+                      New password:
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="newPassword"
+                      placeholder="Insert your new password..."
+                      onChange={onChangeInputPassword}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="text-center">
+                      Confirm new password:
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="confirmNewPassword"
+                      placeholder="Confirm your new password..."
+                      onChange={onChangeInputPassword}
+                    />
+                  </Form.Group>
+
+                  <div className="d-flex gap-2 mt-3">
+                    <Button variant="success" onClick={handleUpdatePassword}>
+                      Save
+                    </Button>
+                    <Button variant="danger" onClick={toggleEditPassword}>
+                      Discard changes
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <div>
-                  {formData.username}
-                  <a
-                    href="#"
-                    className="ms-5"
-                    onClick={() => toggleEditForm("username", true)}
-                  >
-                    Edit
-                  </a>
+                  <Button onClick={toggleEditPassword}>Change Password</Button>
                 </div>
               )}
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label className="text-center">Email address:</Form.Label>
-              <div>{formData.email}</div>
             </Form.Group>
           </Form>
         </Modal.Body>

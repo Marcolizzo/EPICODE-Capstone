@@ -18,6 +18,8 @@ const store = configureStore({
     getUserById: usersReducer,
     updateUser: usersReducer,
     updateProfileImage: usersReducer,
+    deleteProfileImage: usersReducer,
+    updatePassword: usersReducer,
 
     // PROJECTS
     getProjects: projectsReducer,

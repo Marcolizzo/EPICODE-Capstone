@@ -59,11 +59,27 @@ export const deleteProfileImage = createAsyncThunk(
   }
 );
 
+export const updatePassword = createAsyncThunk(
+  "updatePassword",
+  async ([userId, formdata], { rejectWithValue }) => {
+    try {
+      const res = await AxiosClient.patch(
+        `/users/${userId}/changePassword`,
+        formdata
+      );
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   status: "idle",
   error: null,
   image: null,
+  message: null,
 };
 
 const userSlice = createSlice({
@@ -128,6 +144,21 @@ const userSlice = createSlice({
       .addCase(deleteProfileImage.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+
+      // UPDATE PASSWORD
+      .addCase(updatePassword.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.message = action.payload;
+        state.error = null;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload.message;
       });
   },
 });
