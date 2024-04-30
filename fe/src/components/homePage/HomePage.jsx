@@ -35,7 +35,7 @@ const HomePage = () => {
   return (
     <>
       <Container>
-        <h1 className="text-center">Welcome {firstName}!</h1>
+        <h1>Welcome {firstName}!</h1>
         <Button
           className="mb-2"
           variant="success"
@@ -45,7 +45,7 @@ const HomePage = () => {
         </Button>
         {projects
           ? projects.map((project) => (
-              <ProjectCard key={project._id} projectObject={project} />
+              <ProjectCard key={project._id} projectObject={project} userId={userId}/>
             ))
           : null}
       </Container>

@@ -6,9 +6,11 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Button, ListGroup, Image } from "react-bootstrap";
 import { PowerOutline } from "react-ionicons";
 import UserModal from "../userModal/UserModal";
+import InvitatationModal from "../invitationModal/InvitationModal";
 
 import { getProjects } from "../../redux/reducers/projectsReducer";
 import { getUserById } from "../../redux/reducers/usersReducer";
+import { updateInvitation } from "../../redux/reducers/invitationsReducer";
 import { logout } from "../../redux/reducers/loginReducer";
 
 const NavPanel = () => {
@@ -20,8 +22,12 @@ const NavPanel = () => {
   const isProjectsLoading = useSelector((state) => state.getProjects.isLoading);
   const userId = jwtDecode(useSelector((state) => state.login.token)).userId;
   const user = useSelector((state) => state.getUserById.user);
+  // const invitations = useSelector((state) => state.getInvitations.invitations);
+  const invitations = user ? user.invitations : [];
+  const [modalInvitation, setModalInvitation] = useState();
 
   const [isUserModalOpen, setUserModalOpen] = useState(false);
+  const [isInvitationModalOpen, setInvitationModalOpen] = useState(false);
 
   const getFullName = (firstName, lastName) => {
     return firstName + " " + lastName;
@@ -43,9 +49,19 @@ const NavPanel = () => {
     navigate(`../projects/${projectId}`, { replace: true });
   };
 
+  const handleOpenInvitationModal = async (invitation) => {
+    await setModalInvitation(invitation);
+    setInvitationModalOpen(true);
+  };
+
+  const handleCloseInvitationModal = () => {
+    setInvitationModalOpen(false);
+  };
+
   useEffect(() => {
     doDispatch(getUserById(userId));
     doDispatch(getProjects());
+    // doDispatch(getInvitations());
   }, [dispatch]);
 
   return (
@@ -66,7 +82,9 @@ const NavPanel = () => {
                   roundedCircle
                   style={{ maxHeight: "25px" }}
                 />
-                {user ? getFullName(user.firstName, user.lastName) : "Your Profile"}
+                {user
+                  ? getFullName(user.firstName, user.lastName)
+                  : "Your Profile"}
               </MenuItem>
             </Menu>
             <div>
@@ -83,7 +101,25 @@ const NavPanel = () => {
                   ))}
                 </ListGroup>
               ) : (
-                <div>nessun progetto </div>
+                <div>You have no projects... </div>
+              )}
+            </div>
+
+            <div>
+              <div className="mt-5">Invitations</div>
+              {invitations ? (
+                <ListGroup>
+                  {invitations.map((invitation) => (
+                    <ListGroup.Item
+                      key={invitation._id}
+                      onClick={() => handleOpenInvitationModal(invitation)}
+                    >
+                      New invitation from {invitation.sender.username}!
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              ) : (
+                <div>You have no invitation... </div>
               )}
             </div>
           </div>
@@ -104,6 +140,14 @@ const NavPanel = () => {
           isOpen={isUserModalOpen}
           onClose={handleCloseUserModal}
           userObject={user}
+        />
+      ) : null}
+
+      {modalInvitation ? (
+        <InvitatationModal
+          isOpen={isInvitationModalOpen}
+          onClose={handleCloseInvitationModal}
+          invitation={modalInvitation}
         />
       ) : null}
     </>

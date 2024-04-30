@@ -10,7 +10,7 @@ const ItemModel = require("../models/itemsModel");
 const getProjects = async (req, res) => {
   try {
     const user = await UserModel.findById(req.user.userId);
-    const projects = await ProjectModel.find({_id: { $in: user.projects }})
+    const projects = await ProjectModel.find({ _id: { $in: user.projects } })
       .populate("createdBy members")
       .populate({ path: "lists", populate: { path: "tasks" } });
 
@@ -164,13 +164,22 @@ const deleteProject = async (req, res) => {
     // Delete all lists associated with the project
     await ListModel.deleteMany({ _id: { $in: project.lists } });
 
+    // Find all members associated with the project
+    const members = await UserModel.find({ _id: { $in: project.members } });
+    for (const member of members) {
+      // Remove the project ID from the user's projects array
+      await UserModel.findByIdAndUpdate(member._id, {
+        $pull: { projects: projectId },
+      });
+    }
+
     // Delete the project from the database
     await ProjectModel.findByIdAndDelete(projectId);
 
-    // Update the user's projects array with the deleted project ID
-    await UserModel.findByIdAndUpdate(req.user.userId, {
-      $pull: { projects: projectId },
-    });
+    // // Update the user's projects array with the deleted project ID
+    // await UserModel.findByIdAndUpdate(req.user.userId, {
+    //   $pull: { projects: projectId },
+    // });
 
     res.status(200).send(`Project with ID ${projectId} succesfully removed.`);
   } catch (e) {

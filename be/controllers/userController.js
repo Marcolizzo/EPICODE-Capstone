@@ -14,10 +14,11 @@ const getUsers = async (req, res) => {
   try {
     const users = await UserModel.find()
       .populate("projects")
-      // .populate({
-      //   path: "invitations",
-      //   populate: { path: "recipient sender project" },
-      // });
+      .populate({
+        path: "invitations",
+        populate: { path: "recipient sender project" },
+      });
+
     res.status(200).send(users);
   } catch (e) {
     res.status(500).send({
@@ -35,10 +36,10 @@ const getUserById = async (req, res) => {
   try {
     const user = await UserModel.findById(id)
       .populate("projects")
-      // .populate({
-      //   path: "invitations",
-      //   populate: { path: "recipient sender project" },
-      // });
+      .populate({
+        path: "invitations",
+        populate: { path: "recipient sender project" },
+      });
 
     if (!user) {
       return res.status(404).send({
@@ -47,7 +48,18 @@ const getUserById = async (req, res) => {
       });
     }
 
-    res.status(200).send(user);
+    const userResponse = {
+      profileImg: user.profileImg,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      projects: user.projects,
+      invitations: user.invitations,
+    };
+
+    res.status(200).send(userResponse);
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
@@ -225,4 +237,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };
+module.exports = { getUserById, createUser, updateUser, deleteUser };

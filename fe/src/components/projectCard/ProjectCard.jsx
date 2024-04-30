@@ -9,7 +9,7 @@ import {
 } from "../../redux/reducers/projectsReducer";
 import ProjectModal from "../projectsModal/ProjectsModal";
 
-const ProjectCard = ({ projectObject }) => {
+const ProjectCard = ({ projectObject, userId }) => {
   const navigate = useNavigate();
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
@@ -56,16 +56,20 @@ const ProjectCard = ({ projectObject }) => {
         <div className="d-flex justify-content-between">
           <div className="card-header">
             Created by:{" "}
-            {creator ? getFullName(creator.firstName, creator.lastName) : "Unknown"}
+            {creator
+              ? getFullName(creator.firstName, creator.lastName)
+              : "Unknown"}
           </div>
-          <div className="d-flex gap-2">
-            <Button variant="warning" onClick={handleOpenProjectModal}>
-              Edit
-            </Button>
-            <Button variant="danger" onClick={onDelete}>
-              Delete
-            </Button>
-          </div>
+          {creator._id === userId ? (
+            <div className="d-flex gap-2">
+              <Button variant="warning" onClick={handleOpenProjectModal}>
+                Edit
+              </Button>
+              <Button variant="danger" onClick={onDelete}>
+                Delete
+              </Button>
+            </div>
+          ) : null}
         </div>
         <div className="card-body" onClick={openProjectPage}>
           <h5 className="card-title">{project.title}</h5>

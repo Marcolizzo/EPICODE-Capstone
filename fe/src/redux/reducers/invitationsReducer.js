@@ -27,12 +27,12 @@ export const getInvitationById = createAsyncThunk(
 
 export const createInvitation = createAsyncThunk(
   "createInvitation",
-  async ([projectId, recipientEmail, message], { rejectWithValue }) => {
+  async ([projectId, formData], { rejectWithValue }) => {
     try {
-      const res = await AxiosClient.post(`projects/${projectId}/invitations`, {
-        recipientEmail: recipientEmail,
-        message: message,
-      });
+      const res = await AxiosClient.post(
+        `projects/${projectId}/invitations`,
+        formData
+      );
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

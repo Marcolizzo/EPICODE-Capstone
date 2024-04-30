@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Form, Button, Container } from "react-bootstrap";
 import { CloseCircleOutline } from "react-ionicons";
+import { jwtDecode } from "jwt-decode";
+import InvitatationModal from "../invitationModal/InvitationModal";
 
 import { getLists, createList } from "../../redux/reducers/listsReducer";
 import { getProjectById } from "../../redux/reducers/projectsReducer";
@@ -11,10 +13,12 @@ const ProjectPage = ({ projectId }) => {
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
   const project = useSelector((state) => state.getProjectById.project);
+  const userId = jwtDecode(useSelector((state) => state.login.token)).userId;
   const lists = project ? project.lists : [];
 
   const [isCreatingList, setIsCreatingList] = useState(false);
   const [newListTitle, setnewListTitle] = useState("");
+  const [isInvitationModalOpen, setInvitationModalOpen] = useState(false);
 
   const toggleCreateList = () => {
     setnewListTitle("");
@@ -32,6 +36,14 @@ const ProjectPage = ({ projectId }) => {
     toggleCreateList();
   };
 
+  const handleOpenInvitationModal = () => {
+    setInvitationModalOpen(true);
+  };
+
+  const handleCloseInvitationModal = () => {
+    setInvitationModalOpen(false);
+  };
+
   useEffect(() => {
     doDispatch(getLists(projectId));
     doDispatch(getProjectById(projectId));
@@ -39,8 +51,14 @@ const ProjectPage = ({ projectId }) => {
 
   return (
     <div className="ms-3">
-      <h1>Hello, this is the project: {project.title}</h1>
-      <div className="d-flex gap-2">
+      <h1>{project.title}</h1>
+      {project.createdBy ? (
+        userId === project.createdBy._id ? (
+          <Button onClick={handleOpenInvitationModal}>Invite new member</Button>
+        ) : null
+      ) : null}
+
+      <div className="mt-3">
         {isCreatingList ? (
           <Card className="p-1" style={{ maxHeight: "8rem" }}>
             <Card.Body className="d-flex justify-content-between gap-1">
@@ -73,7 +91,9 @@ const ProjectPage = ({ projectId }) => {
             + Add new List
           </Button>
         )}
+      </div>
 
+      <div className="d-flex gap-2 mt-4">
         {lists
           ? lists.map((list) => (
               <ListCard
@@ -84,6 +104,14 @@ const ProjectPage = ({ projectId }) => {
             ))
           : null}
       </div>
+
+      {project ? (
+        <InvitatationModal
+          isOpen={isInvitationModalOpen}
+          onClose={handleCloseInvitationModal}
+          project={project}
+        />
+      ) : null}
     </div>
   );
 };
