@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Modal, Image, Form, Button } from "react-bootstrap";
 
 import {
   getUserById,
   updateUser,
+  deleteUser,
   updateProfileImage,
   deleteProfileImage,
   updatePassword,
@@ -13,6 +15,7 @@ import {
 const UserModal = ({ isOpen, onClose, userObject }) => {
   const doDispatch = useDispatch();
   const [dispatch, setDispatch] = useState();
+  const navigate = useNavigate();
   const user = userObject;
   const updatePasswordState = useSelector((state) => state.updatePassword);
 
@@ -92,6 +95,15 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
     setDispatch(await doDispatch(updatePassword([user._id, passwordFormData])));
     setPasswordFormData({});
     toggleEditPassword();
+  };
+
+  const handleDeleteUser = async () => {
+    const confirmDelete = window.confirm("Are you sure?");
+
+    if (confirmDelete) {
+      setDispatch(await doDispatch(deleteUser(user._id)));
+      navigate("/");
+    }
   };
 
   useEffect(() => {
@@ -326,6 +338,11 @@ const UserModal = ({ isOpen, onClose, userObject }) => {
               )}
             </Form.Group>
           </Form>
+          <div className="text-end mt-5">
+            <Button variant="danger" onClick={handleDeleteUser}>
+              Delete account
+            </Button>
+          </div>
         </Modal.Body>
       </Modal>
     </>

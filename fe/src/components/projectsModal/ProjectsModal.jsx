@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { createProject, getProjects, updateProject } from "../../redux/reducers/projectsReducer";
+import {
+  createProject,
+  getProjects,
+  updateProject,
+} from "../../redux/reducers/projectsReducer";
 
 const ProjectModal = ({ isOpen, onClose, projectObject, isEditing }) => {
   const doDispatch = useDispatch();
@@ -23,10 +27,8 @@ const ProjectModal = ({ isOpen, onClose, projectObject, isEditing }) => {
 
   const onCreateProject = async () => {
     setDispatch(await doDispatch(createProject(formData)));
-    if (!error) {
-      onClose();
-      setFormData({});
-    }
+    onClose();
+    setFormData({});
   };
 
   const onUpdateProject = async () => {

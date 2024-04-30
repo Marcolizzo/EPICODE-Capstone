@@ -14,10 +14,10 @@ const getUsers = async (req, res) => {
   try {
     const users = await UserModel.find()
       .populate("projects")
-      .populate({
-        path: "invitations",
-        populate: { path: "recipient sender project" },
-      });
+      // .populate({
+      //   path: "invitations",
+      //   populate: { path: "recipient sender project" },
+      // });
     res.status(200).send(users);
   } catch (e) {
     res.status(500).send({
@@ -35,10 +35,10 @@ const getUserById = async (req, res) => {
   try {
     const user = await UserModel.findById(id)
       .populate("projects")
-      .populate({
-        path: "invitations",
-        populate: { path: "recipient sender project" },
-      });
+      // .populate({
+      //   path: "invitations",
+      //   populate: { path: "recipient sender project" },
+      // });
 
     if (!user) {
       return res.status(404).send({

@@ -74,6 +74,18 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  "deleteUser",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await AxiosClient.delete(`/users/${userId}`);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   status: "idle",
@@ -159,7 +171,22 @@ const userSlice = createSlice({
       .addCase(updatePassword.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload.message;
-      });
+      })
+
+      // DELETE USER
+      .addCase(deleteUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.message = action.payload
+        state.error = action.payload.message;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload.message;
+      })
   },
 });
 
