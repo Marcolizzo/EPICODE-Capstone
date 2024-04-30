@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
     projects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'projectModel'
+    }],
+    invitations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'invitationModel'
     }]
 
 }, { timestamps: true, strict: true })

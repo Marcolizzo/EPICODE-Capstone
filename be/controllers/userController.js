@@ -12,7 +12,12 @@ const ItemModel = require("../models/itemsModel");
 // Define function to get all users
 const getUsers = async (req, res) => {
   try {
-    const users = await UserModel.find().populate("projects");
+    const users = await UserModel.find()
+      .populate("projects")
+      .populate({
+        path: "invitations",
+        populate: { path: "recipient sender project" },
+      });
     res.status(200).send(users);
   } catch (e) {
     res.status(500).send({
@@ -28,7 +33,12 @@ const getUserById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await UserModel.findById(id).populate("projects");
+    const user = await UserModel.findById(id)
+      .populate("projects")
+      .populate({
+        path: "invitations",
+        populate: { path: "recipient sender project" },
+      });
 
     if (!user) {
       return res.status(404).send({

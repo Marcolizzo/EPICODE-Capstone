@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "../reducers/loginReducer";
 import signupReducer from "../reducers/signupReducer";
 import usersReducer from "../reducers/usersReducer";
+import invitationsReducer from "../reducers/invitationsReducer";
 import projectsReducer from "../reducers/projectsReducer";
 import listsReducer from "../reducers/listsReducer";
 import tasksReducer from "../reducers/tasksReducer";
@@ -20,6 +21,13 @@ const store = configureStore({
     updateProfileImage: usersReducer,
     deleteProfileImage: usersReducer,
     updatePassword: usersReducer,
+
+    // INVITATIONS
+    getInvitations: invitationsReducer,
+    getInvitationById: invitationsReducer,
+    createInvitation: invitationsReducer,
+    updateInvitation: invitationsReducer,
+    deleteInvitation: invitationsReducer,
 
     // PROJECTS
     getProjects: projectsReducer,
