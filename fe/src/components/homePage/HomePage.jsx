@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Button } from "react-bootstrap";
+import styles from "./HomePage.module.scss"
 import { jwtDecode } from "jwt-decode";
 
 import { getProjects } from "../../redux/reducers/projectsReducer";
@@ -34,8 +35,13 @@ const HomePage = () => {
 
   return (
     <>
-      <Container>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          Home
+        </div>
+        <div className={styles.welcome}>
         <h1>Welcome {firstName}!</h1>
+        </div>
         <Button
           className="mb-2"
           variant="success"
@@ -48,7 +54,7 @@ const HomePage = () => {
               <ProjectCard key={project._id} projectObject={project} userId={userId}/>
             ))
           : null}
-      </Container>
+      </div>
       <ProjectModal
         isOpen={isProjectModalOpen}
         onClose={handleCloseProjectMOdal}

@@ -1,0 +1,33 @@
+$bg-color: #242337;
+$primary: #b5e67b;
+$text: #bec1dc;
+
+.container {
+    background-color: $bg-color;
+    border: $primary solid 2px;
+    border-radius: 20px;
+    overflow: hidden;
+    color: white;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col {
+    padding: 0px;
+    margin-block: auto;
+}
+
+.image {
+    padding: 0px;
+    @media (max-width: 992px) {
+        display: none;
+    }
+}
+
+.card {
+    padding: 10px;
+}
