@@ -51,13 +51,13 @@ const LoginForm = ({ toggleForm, signupSuccessful }) => {
                                     <p className="text-center">Please enter your login and password!</p>
 
                                     {error && (
-                                        <div className="alert alert-danger" role="alert">
+                                        <div className={`${styles.alert} ${styles.failed}`} role="alert">
                                             {error}
                                         </div>
                                     )}
 
                                     {signupSuccessful && !error && !isLoading && (
-                                        <div className="alert alert-success" role="alert">
+                                        <div className={`${styles.alert} ${styles.success}`} role="alert">
                                             You've successfully signed up! Please enter your email and password for
                                             login.
                                         </div>

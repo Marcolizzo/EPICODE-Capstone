@@ -8,10 +8,20 @@ $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberati
 
 // COLORS
 $primary: #b5e67b;
-$white: #bec1dc;
-$input-placeholder-color: $white;
+$text: #bec1dc;
+$secondary: #414063;
+$danger: #fb8e8e;
+
+$input-placeholder-color: $text;
 $input-bg: transparent;
 $input-color: $primary;
+
+$modal-content-bg: #2c2b4c;
+$modal-content-color: $text;
+$modal-header-border-color: $primary;
+$btn-close-color: $primary;
+
+$btn-border-radius: 20px;
 
 // $body-color: $primary;
 // $body-bg: map-remove($body-bg, $white)

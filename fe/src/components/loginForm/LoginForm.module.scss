@@ -31,3 +31,19 @@ $text: #bec1dc;
 .card {
     padding: 10px;
 }
+
+.alert {
+    border-radius: 5px;
+    padding: 15px;
+}
+.success {
+    color: #475930;
+    border: solid 2px $primary;
+    background-color: $primary;
+}
+
+.failed {
+    color: #742121;
+    border: solid 2px #fb8e8e;
+    background-color: #fb8e8e;
+}

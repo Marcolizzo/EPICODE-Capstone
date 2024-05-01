@@ -1,5 +1,6 @@
 $text: #bec1dc;
 $light-blue-2: #414063;
+$primary: #b5e67b;
 
 .container {
     // padding-left: 2rem;
@@ -17,4 +18,21 @@ $light-blue-2: #414063;
 .welcome {
     padding-block: 1.5rem;
     padding-left: 2rem;
+    font-size: 2rem;
+    border-bottom: solid 4px $light-blue-2;
+}
+
+.body {
+    padding-inline: 2rem;
+    padding-block: 1.5rem;
+}
+
+.btn_create {
+    border: 0px;
+    color: $text;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
 }
