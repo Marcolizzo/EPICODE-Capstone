@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Container, Button } from 'react-bootstrap'
-import Emoji from 'react-emoji-render'
-import { Add } from 'react-ionicons'
-import styles from './HomePage.module.scss'
 import { jwtDecode } from 'jwt-decode'
+import { Button } from 'react-bootstrap'
+import { FaPlus } from 'react-icons/fa';
+
+import styles from './HomePage.module.scss'
 
 import { getProjects } from '../../redux/reducers/projectsReducer'
 import { getUserById } from '../../redux/reducers/usersReducer'
@@ -46,7 +46,8 @@ const HomePage = () => {
 
                 <div className={styles.body}>
                     <Button variant='secondary' onClick={handleOpenProjectModal} className={styles.btn_create}>
-                        <Add color={'#b5e67b'} height="25px" width="25px" /> Create Project
+                        <FaPlus className={styles.fa_plus}/>
+                        Create Project
                     </Button>
                     {projects
                         ? projects.map((project) => (

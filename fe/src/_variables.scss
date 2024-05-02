@@ -9,8 +9,9 @@ $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberati
 // COLORS
 $primary: #b5e67b;
 $text: #bec1dc;
-$secondary: #414063;
+$secondary: #2d2c45;
 $danger: #fb8e8e;
+$bg-color: #242337;
 
 $input-placeholder-color: $text;
 $input-bg: transparent;
@@ -20,6 +21,10 @@ $modal-content-bg: #2c2b4c;
 $modal-content-color: $text;
 $modal-header-border-color: $primary;
 $btn-close-color: $primary;
+
+$list-group-color: $text;
+$list-group-bg: $secondary;
+$list-group-border-width: 0px;
 
 $btn-border-radius: 20px;
 

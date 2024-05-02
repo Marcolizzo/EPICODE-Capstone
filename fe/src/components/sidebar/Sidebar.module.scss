@@ -1,11 +1,12 @@
 $text: #bec1dc;
 $light-blue-2: #414063;
 $primary: #b5e67b;
+$bg-color: #242337;
 
 .sidebar {
     color: $text;
     border-right: solid 4px $light-blue-2 !important;
-    padding-inline: 10px;
+    padding-inline: 15px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -15,10 +16,11 @@ $primary: #b5e67b;
     display: flex;
     align-items: center;
     align-self: center;
+    gap: 15px;
     justify-content: center;
     color: $text;
-    gap: 5px;
     font-weight: 700;
+    font-size: 20px;
     background-color: #232237;
     border: 0px;
     border-radius: 40px;
@@ -30,11 +32,78 @@ $primary: #b5e67b;
 .btn_logout:hover {
     background-color: $light-blue-2;
     color: white;
-    border: 2px solid $primary;
 }
 
-.menu_items {
+.powerOff {
+    color: $primary;
+    transition: 0.3s;
+}
+
+.btn_logout:hover .powerOff {
+    color: red;
+}
+
+.btn_items {
+    background-color: transparent;
+    border: 0px;
+    color: $text;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     border-radius: 40px;
-    background-color: red;
     max-width: fit-content;
+    font-size: 20px;
+    transition: 0.3s;
+    margin-bottom: 10px;
+    padding-block: 15px;
+    padding-inline: 20px;
+}
+
+.btn_items:hover {
+    background-color: #b6e67b18;
+    color: $primary;
+}
+
+.listTitle{
+    border-bottom: 2px solid $primary;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.listItem{
+    border-bottom: 3px solid $light-blue-2;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0,5s;
+}
+
+.listItem:hover {
+    cursor: pointer;
+    color: $primary;
+    border-bottom: $primary solid 3px;
+}
+
+.listItemInvitation{
+    color: $primary;
+    border-left: 3px solid $primary;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0,5s;
+}
+
+.listItemInvitation:hover{
+    cursor: pointer;
+    background-color: $bg-color;
+}
+
+.emptyList{
+    font-style: oblique;
+    text-align: center;
+    color: #bec1dc7c;
 }
