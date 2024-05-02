@@ -1,0 +1,40 @@
+$text: #bec1dc;
+$light-blue-2: #414063;
+$primary: #b5e67b;
+
+.sidebar {
+    color: $text;
+    border-right: solid 4px $light-blue-2 !important;
+    padding-inline: 10px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn_logout {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    color: $text;
+    gap: 5px;
+    font-weight: 700;
+    background-color: #232237;
+    border: 0px;
+    border-radius: 40px;
+    padding-block: 20px;
+    padding-inline: 40px;
+    margin-bottom: 1.5rem;
+}
+
+.btn_logout:hover {
+    background-color: $light-blue-2;
+    color: white;
+    border: 2px solid $primary;
+}
+
+.menu_items {
+    border-radius: 40px;
+    background-color: red;
+    max-width: fit-content;
+}
