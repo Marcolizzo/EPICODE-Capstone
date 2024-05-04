@@ -6,26 +6,22 @@ import styles from './LoginForm.module.scss'
 import { useNavigate } from 'react-router-dom'
 
 const LoginForm = ({ toggleForm, signupSuccessful }) => {
-    const dispatch = useDispatch()
+    const doDispatch = useDispatch()
+    const [dispatch, setDispatch] = useState()
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState({})
     const isLoading = useSelector((state) => state.login.isLoading)
     const error = useSelector((state) => state.login.error)
-    const status = useSelector((state) => state.login.status)
+    // const status = useSelector((state) => state.login.status)
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        dispatch(loginUser(formData))
-    }
-
-    useEffect(() => {
-        if (status === 'succeeded' && !isLoading) {
-            setTimeout(() => {
-                navigate('/home')
-            }, 1000)
+        const login = await doDispatch(loginUser(formData))
+        if (login.payload.statusCode === 200 && !isLoading) {
+            navigate('/home')
         }
-    }, [status])
+    }
 
     const onChangeInput = (e) => {
         const { name, value } = e.target
@@ -72,6 +68,7 @@ const LoginForm = ({ toggleForm, signupSuccessful }) => {
                                                     type="email"
                                                     name="email"
                                                     placeholder="Enter email"
+                                                    autoComplete="on"
                                                 />
                                             </Form.Group>
 
@@ -82,6 +79,7 @@ const LoginForm = ({ toggleForm, signupSuccessful }) => {
                                                     type="password"
                                                     name="password"
                                                     placeholder="Password"
+                                                    autoComplete="current-password"
                                                 />
                                             </Form.Group>
                                             {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">

@@ -1,7 +1,9 @@
 $text: #bec1dc;
 $light-blue-2: #414063;
 $primary: #b5e67b;
-$bg-color: #242337;
+$bg-color: #1f1e30;
+$bg-hover: #b6e67b18;
+
 
 .sidebar {
     color: $text;
@@ -10,6 +12,15 @@ $bg-color: #242337;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: $bg-color;
+}
+
+.image {
+    aspect-ratio: 1/1;
+    max-width: 25px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .btn_logout {
@@ -60,7 +71,7 @@ $bg-color: #242337;
 }
 
 .btn_items:hover {
-    background-color: #b6e67b18;
+    background-color: bg-hover;
     color: $primary;
 }
 

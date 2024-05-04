@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import { Button } from 'react-bootstrap'
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaBars } from 'react-icons/fa'
 
 import styles from './HomePage.module.scss'
 
+import { setToggled } from '../../redux/reducers/navPanelReducer'
 import { getProjects } from '../../redux/reducers/projectsReducer'
 import { getUserById } from '../../redux/reducers/usersReducer'
 import ProjectCard from '../projectCard/ProjectCard'
@@ -18,6 +19,8 @@ const HomePage = () => {
     const projects = useSelector((state) => state.getProjects.projects)
     const userId = jwtDecode(useSelector((state) => state.login.token)).userId
     const user = useSelector((state) => state.getUserById.user)
+    const toggled = useSelector((state) => state.navPanel.toggled)
+    const broken = useSelector((state) => state.navPanel.broken)
 
     const firstName = user ? user.firstName : ''
     const [isProjectModalOpen, setProjectModalOpen] = useState(false)
@@ -32,28 +35,37 @@ const HomePage = () => {
 
     useEffect(() => {
         doDispatch(getProjects())
-        doDispatch(getUserById(userId))
+        if (userId) {
+            doDispatch(getUserById([userId]))
+        }
     }, [dispatch, userId])
 
     return (
         <>
             <div className={styles.container}>
-                <div className={styles.header}>Home</div>
+                <div className={styles.header}>
+                    <Button variant="secondary" className={styles.btn_toggler}>
+                        <FaBars onClick={() => doDispatch(setToggled(!toggled))} />
+                    </Button>
+                    Home
+                </div>
 
                 <div className={styles.welcome}>
                     <div>👋 Hi {firstName}!</div>
                 </div>
 
                 <div className={styles.body}>
-                    <Button variant='secondary' onClick={handleOpenProjectModal} className={styles.btn_create}>
-                        <FaPlus className={styles.fa_plus}/>
+                    <Button variant="secondary" onClick={handleOpenProjectModal} className={styles.btn_create}>
+                        <FaPlus className={styles.fa_plus} />
                         Create Project
                     </Button>
-                    {projects
-                        ? projects.map((project) => (
-                              <ProjectCard key={project._id} projectObject={project} userId={userId} />
-                          ))
-                        : null}
+                    {projects && (
+                        <div className={styles.projectContainer}>
+                            {projects.map((project) => (
+                                <ProjectCard key={project._id} projectObject={project} userId={userId} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
             <ProjectModal isOpen={isProjectModalOpen} onClose={handleCloseProjectMOdal} isEditing={false} />

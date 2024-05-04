@@ -11,7 +11,7 @@ const ProtectedRoutes = () => {
 
     useEffect(() => {
         if (!isAuth) {
-            navigate("/");
+            navigate("/login");
         }
     }, [isAuth, navigate]);
 

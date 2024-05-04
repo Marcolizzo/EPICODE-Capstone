@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
+
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'
 import { Button, ListGroup, Image } from 'react-bootstrap'
 import { FaPowerOff } from 'react-icons/fa'
 import { HiOutlineHome, HiOutlineFolder } from 'react-icons/hi'
-import {IoMailUnreadOutline} from 'react-icons/io5'
-import styles from './Sidebar.module.scss'
+import { IoMailUnreadOutline } from 'react-icons/io5'
+import styles from './NavPanel.module.scss'
+
 import UserModal from '../userModal/UserModal'
 import InvitatationModal from '../invitationModal/InvitationModal'
-
 import { getProjects } from '../../redux/reducers/projectsReducer'
 import { getUserById } from '../../redux/reducers/usersReducer'
 import { logout } from '../../redux/reducers/loginReducer'
+import { setToggled, setBroken } from '../../redux/reducers/navPanelReducer'
 
 const NavPanel = () => {
     const doDispatch = useDispatch()
@@ -24,16 +26,14 @@ const NavPanel = () => {
     const isProjectsLoading = useSelector((state) => state.getProjects.isLoading)
     const userId = jwtDecode(useSelector((state) => state.login.token)).userId
     const user = useSelector((state) => state.getUserById.user)
-    
+    const toggled = useSelector((state) => state.navPanel.toggled)
+    const broken = useSelector((state) => state.navPanel.broken)
+
     const invitations = user ? user.invitations : []
     const [modalInvitation, setModalInvitation] = useState()
 
     const [isUserModalOpen, setUserModalOpen] = useState(false)
     const [isInvitationModalOpen, setInvitationModalOpen] = useState(false)
-
-    const [collapsed, setCollapsed] = useState(false);
-    const [toggled, setToggled] = useState(false);
-    const [broken, setBroken] = useState(false);
 
     const getFullName = (firstName, lastName) => {
         return firstName + ' ' + lastName
@@ -48,7 +48,7 @@ const NavPanel = () => {
 
     const handleLogout = () => {
         doDispatch(logout())
-        navigate('/')
+        navigate('/login')
     }
 
     const handleNavigateToProject = (projectId) => {
@@ -65,47 +65,47 @@ const NavPanel = () => {
     }
 
     useEffect(() => {
-        doDispatch(getUserById(userId))
+        doDispatch(getUserById([userId]))
         doDispatch(getProjects())
     }, [dispatch])
 
     return (
         <>
             <Sidebar
-                collapsed={collapsed}
-                toggled={toggled}
                 backgroundColor="rgb(0, 0, 0, 0)"
                 className={styles.sidebar}
-                width='300px'
-                breakPoint='lg'
-                onBreakPoint={setBroken}
+                width="300px"
+                breakPoint="lg"
+                toggled={toggled}
+                onBreakPoint={() => doDispatch(setBroken)}
+                onBackdropClick={() => doDispatch(setToggled(false))}
             >
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <div>Header</div>
                     <div style={{ flex: 1, marginBottom: '32px' }}>
                         <Menu>
-                            <Button className={styles.btn_items} onClick={() => navigate('/home')}>
+                            <Button variant='secondary' className={styles.btn_items} onClick={() => navigate('/home')}>
                                 <HiOutlineHome />
                                 Home
                             </Button>
                         </Menu>
                         <Menu>
-                            <Button className={styles.btn_items} onClick={handleOpenUserModal}>
-                                <Image src={user ? user.profileImg : ''} roundedCircle style={{ maxHeight: '20px' }} />
+                            <Button variant='secondary' className={styles.btn_items} onClick={handleOpenUserModal}>
+                                <Image src={user ? user.profileImg : ''} roundedCircle className={styles.image} />
                                 {user ? getFullName(user.firstName, user.lastName) : 'Your Profile'}
                             </Button>
                         </Menu>
                         <div>
                             <div className={styles.listTitle}>Projects</div>
                             {projects ? (
-                                <ListGroup >
+                                <ListGroup>
                                     {projects.map((project) => (
                                         <ListGroup.Item
                                             key={project._id}
                                             onClick={() => handleNavigateToProject(project._id)}
                                             className={styles.listItem}
                                         >
-                                            <HiOutlineFolder/>
+                                            <HiOutlineFolder />
                                             {project.title}
                                         </ListGroup.Item>
                                     ))}
@@ -125,7 +125,7 @@ const NavPanel = () => {
                                             onClick={() => handleOpenInvitationModal(invitation)}
                                             className={styles.listItemInvitation}
                                         >
-                                            <IoMailUnreadOutline/>
+                                            <IoMailUnreadOutline />
                                             New invitation from {invitation.sender.username}!
                                         </ListGroup.Item>
                                     ))}
@@ -147,15 +147,15 @@ const NavPanel = () => {
                 </div>
             </Sidebar>
 
-            {user ? <UserModal isOpen={isUserModalOpen} onClose={handleCloseUserModal} userObject={user} /> : null}
+            {user && <UserModal isOpen={isUserModalOpen} onClose={handleCloseUserModal} userObject={user} userId={userId}/>}
 
-            {modalInvitation ? (
+            {modalInvitation && (
                 <InvitatationModal
                     isOpen={isInvitationModalOpen}
                     onClose={handleCloseInvitationModal}
                     invitation={modalInvitation}
                 />
-            ) : null}
+            )}
         </>
     )
 }

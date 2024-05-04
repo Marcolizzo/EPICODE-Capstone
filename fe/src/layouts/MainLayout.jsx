@@ -1,12 +1,12 @@
 import React from 'react'
-import NavPanel from '../components/sidebar/Sidebar'
+import NavPanel from '../components/navPanel/NavPanel'
 
 const MainLayout = ({ children }) => {
     return (
-        <>
-            <NavPanel/>
+        <div className="d-flex">
+            <NavPanel />
             {children}
-        </>
+        </div>
     )
 }
 

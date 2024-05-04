@@ -9,6 +9,7 @@ import tasksReducer from "../reducers/tasksReducer";
 import checklistsReducer from "../reducers/checklistsReducer";
 import itemsReducer from "../reducers/itemsReducer";
 import commentsReducer from "../reducers/commentsReducer";
+import navPanelReducer from "../reducers/navPanelReducer";
 
 const store = configureStore({
   reducer: {
@@ -71,6 +72,9 @@ const store = configureStore({
     createComment: commentsReducer,
     updateComment: commentsReducer,
     deleteComment: commentsReducer,
+
+    // NAVPANEL
+    navPanel: navPanelReducer
   },
 });
 

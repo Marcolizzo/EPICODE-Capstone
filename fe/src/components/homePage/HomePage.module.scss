@@ -2,9 +2,9 @@ $text: #bec1dc;
 $light-blue-2: #414063;
 $primary: #b5e67b;
 $hoverPill: #232432;
+$bg-hover: #b6e67b18;
 
 .container {
-    // padding-left: 2rem;
     width: 100%;
     color: $text;
 }
@@ -14,6 +14,27 @@ $hoverPill: #232432;
     border-bottom: solid 4px $light-blue-2;
     padding-left: 2rem;
     padding-block: 1.5rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn_toggler {
+    color: $text;
+    border-radius: 15px;
+    font-size: 25px;
+    background-color: transparent;
+    border: 0px;
+    transition: 0.5s;
+
+    @media (min-width: 992px) {
+        display: none;
+    }
+}
+
+.btn_toggler:hover {
+    background-color: $hoverPill;
+    color: $primary;
 }
 
 .welcome {
@@ -41,7 +62,7 @@ $hoverPill: #232432;
     padding: 15px;
 }
 
-.btn_create:hover{
+.btn_create:hover {
     background-color: $hoverPill;
     color: $primary;
 }
@@ -49,4 +70,10 @@ $hoverPill: #232432;
 .fa_plus {
     color: $primary;
     font-size: 1.2rem;
+}
+
+.projectContainer{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }

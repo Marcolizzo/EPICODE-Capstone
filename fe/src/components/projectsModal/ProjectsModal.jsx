@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
+import { FaFloppyDisk, FaXmark, FaFolderPlus } from 'react-icons/fa6'
 import styles from './ProjectModal.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { createProject, getProjects, updateProject } from '../../redux/reducers/projectsReducer'
@@ -86,16 +87,16 @@ const ProjectModal = ({ isOpen, onClose, projectObject, isEditing }) => {
                             />
                         </Form.Group>
                         <div className={styles.footer}>
-                            <Button
-                                onClick={isEditing ? onUpdateProject : onCreateProject}
-                                variant={isEditing ? 'warning' : 'primary'}
-                                disabled={isLoading}
-                            >
-                                {isEditing ? (isLoading ? 'Editing...' : 'Edit') : isLoading ? 'Creating...' : 'Create'}
-                            </Button>
-                            <Button variant="danger" onClick={closeModal}>
-                                Cancel
-                            </Button>
+                            <div className={styles.btn_save}>
+                                {isEditing ? (
+                                    <FaFloppyDisk onClick={onUpdateProject} />
+                                ) : (
+                                    <FaFolderPlus onClick={onCreateProject} />
+                                )}
+                            </div>
+                            <div className={styles.btn_discard}>
+                                <FaXmark onClick={closeModal} />
+                            </div>
                         </div>
                     </Form>
                 </Modal.Body>
