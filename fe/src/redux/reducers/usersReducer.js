@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const getUserById = createAsyncThunk(
   "getUserById",
-  async ([userId], { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
       const res = await AxiosClient.get(`/users/${userId}`);
       return res.data;

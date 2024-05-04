@@ -36,7 +36,7 @@ const HomePage = () => {
     useEffect(() => {
         doDispatch(getProjects())
         if (userId) {
-            doDispatch(getUserById([userId]))
+            doDispatch(getUserById(userId))
         }
     }, [dispatch, userId])
 

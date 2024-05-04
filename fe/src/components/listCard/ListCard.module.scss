@@ -1,0 +1,118 @@
+$text: #bec1dc;
+$secondary: #2d2c45;
+$light-blue-2: #414063;
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-hover: #b6e67b18;
+$bg-color: #1f1e30;
+$danger: #fb8e8e;
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: $secondary;
+    // max-width: 500px;
+    // min-width: 250px;
+    width: 300px;
+    padding-block: 15px;
+    padding-inline: 15px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.card:hover{
+    background-color: $light-blue-2;
+}
+
+.card:hover .title{
+    background-color: $secondary;
+}
+
+.btn_delete_list{
+    padding-block: 5px;
+    padding-inline: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.btn_delete_list:hover{
+    cursor: pointer;
+    background-color: $hoverPill;
+    color: $danger;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 2px $primary;
+    padding-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.title{
+    background-color: $light-blue-2;
+    padding-block: 5px;
+    padding-inline: 15px;
+    flex-grow: 1;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.title:hover{
+    cursor: pointer;
+    background-color: $hoverPill !important;
+    color: $primary;
+}
+
+.btn_addTask{
+    width: fit-content;
+    background-color: $light-blue-2;
+    font-size: 18px;
+    padding-inline: 10px;
+    border-radius: 5px;
+    color: $primary;
+    margin-bottom: 10px;
+}
+
+.btn_addTask:hover{
+    cursor: pointer;
+    background-color: $hoverPill;
+}
+
+.btn_container{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-block: 10px;
+}
+
+.btn_save,
+.btn_discard {
+    padding-inline: 10px;
+    padding-bottom: 4px;
+    border-radius: 5px;
+    background-color: $light-blue-2;
+    transition: 0.3s;
+}
+
+.btn_save {
+    color: #b6e67b;
+}
+
+.btn_discard {
+    color: #fb8e8e;
+}
+
+.btn_save:hover,
+.btn_discard:hover {
+    cursor: pointer;
+    background-color: $bg-color;
+}
+
+.noTasks{
+    font-style: italic;
+    color: #bec1dc98;
+}

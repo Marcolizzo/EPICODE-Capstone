@@ -108,3 +108,10 @@ $bg-color: #1f1e30;
     cursor: pointer;
     background-color: $bg-color;
 }
+
+.lists{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}

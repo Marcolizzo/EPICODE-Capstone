@@ -95,22 +95,24 @@ const ProjectPage = ({ projectId }) => {
                             Add new List
                         </div>
                     )}
-                </div>
 
-                <div className="d-flex gap-2 mt-4">
-                    {lists
-                        ? lists.map((list) => <ListCard key={list._id} listObject={list} projectId={projectId} />)
-                        : null}
+                {lists && (
+                    <div className={styles.lists}>
+                        {lists.map((list) => (
+                            <ListCard key={list._id} listObject={list} projectId={projectId} />
+                        ))}
+                    </div>
+                )}
                 </div>
             </div>
 
-            {project ? (
+            {project && (
                 <InvitatationModal
                     isOpen={isInvitationModalOpen}
                     onClose={handleCloseInvitationModal}
                     project={project}
                 />
-            ) : null}
+            )}
         </>
     )
 }

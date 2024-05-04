@@ -39,13 +39,13 @@ const InvitatationModal = ({ isOpen, onClose, project, invitation }) => {
 
     const handleDeleteInvitation = async () => {
         await doDispatch(deleteInvitation(invitation._id))
-        doDispatch(getUserById([invitation.recipient._id]))
+        doDispatch(getUserById(invitation.recipient._id))
         onClose()
     }
 
     const handleAcceptInvitation = async () => {
         await doDispatch(updateInvitation([invitation._id, invitation.project._id, true, true]))
-        doDispatch(getUserById([invitation.recipient._id]))
+        doDispatch(getUserById(invitation.recipient._id))
         doDispatch(getProjects(invitation.recipient._id))
         onClose()
     }

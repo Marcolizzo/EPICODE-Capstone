@@ -65,7 +65,7 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
 
     const handleDeleteProfileImage = async () => {
         setDispatch(await doDispatch(deleteProfileImage(userId)))
-        const user = await doDispatch(getUserById([userId]))
+        const user = await doDispatch(getUserById(userId))
         setPreviewImg(user && user.payload.profileImg)
     }
 
@@ -127,7 +127,7 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
     }
 
     useEffect(() => {
-        doDispatch(getUserById([userId]))
+        doDispatch(getUserById(userId))
         doDispatch(getProjects())
     }, [dispatch])
 

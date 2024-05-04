@@ -71,7 +71,7 @@ const NavPanel = () => {
     }
 
     useEffect(() => {
-        doDispatch(getUserById([userId]))
+        doDispatch(getUserById(userId))
         doDispatch(getProjects())
     }, [dispatch])
 

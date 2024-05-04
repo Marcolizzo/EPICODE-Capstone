@@ -3,6 +3,7 @@ $primary: #b5e67b;
 $secondary: #2d2c45;
 $text: #bec1dc;
 $bg-color: #1f1e30;
+$danger: #fb8e8e;
 
 .card {
     display: flex;
@@ -55,7 +56,7 @@ $bg-color: #1f1e30;
     padding-inline: 10px;
     padding-block: 3px;
     border-radius: 10px;
-    color: #fb8e8e;
+    color: $danger;
     transition: 0.3s;
     font-size: 18px;
 }
