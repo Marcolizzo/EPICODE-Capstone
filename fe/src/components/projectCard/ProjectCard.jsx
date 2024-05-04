@@ -55,14 +55,14 @@ const ProjectCard = ({ projectObject, userId }) => {
         <>
             <div className={styles.card} onClick={openProjectPage}>
                 <div>
-                    {creator._id === userId && (
-                        <div className={styles.header}>
-                            <div className="card-title">{project.title}</div>
+                    <div className={styles.header}>
+                        <div className="card-title">{project.title}</div>
+                        {creator._id === userId && (
                             <div className={styles.btn_edit} onClick={handleOpenProjectModal}>
                                 <FaPenToSquare />
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
                 <div>
                     {project.description ? (
@@ -77,9 +77,11 @@ const ProjectCard = ({ projectObject, userId }) => {
                         <Image src={creator && creator.profileImg} roundedCircle className={styles.image} />
                         {creator ? getFullName(creator.firstName, creator.lastName) : 'Unknown'}
                     </div>
-                    <div className={styles.btn_discard}>
-                        <FaTrashCan onClick={onDelete} />
-                    </div>
+                    {creator._id === userId && (
+                        <div className={styles.btn_discard}>
+                            <FaTrashCan onClick={onDelete} />
+                        </div>
+                    )}
                 </div>
             </div>
             {project ? (

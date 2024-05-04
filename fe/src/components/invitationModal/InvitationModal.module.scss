@@ -1,0 +1,57 @@
+$primary: #b5e67b;
+$light-blue-2: #414063;
+$danger: #fb8e8e;
+$text: #bec1dc;
+$bg-color: #1f1e30;
+
+.footer{
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn_save,
+.btn_discard {
+    padding-inline: 10px;
+    padding-bottom: 4px;
+    border-radius: 20px;
+    background-color: $light-blue-2;
+    transition: 0.3s;
+}
+
+.btn_save {
+    color: #b6e67b;
+}
+
+.btn_discard {
+    color: #fb8e8e;
+}
+
+.btn_save:hover,
+.btn_discard:hover {
+    cursor: pointer;
+    background-color: $bg-color;
+}
+
+.message{
+    color: $primary;
+    padding-left: 10px;
+    padding-block: 10px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    background-color: #414063;
+    border-radius: 5px;
+    height: 100%;
+}
+
+span{
+    color: $primary;
+}
+
+.btn_accept,
+.btn_decline{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

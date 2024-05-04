@@ -4,15 +4,10 @@ $primary: #b5e67b;
 $hoverPill: #232432;
 $bg-hover: #b6e67b18;
 
-.container {
-    width: 100%;
-    color: $text;
-}
-
 .header {
     font-size: 2rem;
     border-bottom: solid 4px $light-blue-2;
-    padding-left: 2rem;
+    padding-inline: 2rem;
     padding-block: 1.5rem;
     display: flex;
     gap: 10px;

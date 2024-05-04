@@ -42,7 +42,7 @@ const HomePage = () => {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className='w-100'>
                 <div className={styles.header}>
                     <Button variant="secondary" className={styles.btn_toggler}>
                         <FaBars onClick={() => doDispatch(setToggled(!toggled))} />

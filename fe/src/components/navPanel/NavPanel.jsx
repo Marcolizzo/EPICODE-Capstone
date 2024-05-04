@@ -28,7 +28,7 @@ const NavPanel = () => {
     const user = useSelector((state) => state.getUserById.user)
     const toggled = useSelector((state) => state.navPanel.toggled)
     const broken = useSelector((state) => state.navPanel.broken)
-
+    
     const invitations = user ? user.invitations : []
     const [modalInvitation, setModalInvitation] = useState()
 
@@ -51,8 +51,14 @@ const NavPanel = () => {
         navigate('/login')
     }
 
+    const handleNavigateToHome = () => {
+        navigate('/home')
+        doDispatch(setToggled(!toggled))
+    }
+
     const handleNavigateToProject = (projectId) => {
         navigate(`../projects/${projectId}`, { replace: true })
+        doDispatch(setToggled(!toggled))
     }
 
     const handleOpenInvitationModal = async (invitation) => {
@@ -84,13 +90,13 @@ const NavPanel = () => {
                     <div>Header</div>
                     <div style={{ flex: 1, marginBottom: '32px' }}>
                         <Menu>
-                            <Button variant='secondary' className={styles.btn_items} onClick={() => navigate('/home')}>
+                            <Button variant="secondary" className={styles.btn_items} onClick={handleNavigateToHome}>
                                 <HiOutlineHome />
                                 Home
                             </Button>
                         </Menu>
                         <Menu>
-                            <Button variant='secondary' className={styles.btn_items} onClick={handleOpenUserModal}>
+                            <Button variant="secondary" className={styles.btn_items} onClick={handleOpenUserModal}>
                                 <Image src={user ? user.profileImg : ''} roundedCircle className={styles.image} />
                                 {user ? getFullName(user.firstName, user.lastName) : 'Your Profile'}
                             </Button>
@@ -117,7 +123,7 @@ const NavPanel = () => {
 
                         <div>
                             <div className={styles.listTitle}>Invitations</div>
-                            {invitations > 0 ? (
+                            {invitations.length > 0 ? (
                                 <ListGroup>
                                     {invitations.map((invitation) => (
                                         <ListGroup.Item
@@ -147,7 +153,9 @@ const NavPanel = () => {
                 </div>
             </Sidebar>
 
-            {user && <UserModal isOpen={isUserModalOpen} onClose={handleCloseUserModal} userObject={user} userId={userId}/>}
+            {user && (
+                <UserModal isOpen={isUserModalOpen} onClose={handleCloseUserModal} userObject={user} userId={userId} />
+            )}
 
             {modalInvitation && (
                 <InvitatationModal
