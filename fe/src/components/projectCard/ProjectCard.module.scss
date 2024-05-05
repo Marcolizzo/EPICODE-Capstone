@@ -14,7 +14,7 @@ $danger: #fb8e8e;
     flex-direction: column;
     justify-content: space-between;
     background-color: $secondary;
-    width:100%;
+    width: 100%;
     max-width: 500px;
     min-width: 250px;
     padding-block: 15px;
@@ -58,6 +58,14 @@ $danger: #fb8e8e;
     gap: 10px;
 }
 
+.image {
+    aspect-ratio: 1/1;
+    max-width: 25px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .btn_edit,
 .btn_discard {
     padding-inline: 10px;
@@ -89,12 +97,4 @@ $danger: #fb8e8e;
     font-style: italic;
     color: #bec1dc90;
     flex-grow: 1;
-}
-
-.image {
-    aspect-ratio: 1/1;
-    max-width: 25px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 50%;
 }

@@ -1,0 +1,96 @@
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
+
+.checklist_container {
+    background-color: $secondary;
+    margin-block: 15px;
+    border-radius: 15px;
+    padding-inline: 15px;
+    padding-block: 10px;
+    transition: 0.3s;
+}
+
+.checklist_container:hover {
+    background-color: $light-blue-2;
+}
+
+.checklist_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    border-bottom: solid 2px $primary;
+    margin-bottom: 10px;
+}
+
+.checklist_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.btn_deleteChecklist {
+    color: $text;
+    transition: 0.3s;
+}
+
+.btn_deleteChecklist:hover {
+    cursor: pointer;
+    color: $danger;
+}
+
+.btn_addItem {
+    color: $primary;
+    background-color: $bg-color;
+    width: fit-content;
+    padding-inline: 5px;
+    padding-bottom: 1px;
+    border-radius: 5px;
+    border: solid 1px transparent;
+    transition: 0.3s;
+}
+
+.btn_addItem:hover {
+    cursor: pointer;
+    border: solid 1px $primary;
+    box-shadow: 0 0 5px rgba(181, 230, 123, 0.9);
+}
+
+.btn_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn_save,
+.btn_discard {
+    padding-inline: 15px;
+    padding-bottom: 4px;
+    border-radius: 15px;
+    background-color: $bg-color;
+    transition: 0.3s;
+}
+
+.btn_save {
+    color: #b6e67b;
+}
+
+.btn_discard {
+    color: #fb8e8e;
+}
+
+.btn_save:hover,
+.btn_discard:hover {
+    cursor: pointer;
+    background-color: $hoverPill;
+}

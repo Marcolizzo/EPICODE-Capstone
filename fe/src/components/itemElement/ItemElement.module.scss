@@ -1,0 +1,66 @@
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
+
+.item_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-bottom: 5px;
+    padding-inline: 5px;
+    border-bottom: solid 2px $bg-color;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.item_container:hover {
+    cursor: pointer;
+    border-bottom: solid 2px $primary;
+}
+
+.item_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn_deleteItem {
+    visibility: hidden;
+    transition: 0.3s color;
+}
+
+.btn_deleteItem:hover {
+    color: $danger;
+}
+
+.item_container:hover .btn_deleteItem {
+    visibility: visible;
+}
+
+.checkIcon,
+.sqaureIcon {
+    outline: 2px solid transparent;
+}
+
+.checkicon:hover,
+.sqaureIcon:hover {
+    box-shadow: 0 0 5px rgba(190, 192, 220, 0.9);
+}
+
+.checkIcon {
+    color: $primary;
+}
+
+.itemCompleted{
+    text-decoration: line-through;
+    color: $primary;
+}

@@ -1,0 +1,118 @@
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
+
+.info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(65, 64, 99, 0.9);
+    padding-inline: 10px;
+    padding-block: 10px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.creator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.image {
+    aspect-ratio: 1/1;
+    max-width: 25px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn_assigned {
+    border: 0px;
+    background-color: $light-blue-2;
+    color: $text;
+}
+
+.description_container {
+    margin-block: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn_container {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn_save,
+.btn_discard {
+    padding-inline: 15px;
+    padding-bottom: 4px;
+    border-radius: 15px;
+    background-color: $light-blue-2;
+    transition: 0.3s;
+}
+
+.btn_save {
+    color: #b6e67b;
+}
+
+.btn_discard {
+    color: #fb8e8e;
+}
+
+.btn_save:hover,
+.btn_discard:hover {
+    cursor: pointer;
+    background-color: $bg-color;
+}
+
+.btn_addChecklist {
+    display: flex;
+    align-items: center;
+    color: $text;
+    border-radius: 40px;
+    gap: 10px;
+    font-weight: 700;
+    padding-block: 10px;
+    padding-inline: 15px;
+    font-size: 18px;
+    background-color: $secondary;
+    max-width: fit-content;
+    transition: 0.3s;
+}
+
+.btn_addChecklist:hover {
+    cursor: pointer;
+    background-color: $bg-color;
+    color: $primary;
+}
+
+.fa_plus {
+    color: $primary;
+}
