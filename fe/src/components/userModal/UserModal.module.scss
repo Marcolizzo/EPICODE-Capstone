@@ -1,8 +1,13 @@
 $primary: #b5e67b;
-$light-blue-2: #414063;
-$danger: #fb8e8e;
-$text: #bec1dc;
+$hoverPill: #232432;
 $bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
 
 .image_div {
     max-width: 200px;
@@ -75,7 +80,7 @@ $bg-color: #1f1e30;
 .input_fileName,
 .btn_save,
 .btn_discard {
-    background-color: $light-blue-2;
+    background-color: $secondary;
     padding-block: 5px;
     color: $text;
     font-size: 18px;
@@ -114,7 +119,7 @@ $bg-color: #1f1e30;
 .btn_discard {
     padding-inline: 10px;
     border-radius: 20px;
-    background-color: $light-blue-2;
+    background-color: $secondary;
     transition: 0.3s;
 }
 
@@ -142,7 +147,7 @@ $bg-color: #1f1e30;
 .btn_editForm {
     display: none;
     font-size: 18px;
-    background-color: $light-blue-2;
+    background-color: $secondary;
     padding-block: 5px;
     padding-inline: 10px;
     border-radius: 20px;
@@ -167,7 +172,7 @@ $bg-color: #1f1e30;
     padding-block: 10px;
     padding-inline: 15px;
     border-radius: 20px;
-    background-color: $light-blue-2;
+    background-color: $secondary;
     transition: 0.3s;
 }
 
@@ -182,13 +187,13 @@ $bg-color: #1f1e30;
 }
 
 .btn_deleteAccount{
-    color: #bec1dc;
+    color: $text;
     font-weight: 700;
     font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #252440;
+    background-color: $secondary;
     gap: 10px;
     margin-top: 50px;
     padding-block: 10px;
@@ -196,7 +201,7 @@ $bg-color: #1f1e30;
 }
 
 .btn_deleteAccount svg{
-    color: #fb8e8e;
+    color: $danger;
 }
 
 .btn_deleteAccount:hover{

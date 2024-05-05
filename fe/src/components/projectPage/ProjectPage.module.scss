@@ -1,10 +1,13 @@
-$text: #bec1dc;
-$secondary: #2d2c45;
-$light-blue-2: #414063;
 $primary: #b5e67b;
 $hoverPill: #232432;
-$bg-hover: #b6e67b18;
 $bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
 
 .header {
     font-size: 2rem;
@@ -35,7 +38,7 @@ $bg-color: #1f1e30;
     padding-block: 10px;
     padding-inline: 15px;
     font-size: 18px;
-    background-color: $light-blue-2;
+    background-color: $secondary;
     max-width: fit-content;
     transition: 0.3s;
 }
@@ -106,7 +109,7 @@ $bg-color: #1f1e30;
 .btn_save:hover,
 .btn_discard:hover {
     cursor: pointer;
-    background-color: $bg-color;
+    background-color: $hoverPill;
 }
 
 .lists{

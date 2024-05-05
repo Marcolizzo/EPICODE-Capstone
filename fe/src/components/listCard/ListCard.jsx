@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Form, Button, ListGroup } from 'react-bootstrap'
-import { CloseCircleOutline } from 'react-ionicons'
-import { FaPenToSquare, FaTrashCan, FaPlus, FaTableList, FaXmark } from 'react-icons/fa6'
+import { Form, ListGroup } from 'react-bootstrap'
+import { FaTrashCan, FaPlus, FaTableList, FaXmark } from 'react-icons/fa6'
 import styles from './ListCard.module.scss'
 import TaskElement from '../taskElement/TaskElement'
 
@@ -98,6 +97,7 @@ const ListCard = ({ listObject, projectId }) => {
                                     type="text"
                                     autoFocus
                                     onChange={onChangeTaskInput}
+                                    placeholder={'Insert title...'}
                                     // onBlur={toggleCreateTask}
                                 />
                             </Form>
@@ -117,7 +117,7 @@ const ListCard = ({ listObject, projectId }) => {
                         </div>
                     )}
                 </div>
-                {tasks.length > 0 ? (
+                {tasks && tasks.length > 0 ? (
                     <ListGroup>
                         {tasks.map((task) => (
                             <TaskElement key={task._id} projectId={projectId} listObject={list} task={task} />

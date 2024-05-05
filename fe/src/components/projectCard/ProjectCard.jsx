@@ -64,13 +64,11 @@ const ProjectCard = ({ projectObject, userId }) => {
                         )}
                     </div>
                 </div>
-                <div>
                     {project.description ? (
-                        project.description
+                        <div className={styles.description}>{project.description}</div>
                     ) : (
                         <span className={styles.noDescription}>No description...</span>
                     )}
-                </div>
 
                 <div className={styles.footer}>
                     <div className={styles.creator}>
@@ -84,14 +82,14 @@ const ProjectCard = ({ projectObject, userId }) => {
                     )}
                 </div>
             </div>
-            {project ? (
+            {project && (
                 <ProjectModal
                     isOpen={isProjectModalOpen}
                     onClose={handleCloseProjectMOdal}
                     isEditing={true}
                     projectObject={project}
                 />
-            ) : null}
+            )}
         </>
     )
 }

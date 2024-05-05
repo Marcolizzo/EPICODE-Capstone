@@ -1,8 +1,13 @@
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
 $text: #bec1dc;
 $light-blue-2: #414063;
-$primary: #b5e67b;
-$bg-color: #1f1e30;
-$bg-hover: #b6e67b18;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
 
 
 .sidebar {
@@ -32,7 +37,7 @@ $bg-hover: #b6e67b18;
     color: $text;
     font-weight: 700;
     font-size: 20px;
-    background-color: #232237;
+    background-color: $first-elevation;
     border: 0px;
     border-radius: 40px;
     padding-block: 20px;
@@ -41,7 +46,7 @@ $bg-hover: #b6e67b18;
 }
 
 .btn_logout:hover {
-    background-color: $light-blue-2;
+    background-color: $light-blue-3;
     color: white;
 }
 
@@ -51,7 +56,7 @@ $bg-hover: #b6e67b18;
 }
 
 .btn_logout:hover .powerOff {
-    color: red;
+    color: $danger;
 }
 
 .btn_items {
@@ -71,7 +76,7 @@ $bg-hover: #b6e67b18;
 }
 
 .btn_items:hover {
-    background-color: bg-hover;
+    background-color: $light-blue-3;
     color: $primary;
 }
 
@@ -88,13 +93,14 @@ $bg-hover: #b6e67b18;
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: 0,5s;
+    transition: 0.3s;
 }
 
 .listItem:hover {
     cursor: pointer;
     color: $primary;
     border-bottom: $primary solid 3px;
+    background-color: $hoverPill;
 }
 
 .listItemInvitation{
@@ -105,16 +111,16 @@ $bg-hover: #b6e67b18;
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: 0,5s;
+    transition: 0.3s;
 }
 
 .listItemInvitation:hover{
     cursor: pointer;
-    background-color: $bg-color;
+    background-color: $hoverPill;
 }
 
 .emptyList{
     font-style: oblique;
     text-align: center;
-    color: #bec1dc7c;
+    color: #bec1dc90;
 }
