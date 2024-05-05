@@ -1,0 +1,85 @@
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
+
+.title {
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.commentsIcon{
+    color: $primary;
+}
+
+.body {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.image {
+    aspect-ratio: 1/1;
+    max-width: 35px;
+    max-height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.btn_createComment {
+    background-color: $light-blue-2;
+    padding-inline: 15px;
+    padding-top: 8px;
+    padding-bottom: 5px;
+    font-style: italic;
+    border-radius: 15px;
+    width: 100%;
+    transition: 0.3s;
+    border: solid 2px transparent;
+}
+
+.btn_createComment:hover {
+    cursor: pointer;
+    background-color: $bg-color;
+    border: solid 2px $primary;
+}
+
+.btn_container {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.btn_save,
+.btn_discard {
+    padding-inline: 15px;
+    padding-bottom: 4px;
+    border-radius: 15px;
+    background-color: $light-blue-2;
+    transition: 0.3s;
+}
+
+.btn_save {
+    color: #b6e67b;
+}
+
+.btn_discard {
+    color: #fb8e8e;
+}
+
+.btn_save:hover,
+.btn_discard:hover {
+    cursor: pointer;
+    background-color: $bg-color;
+}

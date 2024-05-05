@@ -1,0 +1,75 @@
+$primary: #b5e67b;
+$hoverPill: #232432;
+$bg-color: #1f1e30;
+$bg-main: #242337;
+$first-elevation: #232237;
+$secondary: #2d2c45;
+$text: #bec1dc;
+$light-blue-2: #414063;
+$light-blue-3: #2c2b4c;
+$danger: #fb8e8e;
+
+
+.comment_container{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    // background-color: red;
+}
+
+.image {
+    aspect-ratio: 1/1;
+    max-width: 35px;
+    max-height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 2px;
+    display: flex;
+    align-self: flex-start;
+}
+
+.comment{
+    background-color: $light-blue-3;
+    padding-block: 10px;
+    padding-inline: 15px;
+    border-radius: 10px;
+    color: $primary;
+    margin-block: 5px;
+}
+
+.btn_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn_save,
+.btn_discard {
+    display: none;
+    padding-inline: 10px;
+    padding-block: 2px;
+    border-radius: 10px;
+    background-color: $light-blue-2;
+    transition: 0.3s;
+}
+
+.btn_save {
+    color: #b6e67b;
+}
+
+.btn_discard {
+    color: #fb8e8e;
+}
+
+.btn_save:hover,
+.btn_discard:hover {
+    cursor: pointer;
+    background-color: $hoverPill;
+}
+
+.comment_container:hover .btn_save,
+.comment_container:hover .btn_discard {
+    display: inline;
+}
+
