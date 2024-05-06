@@ -79,7 +79,7 @@ const CommentsSection = ({ taskObject }) => {
             </div>
 
             {comments && (
-                <div className="mt-3">
+                <div className={styles.comments}>
                     {comments.map((comment) => (
                         <CommentElement key={comment._id} comment={comment} taskObject={taskObject} loggedUser={user} loggedUserId={userId}/>
                     ))}

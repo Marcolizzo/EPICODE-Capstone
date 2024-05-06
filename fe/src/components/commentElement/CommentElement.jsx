@@ -32,7 +32,8 @@ const CommentElement = ({ comment, taskObject, loggedUser, loggedUserId }) => {
         setDispatch(await doDispatch(deleteComment([taskObject._id, commentId])))
     }
 
-    const toggleEditComment = async () => {
+    const toggleEditComment = async (e) => {
+        e && e.target && setCommentText(comment.text)
         setIsEditingComment(!isEditingComment)
     }
 

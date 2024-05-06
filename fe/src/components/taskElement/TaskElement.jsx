@@ -36,6 +36,7 @@ const TaskElement = ({ projectId, listObject, task }) => {
 
     const onEditTask = async (e) => {
         e.preventDefault()
+        e.stopPropagation()
         setDispatch(await doDispatch(updateTask([task._id, { title: newTaskTitle }])))
         setIsEditingTask(!isEditingTask)
     }
@@ -59,6 +60,7 @@ const TaskElement = ({ projectId, listObject, task }) => {
                                 type="text"
                                 autoFocus
                                 onChange={onChangeTaskInput}
+                                onClick={(e) => e.stopPropagation()}
                                 //   onBlur={toggleEditTask}
                                 value={newTaskTitle}
                             />

@@ -83,3 +83,9 @@ $danger: #fb8e8e;
     cursor: pointer;
     background-color: $bg-color;
 }
+
+.comments{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+}
