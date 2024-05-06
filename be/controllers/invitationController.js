@@ -1,6 +1,6 @@
 const ProjectModel = require("../models/projectsModel");
 const UserModel = require("../models/usersModel");
-const InvitationModel = require("../models/InvitationModel");
+const InvitationModel = require("../models/invitationModel");
 
 const getInvitations = async (req, res) => {
   try {
