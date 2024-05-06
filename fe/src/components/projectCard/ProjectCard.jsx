@@ -75,11 +75,11 @@ const ProjectCard = ({ projectObject, userId }) => {
                         <Image src={creator && creator.profileImg} roundedCircle className={styles.image} />
                         {creator ? getFullName(creator.firstName, creator.lastName) : 'Unknown'}
                     </div>
-                    {creator._id === userId && (
+                    {/* {creator._id === userId && ( */}
                         <div className={styles.btn_discard}>
                             <FaTrashCan onClick={onDelete} />
                         </div>
-                    )}
+                    {/* )} */}
                 </div>
             </div>
             {project && (

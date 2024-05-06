@@ -120,6 +120,7 @@ const updateProject = async (req, res) => {
 
 const deleteProject = async (req, res) => {
   const { projectId } = req.params;
+  const loggedUserId = req.user.userId;
 
   try {
     const project = await ProjectModel.findById(projectId);
@@ -131,57 +132,59 @@ const deleteProject = async (req, res) => {
     }
 
     // Check if the logged-in user is the creator of the project
-    if (project.createdBy.toString() !== req.user.userId) {
-      return res.status(403).send({
-        statusCode: 403,
-        message:
-          "Access denied. Only the creator of the project can delete it.",
-      });
-    }
-
-    // Find all lists associated with the project
-    const lists = await ListModel.find({ _id: { $in: project.lists } });
-    for (const list of lists) {
-      // Find all tasks associated with each list
-      const tasks = await TaskModel.find({ _id: { $in: list.tasks } });
-      for (const task of tasks) {
-        // Delete all comments associated with each task
-        await CommentModel.deleteMany({ _id: { $in: task.comments } });
-        // Find all checklists associated with each task
-        const checklists = await ChecklistModel.find({
-          _id: { $in: task.checklists },
-        });
-        for (const checklist of checklists) {
-          // Delete all items associated with each checklist
-          await ItemModel.deleteMany({ _id: { $in: checklist.items } });
+    if (project.createdBy.toString() === loggedUserId) {
+      // Find all lists associated with the project
+      const lists = await ListModel.find({ _id: { $in: project.lists } });
+      for (const list of lists) {
+        // Find all tasks associated with each list
+        const tasks = await TaskModel.find({ _id: { $in: list.tasks } });
+        for (const task of tasks) {
+          // Delete all comments associated with each task
+          await CommentModel.deleteMany({ _id: { $in: task.comments } });
+          // Find all checklists associated with each task
+          const checklists = await ChecklistModel.find({
+            _id: { $in: task.checklists },
+          });
+          for (const checklist of checklists) {
+            // Delete all items associated with each checklist
+            await ItemModel.deleteMany({ _id: { $in: checklist.items } });
+          }
+          // Delete all checklists associated with each task
+          await ChecklistModel.deleteMany({ _id: { $in: task.checklists } });
         }
-        // Delete all checklists associated with each task
-        await ChecklistModel.deleteMany({ _id: { $in: task.checklists } });
+        // Delete all tasks associated with each list
+        await TaskModel.deleteMany({ _id: { $in: list.tasks } });
       }
-      // Delete all tasks associated with each list
-      await TaskModel.deleteMany({ _id: { $in: list.tasks } });
-    }
-    // Delete all lists associated with the project
-    await ListModel.deleteMany({ _id: { $in: project.lists } });
+      // Delete all lists associated with the project
+      await ListModel.deleteMany({ _id: { $in: project.lists } });
 
-    // Find all members associated with the project
-    const members = await UserModel.find({ _id: { $in: project.members } });
-    for (const member of members) {
-      // Remove the project ID from the user's projects array
-      await UserModel.findByIdAndUpdate(member._id, {
+      // Find all members associated with the project
+      const members = await UserModel.find({ _id: { $in: project.members } });
+      for (const member of members) {
+        // Remove the project ID from the user's projects array
+        await UserModel.findByIdAndUpdate(member._id, {
+          $pull: { projects: projectId },
+        });
+      }
+
+      // Delete the project from the database
+      await ProjectModel.findByIdAndDelete(projectId);
+
+      res.status(200).send(`Project with ID ${projectId} succesfully removed.`);
+    }
+
+    if (project.createdBy.toString() !== loggedUserId) {
+      console.log(project.createdBy.toString())
+      await UserModel.findByIdAndUpdate(loggedUserId, {
         $pull: { projects: projectId },
       });
+      await ProjectModel.findByIdAndUpdate(projectId, {
+        $pull: { members: loggedUserId },
+      });
+
+      res.status(200).send(`You have successfully exited the project with ID ${projectId}.`);
     }
 
-    // Delete the project from the database
-    await ProjectModel.findByIdAndDelete(projectId);
-
-    // // Update the user's projects array with the deleted project ID
-    // await UserModel.findByIdAndUpdate(req.user.userId, {
-    //   $pull: { projects: projectId },
-    // });
-
-    res.status(200).send(`Project with ID ${projectId} succesfully removed.`);
   } catch (e) {
     res.status(500).send({
       statusCode: 500,
