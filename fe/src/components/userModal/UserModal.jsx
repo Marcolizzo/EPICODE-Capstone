@@ -112,11 +112,30 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
         e.preventDefault()
         const update = await doDispatch(updateUser([userId, formData]))
         setIsEditingForm({ firstName: false, lastName: false, username: false })
-        // non funzione per lo username!!!!! (payload.message)
+
         if (update.error) {
-            const errors = update.payload.errors
-            errors.forEach((error) => {
-                toast.error(error.msg)
+            if (update.payload.errors && update.payload.message) {
+                const errors = update.payload.errors
+                const error = update.payload.message
+
+                errors.forEach((error) => {
+                    toast.error(error.msg)
+                })
+                toast.error(error)
+            } else if (update.payload.errors) {
+                const errors = update.payload.errors
+                errors.forEach((error) => {
+                    toast.error(error.msg)
+                })
+            } else if (update.payload.message) {
+                const error = update.payload.message
+                toast.error(error)
+            }
+
+            setFormData({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                username: user.username,
             })
         } else {
             toast.success('Your profile has been successfully updated!')
@@ -144,7 +163,37 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
     }
 
     const handleUpdatePassword = async () => {
-        setDispatch(await doDispatch(updatePassword([userId, passwordFormData])))
+        const update = await doDispatch(updatePassword([userId, passwordFormData]))
+        console.log(update)
+
+        if (update.error) {
+            if (update.payload.errors && update.payload.message) {
+                const errors = update.payload.errors
+                const error = update.payload.message
+
+                errors.forEach((error) => {
+                    toast.error(error.msg)
+                })
+                toast.error(error)
+            } else if (update.payload.errors) {
+                const errors = update.payload.errors
+                errors.forEach((error) => {
+                    toast.error(error.msg)
+                })
+            } else if (update.payload.message) {
+                const error = update.payload.message
+                toast.error(error)
+            }
+
+            setFormData({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                username: user.username,
+            })
+        } else {
+            toast.success('Your profile has been successfully updated!')
+        }
+
         setPasswordFormData({})
         toggleEditPassword()
     }

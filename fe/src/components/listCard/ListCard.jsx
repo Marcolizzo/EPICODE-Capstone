@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 import { Form, ListGroup } from 'react-bootstrap'
 import { FaTrashCan, FaPlus, FaTableList, FaXmark } from 'react-icons/fa6'
 import styles from './ListCard.module.scss'
@@ -33,7 +34,15 @@ const ListCard = ({ listObject, projectId }) => {
     }
 
     const handleDeleteList = async () => {
-        setDispatch(await doDispatch(deleteList([projectId, list._id])))
+        const doDeleteList = await doDispatch(deleteList([projectId, list._id]))
+        
+        if(doDeleteList.error) {
+            const error = doDeleteList.payload.message
+            toast.error(error)
+        } else {
+            doDispatch(getProjectById(projectId))
+            toast.success(`"${list.title}" successfully deleted!`)
+        }
     }
 
     const onChangeListInput = (e) => {

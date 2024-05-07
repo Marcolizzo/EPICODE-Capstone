@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Button, ListGroup } from 'react-bootstrap'
 import { FaTrashCan, FaFloppyDisk, FaTableList, FaXmark, FaPenToSquare } from 'react-icons/fa6'
@@ -43,7 +44,15 @@ const TaskElement = ({ projectId, listObject, task }) => {
 
     const handleDeleteTask = async (e) => {
         e.stopPropagation()
-        setDispatch(await doDispatch(deleteTask([listObject._id, task._id])))
+        const doDeleteTask = await doDispatch(deleteTask([listObject._id, task._id]))
+
+        if(doDeleteTask.error) {
+            const error = doDeleteTask.payload.message
+            toast.error(error)
+        } else {
+            doDispatch(getProjectById(projectId))
+            toast.success(`"${task.title}" successfully deleted!`)
+        }
     }
 
     useEffect(() => {

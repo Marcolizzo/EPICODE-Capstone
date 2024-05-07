@@ -9,7 +9,6 @@ $light-blue-2: #414063;
 $light-blue-3: #2c2b4c;
 $danger: #fb8e8e;
 
-
 .sidebar {
     color: $text;
     border-right: solid 4px $light-blue-2 !important;
@@ -18,6 +17,33 @@ $danger: #fb8e8e;
     display: flex;
     flex-direction: column;
     background-color: $bg-color;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 0.8rem;
+}
+
+.logo {
+    text-align: center;
+    max-width: 120px;
+    border-radius: 20px;
+    border: solid 2px transparent;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    cursor: pointer;
+    background-color: $light-blue-2;
+    box-shadow: 0 0 10px rgba(190, 193, 220, 0.9);
 }
 
 .image {
@@ -80,14 +106,14 @@ $danger: #fb8e8e;
     color: $primary;
 }
 
-.listTitle{
+.listTitle {
     border-bottom: 2px solid $primary;
     margin-bottom: 10px;
     margin-top: 30px;
     font-size: 20px;
 }
 
-.listItem{
+.listItem {
     border-bottom: 3px solid $light-blue-2;
     margin-left: 15px;
     display: flex;
@@ -103,7 +129,7 @@ $danger: #fb8e8e;
     background-color: $hoverPill;
 }
 
-.listItemInvitation{
+.listItemInvitation {
     color: $primary;
     border-left: 3px solid $primary;
     margin-left: 15px;
@@ -114,12 +140,12 @@ $danger: #fb8e8e;
     transition: 0.3s;
 }
 
-.listItemInvitation:hover{
+.listItemInvitation:hover {
     cursor: pointer;
     background-color: $hoverPill;
 }
 
-.emptyList{
+.emptyList {
     font-style: oblique;
     text-align: center;
     color: #bec1dc90;

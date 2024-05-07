@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode'
 
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'
 import { Button, ListGroup, Image } from 'react-bootstrap'
-import { FaPowerOff } from 'react-icons/fa'
+import { FaPowerOff, FaCircleXmark } from 'react-icons/fa6'
 import { HiOutlineHome, HiOutlineFolder } from 'react-icons/hi'
 import { IoMailUnreadOutline } from 'react-icons/io5'
 import styles from './NavPanel.module.scss'
@@ -28,7 +28,7 @@ const NavPanel = () => {
     const user = useSelector((state) => state.getUserById.user)
     const toggled = useSelector((state) => state.navPanel.toggled)
     const broken = useSelector((state) => state.navPanel.broken)
-    
+
     const invitations = user ? user.invitations : []
     const [modalInvitation, setModalInvitation] = useState()
 
@@ -86,8 +86,14 @@ const NavPanel = () => {
                 onBreakPoint={() => doDispatch(setBroken)}
                 onBackdropClick={() => doDispatch(setToggled(false))}
             >
-                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                    <div>Header</div>
+                <div className={styles.container}>
+                    <div className={styles.logoContainer}>
+                        <Image
+                            src={process.env.REACT_APP_LOGO_URL}
+                            className={styles.logo}
+                            onClick={handleNavigateToHome}
+                        />
+                    </div>
                     <div style={{ flex: 1, marginBottom: '32px' }}>
                         <Menu>
                             <Button variant="secondary" className={styles.btn_items} onClick={handleNavigateToHome}>

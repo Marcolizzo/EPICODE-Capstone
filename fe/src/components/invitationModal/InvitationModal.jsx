@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { FaXmark, FaPaperPlane, FaCheck, FaBan } from 'react-icons/fa6'
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,14 +14,17 @@ const InvitatationModal = ({ isOpen, onClose, project, invitation }) => {
     const [dispatch, setDispatch] = useState()
 
     const [formData, setFormData] = useState({})
-    const error = useSelector((state) => state.createInvitation.error)
 
     const handleSendInvitation = async (e) => {
         e.preventDefault()
-        setDispatch(await doDispatch(createInvitation([project._id, formData])))
-        if (!error) {
-            setFormData({})
-            onClose()
+        const send = await doDispatch(createInvitation([project._id, formData]))
+        console.log(send)
+
+        if (send.error) {
+            toast.error(send.payload.message)
+        } else {
+            toast.success(`Invitation sended to "${send.payload.payload.recipient}"`)
+            closeModal()
         }
     }
 

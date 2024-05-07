@@ -5,9 +5,9 @@ const InvitationModel = require("../models/invitationModel");
 const getInvitations = async (req, res) => {
   try {
     const user = await UserModel.findById(req.user.userId);
-    const invitations = await InvitationModel
-      .find({ _id: { $in: user.invitations } })
-      .populate("recipient sender project");
+    const invitations = await InvitationModel.find({
+      _id: { $in: user.invitations },
+    }).populate("recipient sender project");
 
     res.status(200).send(invitations);
   } catch (e) {
@@ -22,9 +22,9 @@ const getInvitationById = async (req, res) => {
   const { invitationId } = req.params;
 
   try {
-    const invitation = await InvitationModel
-      .findById(invitationId)
-      .populate("recipient sender project");
+    const invitation = await InvitationModel.findById(invitationId).populate(
+      "recipient sender project"
+    );
 
     if (!invitation) {
       return res.status(404).send({
@@ -48,22 +48,27 @@ const createInvitation = async (req, res) => {
   const project = await ProjectModel.findById(req.params.projectId);
   const recipient = await UserModel.findOne({ email: recipientEmail });
 
-  const newInvitation = await InvitationModel.create({
-    recipient: recipient._id,
-    sender: user._id,
-    project: project._id,
-    message,
-  });
-
   try {
     if (!recipient) {
       return res.status(404).send({
         statusCode: 404,
-        message: "The recipient does not exist!",
+        message: "Invalid email address or user not found!",
       });
-    } else {
+    } else if (recipient._id) {
+      const newInvitation = await InvitationModel.create({
+        recipient: recipient._id,
+        sender: user._id,
+        project: project._id,
+        message,
+      });
+
       await UserModel.findByIdAndUpdate(recipient._id, {
         $push: { invitations: newInvitation._id },
+      });
+    } else {
+      return res.status(400).send({
+        statusCode: 400,
+        message: "Invalid email!",
       });
     }
 
