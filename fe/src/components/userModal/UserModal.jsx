@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Modal, Image, Form, Button } from 'react-bootstrap'
@@ -21,6 +22,12 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
     const [dispatch, setDispatch] = useState()
     const navigate = useNavigate()
     const user = userObject
+
+    const updateImageStatus = useSelector((state) => state.updateProfileImage.status)
+    const updateImageError = useSelector((state) => state.updateProfileImage.error)
+    const deleteImageStatus = useSelector((state) => state.deleteProfileImage.status)
+    const deleteImageError = useSelector((state) => state.deleteProfileImage.error)
+
     const updatePasswordState = useSelector((state) => state.updatePassword)
 
     const [formData, setFormData] = useState({
@@ -59,14 +66,30 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
 
         const fileData = new FormData()
         fileData.append('profileImage', newImg)
-        setDispatch(await doDispatch(updateProfileImage([userId, fileData])))
+        const update = await doDispatch(updateProfileImage([userId, fileData]))
         setIsEditingImage(!isEditingImage)
+
+        if (update.error) {
+            const error = update.payload.message
+            toast.error(error)
+        } else {
+            doDispatch(getUserById(userId))
+            toast.success('Profile image succesfully updated!')
+        }
     }
 
     const handleDeleteProfileImage = async () => {
-        setDispatch(await doDispatch(deleteProfileImage(userId)))
+        const deleteImg = await doDispatch(deleteProfileImage(userId))
         const user = await doDispatch(getUserById(userId))
         setPreviewImg(user && user.payload.profileImg)
+
+        if (deleteImg.error) {
+            const error = deleteImg.payload.message
+            toast.error(error)
+        } else {
+            doDispatch(getUserById(userId))
+            toast.success('Profile image succesfully removed!')
+        }
     }
 
     const handleResetFormData = (field, toggleValue) => {
@@ -87,8 +110,17 @@ const UserModal = ({ isOpen, onClose, userObject, userId }) => {
 
     const handleUpdateUserData = async (e) => {
         e.preventDefault()
-        setDispatch(await doDispatch(updateUser([userId, formData])))
+        const update = await doDispatch(updateUser([userId, formData]))
         setIsEditingForm({ firstName: false, lastName: false, username: false })
+        // non funzione per lo username!!!!! (payload.message)
+        if (update.error) {
+            const errors = update.payload.errors
+            errors.forEach((error) => {
+                toast.error(error.msg)
+            })
+        } else {
+            toast.success('Your profile has been successfully updated!')
+        }
     }
 
     const onChangeInput = (e) => {

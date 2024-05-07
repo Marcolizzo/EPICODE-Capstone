@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { Button, Image } from 'react-bootstrap'
 import { FaPenToSquare, FaTrashCan } from 'react-icons/fa6'
 import { useSelector, useDispatch } from 'react-redux'
@@ -15,8 +16,9 @@ const ProjectCard = ({ projectObject, userId }) => {
 
     const project = projectObject
     const creator = project.createdBy
+    const deleteProjectErrors = useSelector((state) => state.deleteProject.error)
+    const deleteProjectLoading = useSelector((state) => state.deleteProject.isLoading)
 
-    const [isDeleting, setIsDeleting] = useState(false)
     const [isProjectModalOpen, setProjectModalOpen] = useState(false)
 
     const getFullName = (firstName, lastName) => {
@@ -28,9 +30,11 @@ const ProjectCard = ({ projectObject, userId }) => {
         const confirmDelete = window.confirm('Are you sure?')
 
         if (confirmDelete) {
-            setIsDeleting(true)
             setDispatch(await doDispatch(deleteProject(project._id)))
-            setIsDeleting(false)
+
+            if (!deleteProjectErrors && !deleteProjectLoading) {
+                toast.success('Project succesfull deleted!')
+            }
         }
     }
 
@@ -64,22 +68,20 @@ const ProjectCard = ({ projectObject, userId }) => {
                         )}
                     </div>
                 </div>
-                    {project.description ? (
-                        <div className={styles.description}>{project.description}</div>
-                    ) : (
-                        <span className={styles.noDescription}>No description...</span>
-                    )}
+                {project.description ? (
+                    <div className={styles.description}>{project.description}</div>
+                ) : (
+                    <span className={styles.noDescription}>No description...</span>
+                )}
 
                 <div className={styles.footer}>
                     <div className={styles.creator}>
                         <Image src={creator && creator.profileImg} roundedCircle className={styles.image} />
                         {creator ? getFullName(creator.firstName, creator.lastName) : 'Unknown'}
                     </div>
-                    {/* {creator._id === userId && ( */}
-                        <div className={styles.btn_discard}>
-                            <FaTrashCan onClick={onDelete} />
-                        </div>
-                    {/* )} */}
+                    <div className={styles.btn_discard}>
+                        <FaTrashCan onClick={onDelete} />
+                    </div>
                 </div>
             </div>
             {project && (
