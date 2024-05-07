@@ -25,7 +25,7 @@ const signupValidation = [
     // Validation for the email field
     body('email')
         .trim()
-        .normalizeEmail()
+        // .normalizeEmail()
         .isEmail()
         .withMessage('Please insert a valid email'),
     // Validation for the password field

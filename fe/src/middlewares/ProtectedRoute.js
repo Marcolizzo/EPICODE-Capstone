@@ -18,6 +18,7 @@ const useAuth = () => {
 const ProtectedRoutes = () => {
     const isAuth = useAuth()
     const navigate = useNavigate()
+    console.log(isAuth)
 
     useEffect(() => {
         if (!isAuth) {
