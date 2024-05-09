@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Form } from 'react-bootstrap'
+import { Form, ProgressBar } from 'react-bootstrap'
 import { FaListCheck, FaFloppyDisk, FaXmark, FaPlus, FaTrashCan } from 'react-icons/fa6'
 import styles from './ChecklistElement.module.scss'
 import ItemElement from '../itemElement/ItemElement'
@@ -19,6 +19,8 @@ const ChecklistElement = ({ taskObject, checklistObject }) => {
 
     const [isCreatingItem, setIsCreatingItem] = useState(false)
     const [itemTitle, setItemTitle] = useState('')
+
+    const [progress, setProgress] = useState(0)
 
     const toggleEditChecklistTitle = () => {
         setIsEditingChecklistTitle(!isEditingChecklistTitle)
@@ -56,6 +58,15 @@ const ChecklistElement = ({ taskObject, checklistObject }) => {
         toggleCreateItem()
     }
 
+    useEffect(() => {
+        if (checklist && checklist.items) {
+            const completedItems = checklist.items.filter((item) => item.completed).length
+            const totalItems = checklist.items.length
+            const percentage = Math.round((completedItems / totalItems) * 100)
+            setProgress(percentage)
+        }
+    }, [checklist])
+
     return (
         <div className={styles.checklist_container}>
             <div>
@@ -82,6 +93,10 @@ const ChecklistElement = ({ taskObject, checklistObject }) => {
                     <div className={styles.btn_deleteChecklist} onClick={handleDeleteChecklist}>
                         <FaTrashCan className={styles.fa_plus} />
                     </div>
+                </div>
+
+                <div className="my-3">
+                    <ProgressBar now={progress} label={`${progress}%`} className={styles.progressBar} />
                 </div>
 
                 <div>
