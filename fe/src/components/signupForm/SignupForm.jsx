@@ -44,7 +44,7 @@ const SignupForm = ({ toggleForm }) => {
                                 <h2 className="fw-bold mb-2 text-uppercase text-center">Signup</h2>
 
                                 {error && (
-                                    <div className="alert alert-danger" role="alert">
+                                    <div className={`${styles.alert} ${styles.failed}`} role="alert">
                                         {error.message && <p>{error.message}</p>}
                                         {error.errors && (
                                             <ul>
