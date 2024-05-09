@@ -59,11 +59,13 @@ const ChecklistElement = ({ taskObject, checklistObject }) => {
     }
 
     useEffect(() => {
-        if (checklist && checklist.items) {
+        if (checklist && checklist.items && checklist.items.length > 0) {
             const completedItems = checklist.items.filter((item) => item.completed).length
             const totalItems = checklist.items.length
             const percentage = Math.round((completedItems / totalItems) * 100)
             setProgress(percentage)
+        } else {
+            setProgress(0)
         }
     }, [checklist])
 
